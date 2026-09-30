@@ -1,5 +1,5 @@
 <script setup>
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {useI18n} from "vue-i18n";
 import {useMonitoringData} from "../../../shared/presentation/composables/use-monitoring-data.js";
 import {useDateFormat} from "../../../shared/presentation/composables/use-date-format.js";

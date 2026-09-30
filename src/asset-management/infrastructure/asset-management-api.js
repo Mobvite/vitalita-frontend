@@ -25,7 +25,9 @@ export class AssetManagementApi extends BaseApi {
     getClinicalAssets(olderAdultId) { return this.#clinicalAssets.getAll({olderAdultId}); }
     createClinicalAsset(resource) { return this.#clinicalAssets.create(resource); }
 
-    getEvidencesByExamIds(examIds) { return this.#examEvidences.getAll({examId: examIds}); }
+    getEvidencesByExamIds(examIds) {
+        return this.#examEvidences.getAll(new URLSearchParams(examIds.map(id => ['examId', String(id)])));
+    }
     createEvidence(resource) { return this.#examEvidences.create(resource); }
 
     getEmergencyReports(olderAdultId) { return this.#emergencyReports.getAll({olderAdultId}); }

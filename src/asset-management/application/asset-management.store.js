@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
-import {AssetManagementApi} from "../infrastructure/asset-management.assembler.js";
+import {AssetManagementApi} from "../infrastructure/asset-management-api.js";
 import {AssetManagementAssembler} from "../infrastructure/asset-management.assembler.js";
 import {FileStorage} from "../infrastructure/file-storage.js";
 import {EmergencyReportPdf} from "../infrastructure/emergency-report-pdf.js";
