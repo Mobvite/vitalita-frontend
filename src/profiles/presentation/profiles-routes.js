@@ -1,8 +1,8 @@
 // Lazy-loaded views
-const olderAdultList = () => import('src/profiles/presentation/views/older-adult-list.vue');
-const olderAdultForm = () => import('src/profiles/presentation/views/older-adult-form.vue');
-const familyMemberList = () => import('src/profiles/presentation/views/family-member-list.vue');
-const caregiverProfile = () => import('src/profiles/presentation/views/caregiver-profile.vue');
+const olderAdultList = () => import('./views/older-adult-list.vue');
+const olderAdultForm = () => import('./views/older-adult-form.vue');
+const familyMemberList = () => import('./views/family-member-list.vue');
+const caregiverProfile = () => import('./views/caregiver-profile.vue');
 
 const CAREGIVER = 'Caregiver';
 

@@ -5,8 +5,8 @@ import {useI18n} from "vue-i18n";
 import {useToast} from "primevue";
 import useIamStore from "../../../iam/application/iam.store.js";
 import useProfilesStore from "../../application/profiles.store.js";
-import {OlderAdult} from "src/profiles/domain/model/older-adult.entity.js";
-import {FamilyRelationship} from "src/profiles/domain/model/family-relationship.js";
+import {OlderAdult} from "../../domain/model/older-adult.entity.js";
+import {FamilyRelationship} from "../../domain/model/family-relationship.js";
 import TagListInput from "../components/tag-list-input.vue";
 
 const {t} = useI18n();

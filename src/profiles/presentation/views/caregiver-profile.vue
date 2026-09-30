@@ -2,11 +2,11 @@
 import {computed, onMounted, reactive, watch} from "vue";
 import {useI18n} from "vue-i18n";
 import {useToast} from "primevue";
-import useIamStore from "../../../../../../vitalita-frontend/src/iam/application/iam.store.js";
-import useProfilesStore from "../../../../../../vitalita-frontend/src/profiles/application/profiles.store.js";
-import useCareContextStore from "../../../../../../vitalita-frontend/src/shared/application/care-context.store.js";
-import {CaregiverProfile} from "../../../../../../vitalita-frontend/src/profiles/domain/model/caregiver-profile.entity.js";
-import TagListInput from "../../../../../../vitalita-frontend/src/profiles/presentation/components/tag-list-input.vue";
+import useIamStore from "../../../iam/application/iam.store.js";
+import useProfilesStore from "../../application/profiles.store.js";
+import useCareContextStore from "../../../shared/application/care-context.store.js";
+import {CaregiverProfile} from "../../domain/model/caregiver-profile.entity.js";
+import TagListInput from "../components/tag-list-input.vue";
 
 const {t} = useI18n();
 const toast = useToast();

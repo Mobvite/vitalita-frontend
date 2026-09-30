@@ -1,4 +1,4 @@
-import {User} from "../../../../demo/vitalita-frontend/src/iam/domain/model/user.entity.js";
+import {User} from "../domain/model/user.entity.js";
 
 /**
  * Maps IAM resources into domain entities and commands into resources.

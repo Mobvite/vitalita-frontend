@@ -34,12 +34,16 @@ export class ProfilesApi extends BaseApi {
 
     // Family member profiles
     getFamilyMemberProfileByUserId(userId) { return this.#familyMemberProfilesEndpoint.getAll({userId}); }
-    getFamilyMemberProfilesByIds(ids) { return this.#familyMemberProfilesEndpoint.getAll({id: ids}); }
+    getFamilyMemberProfilesByIds(ids) {
+        return this.#familyMemberProfilesEndpoint.getAll(new URLSearchParams(ids.map(id => ['id', String(id)])));
+    }
     createFamilyMemberProfile(resource) { return this.#familyMemberProfilesEndpoint.create(resource); }
 
     // Older adults
     getOlderAdultsByCaregiverId(caregiverId) { return this.#olderAdultsEndpoint.getAll({caregiverId}); }
-    getOlderAdultsByIds(ids) { return this.#olderAdultsEndpoint.getAll({id: ids}); }
+    getOlderAdultsByIds(ids) {
+        return this.#olderAdultsEndpoint.getAll(new URLSearchParams(ids.map(id => ['id', String(id)])));
+    }
     createOlderAdult(resource) { return this.#olderAdultsEndpoint.create(resource); }
     updateOlderAdult(resource) { return this.#olderAdultsEndpoint.update(resource.id, resource); }
 

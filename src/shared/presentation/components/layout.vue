@@ -3,7 +3,7 @@ import {ref} from "vue";
 import SideNavigation from "./side-navigation.vue";
 import HeaderContent from "./header-content.vue";
 import FooterContent from "./footer-content.vue";
-import PatientSelector from "src/profiles/presentation/components/patient-selector.vue";
+import PatientSelector from "../../../profiles/presentation/components/patient-selector.vue";
 
 const drawer = ref(false);
 </script>

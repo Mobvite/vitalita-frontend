@@ -1,4 +1,4 @@
-import {UserRole} from "../../../../../demo/vitalita-frontend/src/iam/domain/model/user-role.js";
+import {UserRole} from "./user-role.js";
 
 /**
  * Command used to register a new account.

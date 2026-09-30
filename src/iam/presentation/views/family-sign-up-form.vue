@@ -3,9 +3,9 @@ import {computed, onMounted, reactive, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
 import {useToast} from "primevue";
-import useIamStore from "../../../../../../vitalita-frontend/src/iam/application/iam.store.js";
-import useProfilesStore from "../../../../../../vitalita-frontend/src/profiles/application/profiles.store.js";
-import {SignUpCommand} from "../../../../../../vitalita-frontend/src/iam/domain/model/sign-up.command.js";
+import useIamStore from "../../application/iam.store.js";
+import useProfilesStore from "../../../profiles/application/profiles.store.js";
+import {SignUpCommand} from "../../domain/model/sign-up.command.js";
 import {UserRole} from "../../domain/model/user-role.js";
 import AuthBrandPanel from "../components/auth-brand-panel.vue";
 

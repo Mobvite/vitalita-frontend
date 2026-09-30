@@ -1,6 +1,6 @@
 <script setup>
-import useIamStore from "../../../../../../vitalita-frontend/src/iam/application/iam.store.js";
-import useProfilesStore from "../../../../../../vitalita-frontend/src/profiles/application/profiles.store.js";
+import useIamStore from "../../../iam/application/iam.store.js";
+import useProfilesStore from "../../../profiles/application/profiles.store.js";
 const iamStore = useIamStore();
 const profilesStore = useProfilesStore();
 </script>

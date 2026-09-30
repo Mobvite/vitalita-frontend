@@ -51,7 +51,7 @@
     },
     "fields": {
       "email": "Correo electrónico",
-      "email-placeholder": "nombre@correo.com",
+      "email-placeholder": "nombre{'@'}correo.com",
       "password": "Contraseña",
       "confirm-password": "Confirmar contraseña",
       "first-name": "Nombres",

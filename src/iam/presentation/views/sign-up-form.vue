@@ -3,11 +3,11 @@ import {computed, reactive} from "vue";
 import {useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
 import {useToast} from "primevue";
-import useIamStore from "../../../../../../vitalita-frontend/src/iam/application/iam.store.js";
-import {SignUpCommand} from "../../../../../../vitalita-frontend/src/iam/domain/model/sign-up.command.js";
-import {Email} from "../../../../../../vitalita-frontend/src/shared/domain/model/email.js";
+import useIamStore from "../../application/iam.store.js";
+import {SignUpCommand} from "../../domain/model/sign-up.command.js";
+import {Email} from "../../../shared/domain/model/email.js";
 import AuthBrandPanel from "../components/auth-brand-panel.vue";
-import useProfilesStore from "../../../../../../vitalita-frontend/src/profiles/application/profiles.store.js";
+import useProfilesStore from "../../../profiles/application/profiles.store.js";
 
 const {t} = useI18n();
 const router = useRouter();

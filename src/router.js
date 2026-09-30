@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
 import iamRoutes from "./iam/presentation/iam-routes.js";
-import profilesRoutes from "src/profiles/presentation/profiles-routes.js";
+import profilesRoutes from "./profiles/presentation/profiles-routes.js";
 import {authenticationGuard} from "./iam/infrastructure/authentication.guard.js";
 import i18n from "./i18n.js";
 

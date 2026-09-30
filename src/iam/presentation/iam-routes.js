@@ -1,6 +1,6 @@
 // Lazy-loaded views
 const signInForm = () => import('./views/sign-in-form.vue');
-const signUpForm = () => import('../../../../demo/vitalita-frontend/src/iam/presentation/views/sign-up-form.vue');
+const signUpForm = () => import('./views/sign-up-form.vue');
 const familySignUpForm = () => import('./views/family-sign-up-form.vue');
 
 const iamRoutes = [
