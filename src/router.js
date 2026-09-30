@@ -2,6 +2,8 @@ import {createRouter, createWebHistory} from "vue-router";
 import iamRoutes from "./iam/presentation/iam-routes.js";
 import profilesRoutes from "./profiles/presentation/profiles-routes.js";
 import monitoringRoutes from "./monitoring/presentation/monitoring-routes.js";
+import assetManagementRoutes from "./asset-management/presentation/asset-management-routes.js";
+import dashboardRoutes from "./dashboard/presentation/dashboard-routes.js";
 import useIamStore from "./iam/application/iam.store.js";
 import {authenticationGuard} from "./iam/infrastructure/authentication.guard.js";
 import i18n from "./i18n.js";
@@ -11,12 +13,13 @@ const home = () => import('./shared/presentation/views/home.vue');
 const pageNotFound = () => import('./shared/presentation/views/page-not-found.vue');
 
 /**
- * Sends each role to its own home page. The caregiver starts in the health summary.
- * @returns {{name: string}|boolean} Route to open, or true to stay in the shared home.
+ * Sends each role to its own home page: the caregiver to the health summary
+ * and the family member to the family dashboard.
+ * @returns {{name: string}} Route to open.
  */
 function redirectToRoleHome() {
     const iamStore = useIamStore();
-    return iamStore.isCaregiver ? {name: 'monitoring-summary'} : true;
+    return iamStore.isCaregiver ? {name: 'monitoring-summary'} : {name: 'dashboard-home'};
 }
 
 /**
@@ -31,6 +34,8 @@ const routes = [
     { path: '/iam',              name: 'iam',       children: iamRoutes },
     { path: '/profiles',         name: 'profiles',  children: profilesRoutes },
     { path: '/monitoring',       name: 'monitoring', children: monitoringRoutes },
+    { path: '/asset-management', name: 'asset-management', children: assetManagementRoutes },
+    { path: '/dashboard',        name: 'dashboard', children: dashboardRoutes },
     { path: '/',                 redirect: '/home' },
     { path: '/:pathMatch(.*)*',  name: 'not-found', component: pageNotFound, meta: { title: 'page-not-found.title', public: true } }
 ];

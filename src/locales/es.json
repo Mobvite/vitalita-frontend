@@ -16,7 +16,8 @@
     "emergency": "Resumen de emergencia",
     "subscription": "Suscripción",
     "profile": "Mi perfil",
-    "patients": "Adultos mayores"
+    "patients": "Adultos mayores",
+    "history": "Historial"
   },
   "footer": {
     "rights": "Todos los derechos reservados.",
@@ -355,6 +356,83 @@
       "duplicated-dose": "Esta dosis ya fue registrada hoy.",
       "invalid-appointment": "Completa la especialidad y la fecha.",
       "invalid-exam": "Escribe el nombre del examen."
+    }
+  },
+  "asset-management": {
+    "evidence": {
+      "title": "Evidencias de {name}",
+      "column": "Evidencias",
+      "open": "Abrir {name}",
+      "open-for": "Evidencias de {name}: {count}",
+      "empty": "Este examen aún no tiene evidencias.",
+      "description": "Descripción (opcional)",
+      "drop": "Arrastra un archivo aquí o haz clic para elegirlo",
+      "formats": "JPG, PNG, WEBP o PDF. Máximo 5 MB.",
+      "saved": "Evidencia guardada."
+    },
+    "emergency": {
+      "title": "Resumen de emergencia",
+      "subtitle": "Información clínica clave para compartir con una clínica u hospital.",
+      "export": "Exportar PDF",
+      "exported": "El PDF se descargó.",
+      "generated-at": "Generado el",
+      "patient": "Paciente",
+      "age": "Edad",
+      "medications": "Medicación vigente",
+      "vital-signs": "Últimos signos vitales",
+      "recent-exams": "Exámenes recientes",
+      "caregiver": "Cuidadora responsable",
+      "call": "Llamar a {name}",
+      "disclaimer": "Resumen generado por Vitalita con los registros de la cuidadora. No reemplaza una evaluación médica."
+    },
+    "errors": {
+      "load": "No pudimos cargar las evidencias.",
+      "file-type": "Solo se permiten archivos JPG, PNG, WEBP y PDF.",
+      "file-size": "El archivo supera los 5 MB.",
+      "upload": "No pudimos subir el archivo. Inténtalo de nuevo.",
+      "local-size": "Sin Cloudinary configurado, los archivos deben pesar menos de 1 MB.",
+      "plan-pdf": "Tu plan muestra el resumen en pantalla. La exportación a PDF está incluida en los planes Pro y Agencia.",
+      "pdf": "No pudimos generar el PDF."
+    }
+  },
+  "dashboard": {
+    "home": {
+      "title": "Inicio",
+      "greeting": "Hola, {name}",
+      "subtitle": "Así se encuentra tu familiar hoy.",
+      "last-update": "Actualizado {date}",
+      "latest": "Últimos registros",
+      "see-history": "Ver historial completo",
+      "at-a-glance": "De un vistazo",
+      "doses-today": "Dosis administradas hoy",
+      "pending-appointments": "Citas próximas",
+      "emergency-hint": "Abre la información para compartir en una clínica."
+    },
+    "history": {
+      "title": "Historial del paciente",
+      "subtitle": "Todos los registros del seguimiento en un solo lugar.",
+      "filters": "Filtros del historial",
+      "keyword": "Palabra clave",
+      "keyword-placeholder": "Medicamento, examen, síntoma...",
+      "range": "Rango de fechas",
+      "clear": "Limpiar filtros",
+      "types": "Tipos de registro",
+      "count": "Sin registros | 1 registro | {count} registros",
+      "empty": "Ningún registro coincide con los filtros."
+    },
+    "types": {
+      "DailyReport": "Reportes diarios",
+      "VitalSign": "Signos vitales",
+      "Medication": "Medicación",
+      "Appointment": "Citas",
+      "Exam": "Exámenes",
+      "CareActivity": "Notas"
+    },
+    "entries": {
+      "daily-report": "Reporte diario",
+      "dose": "Dosis administrada",
+      "appointment": "Cita",
+      "exam": "Examen"
     }
   }
 }
