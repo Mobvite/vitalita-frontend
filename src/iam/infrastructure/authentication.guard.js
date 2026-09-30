@@ -18,7 +18,7 @@ export const authenticationGuard = (to, from) => {
         return {name: 'iam-sign-in', query: {redirect: to.fullPath}};
     }
 
-    const isAuthPage = ['iam-sign-in', 'iam-sign-up'].includes(to.name);
+    const isAuthPage = ['iam-sign-in', 'iam-sign-up', 'iam-family-sign-up'].includes(to.name);
     if (store.isSignedIn && isAuthPage) {
         return {name: 'home'};
     }
