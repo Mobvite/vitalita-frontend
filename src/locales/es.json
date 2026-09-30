@@ -21,7 +21,7 @@
       "feature-secure": "Acceso seguro según el rol"
     },
     "fields": {
-      "email": "Correo electrónico", "email-placeholder": "nombre@correo.com", "password": "Contraseña",
+      "email": "Correo electrónico", "email-placeholder": "nombre{'@'}correo.com", "password": "Contraseña",
       "confirm-password": "Confirmar contraseña", "first-name": "Nombres", "last-name": "Apellidos"
     },
     "validation": {
