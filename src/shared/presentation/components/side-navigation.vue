@@ -1,8 +1,8 @@
 <script setup>
 import {computed} from "vue";
 import {useRouter} from "vue-router";
-import useIamStore from "../../../../../../../../Downloads/vitalita-frontend/src/iam/application/iam.store.js";
-import AuthenticationSection from "../../../../../../../../Downloads/vitalita-frontend/src/iam/presentation/components/authentication-section.vue";
+import useIamStore from "../../../iam/application/iam.store.js";
+import AuthenticationSection from "../../../iam/presentation/components/authentication-section.vue";
 
 defineEmits(['navigate']);
 const router = useRouter();

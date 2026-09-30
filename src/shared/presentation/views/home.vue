@@ -1,5 +1,5 @@
 <script setup>
-import useIamStore from "../../../../../../../../Downloads/vitalita-frontend/src/iam/application/iam.store.js";
+import useIamStore from "../../../iam/application/iam.store.js";
 const iamStore = useIamStore();
 </script>
 

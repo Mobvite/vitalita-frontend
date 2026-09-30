@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
-import '../../../../../Downloads/vitalita-frontend/src/style.css'
-import App from '../../../../../Downloads/vitalita-frontend/src/app.vue'
+import './style.css'
+import App from './app.vue'
 import i18n from "./i18n.js";
 import PrimeVue from 'primevue/config';
 import VitalitaTheme from "./theme.js";
