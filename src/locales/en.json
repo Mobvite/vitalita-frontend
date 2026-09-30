@@ -51,7 +51,7 @@
     },
     "fields": {
       "email": "Email",
-      "email-placeholder": "name{'@'}email.com",
+      "email-placeholder": "name@email.com",
       "password": "Password",
       "confirm-password": "Confirm password",
       "first-name": "First name",
@@ -206,6 +206,155 @@
       "family-limit": "Your plan does not allow more family members for this older adult.",
       "already-invited": "This email already has an invitation.",
       "required-data": "Complete the required fields."
+    }
+  },
+  "monitoring": {
+    "summary": {
+      "title": "Health summary",
+      "good-morning": "Good morning, {name}",
+      "good-afternoon": "Good afternoon, {name}",
+      "good-evening": "Good evening, {name}",
+      "subtitle": "This is the current status of your selected patient.",
+      "measured-at": "Measured at {time}",
+      "last-report": "Last report: {date}",
+      "trend": "Heart rate trend",
+      "trend-subtitle": "Last 8 measurements",
+      "no-trend": "There are not enough measurements to show the trend.",
+      "recent-activity": "Recent activity",
+      "see-notes": "See all notes",
+      "next-appointment": "Next medical appointment",
+      "no-appointment": "There are no upcoming appointments."
+    },
+    "vital-types": {
+      "HeartRate": "Heart rate",
+      "BloodPressure": "Blood pressure",
+      "OxygenSaturation": "Oxygen saturation",
+      "Temperature": "Temperature",
+      "Glucose": "Glucose"
+    },
+    "vitals": {
+      "title": "Register vital signs",
+      "hint": "Fill only the values you measured.",
+      "systolic": "Systolic (mmHg)",
+      "diastolic": "Diastolic (mmHg)",
+      "saved": "Vital signs saved."
+    },
+    "moods": {
+      "VeryGood": "Very good",
+      "Good": "Good",
+      "Neutral": "Neutral",
+      "Bad": "Bad",
+      "VeryBad": "Very bad"
+    },
+    "conditions": {
+      "Stable": "Stable",
+      "Attention": "Needs attention",
+      "Critical": "Critical"
+    },
+    "report": {
+      "title": "Register daily report",
+      "mood": "Mood",
+      "condition": "General condition",
+      "saved": "Daily report saved."
+    },
+    "activity-types": {
+      "Observation": "Observation",
+      "Medication": "Medication",
+      "Feeding": "Feeding",
+      "Symptom": "Symptoms",
+      "Therapy": "Therapy"
+    },
+    "notes": {
+      "title": "Patient notes",
+      "heading": "Notes and daily follow-up",
+      "subtitle": "Record observations, medication and relevant events.",
+      "new": "New note",
+      "placeholder": "Write what happened, what the patient took or how the patient felt...",
+      "save": "Save note",
+      "saved": "Note saved.",
+      "all": "All",
+      "filter": "Filter notes by category",
+      "history": "Recent history",
+      "pages": "Notes pages",
+      "today-summary": "Today's summary",
+      "notes-today": "Notes registered",
+      "medications": "Medications given",
+      "tip-title": "A good note is clear and short",
+      "tip-text": "Include the time, the observed fact and any action taken."
+    },
+    "medication": {
+      "today": "Today's medication",
+      "add": "Add medication",
+      "empty": "There are no active medications.",
+      "given": "Given",
+      "register-dose": "Register dose",
+      "register-dose-for": "Register dose of {name} at {time}",
+      "dose-saved": "Dose of {name} registered.",
+      "name": "Name",
+      "dosage": "Dose",
+      "frequency": "Frequency",
+      "times": "Schedule",
+      "times-help": "Hours in 24-hour format separated by commas.",
+      "instructions": "Instructions"
+    },
+    "records": {
+      "title": "Exams and results",
+      "heading": "Clinical records",
+      "subtitle": "Exams and medical appointments of {name}.",
+      "section": "Record type",
+      "exams": "Exams",
+      "appointments": "Appointments",
+      "new-exam": "Register exam",
+      "new-appointment": "Register appointment",
+      "register-result": "Register result",
+      "register-result-for": "Register result of {name}",
+      "register-outcome": "Register outcome",
+      "register-outcome-for": "Register outcome of {name}",
+      "exam-type": "Exam",
+      "category": "Category",
+      "date": "Date",
+      "result": "Result",
+      "result-help": "Leave it empty if the result is still pending.",
+      "no-result": "Result pending",
+      "indications": "Indications",
+      "specialty": "Specialty",
+      "doctor": "Doctor",
+      "location": "Place",
+      "search": "Search by name or result",
+      "all-types": "All types",
+      "exam-saved": "Exam saved.",
+      "appointment-saved": "Appointment saved.",
+      "stats": {
+        "total": "Registered exams",
+        "recent": "Results in the last 30 days",
+        "pending": "Pending results"
+      }
+    },
+    "exam-categories": {
+      "Laboratory": "Laboratory",
+      "MedicalImaging": "Medical imaging",
+      "Report": "Report"
+    },
+    "exam-status": {
+      "Requested": "Requested",
+      "PendingResult": "Pending result",
+      "Completed": "Completed"
+    },
+    "appointment-status": {
+      "Scheduled": "Scheduled",
+      "Completed": "Completed",
+      "Cancelled": "Cancelled"
+    },
+    "errors": {
+      "load": "We could not load the follow-up.",
+      "save": "We could not save the record.",
+      "incomplete-report": "Choose a mood and write the observations.",
+      "invalid-vital-sign": "One of the values is outside the valid range. Check it and try again.",
+      "invalid-note": "Write at least a short description.",
+      "invalid-medication": "Complete name, dose and schedule in HH:mm format.",
+      "duplicated-dose": "This dose was already registered today.",
+      "invalid-appointment": "Complete the specialty and the date.",
+      "invalid-exam": "Write the name of the exam."
     }
   }
 }

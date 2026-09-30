@@ -1,12 +1,23 @@
 import {createRouter, createWebHistory} from "vue-router";
 import iamRoutes from "./iam/presentation/iam-routes.js";
 import profilesRoutes from "./profiles/presentation/profiles-routes.js";
+import monitoringRoutes from "./monitoring/presentation/monitoring-routes.js";
+import useIamStore from "./iam/application/iam.store.js";
 import {authenticationGuard} from "./iam/infrastructure/authentication.guard.js";
 import i18n from "./i18n.js";
 
 // Lazy-loaded views of the shared context
 const home = () => import('./shared/presentation/views/home.vue');
 const pageNotFound = () => import('./shared/presentation/views/page-not-found.vue');
+
+/**
+ * Sends each role to its own home page. The caregiver starts in the health summary.
+ * @returns {{name: string}|boolean} Route to open, or true to stay in the shared home.
+ */
+function redirectToRoleHome() {
+    const iamStore = useIamStore();
+    return iamStore.isCaregiver ? {name: 'monitoring-summary'} : true;
+}
 
 /**
  * Route meta fields used in Vitalita:
@@ -16,9 +27,10 @@ const pageNotFound = () => import('./shared/presentation/views/page-not-found.vu
  * - roles: list of roles that can open the page. Empty means any signed-in user.
  */
 const routes = [
-    { path: '/home',             name: 'home',      component: home,         meta: { title: 'navigation.home' } },
+    { path: '/home',             name: 'home',      component: home,         meta: { title: 'navigation.home' }, beforeEnter: redirectToRoleHome },
     { path: '/iam',              name: 'iam',       children: iamRoutes },
     { path: '/profiles',         name: 'profiles',  children: profilesRoutes },
+    { path: '/monitoring',       name: 'monitoring', children: monitoringRoutes },
     { path: '/',                 redirect: '/home' },
     { path: '/:pathMatch(.*)*',  name: 'not-found', component: pageNotFound, meta: { title: 'page-not-found.title', public: true } }
 ];

@@ -51,7 +51,7 @@
     },
     "fields": {
       "email": "Correo electrónico",
-      "email-placeholder": "nombre{'@'}correo.com",
+      "email-placeholder": "nombre@correo.com",
       "password": "Contraseña",
       "confirm-password": "Confirmar contraseña",
       "first-name": "Nombres",
@@ -206,6 +206,155 @@
       "family-limit": "Tu plan no permite más familiares para este adulto mayor.",
       "already-invited": "Este correo ya tiene una invitación.",
       "required-data": "Completa los campos obligatorios."
+    }
+  },
+  "monitoring": {
+    "summary": {
+      "title": "Resumen de salud",
+      "good-morning": "Buenos días, {name}",
+      "good-afternoon": "Buenas tardes, {name}",
+      "good-evening": "Buenas noches, {name}",
+      "subtitle": "Este es el estado actual de tu paciente seleccionado.",
+      "measured-at": "Medido a las {time}",
+      "last-report": "Último reporte: {date}",
+      "trend": "Tendencia del ritmo cardíaco",
+      "trend-subtitle": "Últimas 8 mediciones",
+      "no-trend": "No hay suficientes mediciones para mostrar la tendencia.",
+      "recent-activity": "Actividad reciente",
+      "see-notes": "Ver todas las notas",
+      "next-appointment": "Próxima cita médica",
+      "no-appointment": "No hay citas próximas."
+    },
+    "vital-types": {
+      "HeartRate": "Ritmo cardíaco",
+      "BloodPressure": "Presión arterial",
+      "OxygenSaturation": "Saturación de oxígeno",
+      "Temperature": "Temperatura",
+      "Glucose": "Glucosa"
+    },
+    "vitals": {
+      "title": "Registrar signos vitales",
+      "hint": "Completa solo los valores que mediste.",
+      "systolic": "Sistólica (mmHg)",
+      "diastolic": "Diastólica (mmHg)",
+      "saved": "Signos vitales guardados."
+    },
+    "moods": {
+      "VeryGood": "Muy bien",
+      "Good": "Bien",
+      "Neutral": "Neutral",
+      "Bad": "Mal",
+      "VeryBad": "Muy mal"
+    },
+    "conditions": {
+      "Stable": "Estable",
+      "Attention": "Requiere atención",
+      "Critical": "Crítico"
+    },
+    "report": {
+      "title": "Registrar reporte diario",
+      "mood": "Estado de ánimo",
+      "condition": "Estado general",
+      "saved": "Reporte diario guardado."
+    },
+    "activity-types": {
+      "Observation": "Observación",
+      "Medication": "Medicación",
+      "Feeding": "Alimentación",
+      "Symptom": "Síntomas",
+      "Therapy": "Terapia"
+    },
+    "notes": {
+      "title": "Notas del paciente",
+      "heading": "Notas y seguimiento diario",
+      "subtitle": "Registra observaciones, medicación y acontecimientos relevantes.",
+      "new": "Nueva nota",
+      "placeholder": "Escribe lo que sucedió, qué tomó o cómo se sintió el paciente...",
+      "save": "Guardar nota",
+      "saved": "Nota guardada.",
+      "all": "Todas",
+      "filter": "Filtrar notas por categoría",
+      "history": "Historial reciente",
+      "pages": "Páginas de notas",
+      "today-summary": "Resumen de hoy",
+      "notes-today": "Notas registradas",
+      "medications": "Medicación administrada",
+      "tip-title": "Una buena nota es clara y breve",
+      "tip-text": "Incluye la hora, el hecho observado y cualquier acción realizada."
+    },
+    "medication": {
+      "today": "Medicación de hoy",
+      "add": "Agregar medicamento",
+      "empty": "No hay medicamentos activos.",
+      "given": "Administrado",
+      "register-dose": "Registrar dosis",
+      "register-dose-for": "Registrar dosis de {name} a las {time}",
+      "dose-saved": "Dosis de {name} registrada.",
+      "name": "Nombre",
+      "dosage": "Dosis",
+      "frequency": "Frecuencia",
+      "times": "Horario",
+      "times-help": "Horas en formato de 24 horas separadas por comas.",
+      "instructions": "Indicaciones"
+    },
+    "records": {
+      "title": "Exámenes y resultados",
+      "heading": "Registros clínicos",
+      "subtitle": "Exámenes y citas médicas de {name}.",
+      "section": "Tipo de registro",
+      "exams": "Exámenes",
+      "appointments": "Citas",
+      "new-exam": "Registrar examen",
+      "new-appointment": "Registrar cita",
+      "register-result": "Registrar resultado",
+      "register-result-for": "Registrar resultado de {name}",
+      "register-outcome": "Registrar resultado de la cita",
+      "register-outcome-for": "Registrar resultado de {name}",
+      "exam-type": "Examen",
+      "category": "Categoría",
+      "date": "Fecha",
+      "result": "Resultado",
+      "result-help": "Déjalo vacío si el resultado aún está pendiente.",
+      "no-result": "Resultado pendiente",
+      "indications": "Indicaciones",
+      "specialty": "Especialidad",
+      "doctor": "Médico",
+      "location": "Lugar",
+      "search": "Buscar por nombre o resultado",
+      "all-types": "Todos los tipos",
+      "exam-saved": "Examen guardado.",
+      "appointment-saved": "Cita guardada.",
+      "stats": {
+        "total": "Exámenes registrados",
+        "recent": "Resultados en los últimos 30 días",
+        "pending": "Resultados pendientes"
+      }
+    },
+    "exam-categories": {
+      "Laboratory": "Laboratorio",
+      "MedicalImaging": "Imágenes médicas",
+      "Report": "Informe"
+    },
+    "exam-status": {
+      "Requested": "Solicitado",
+      "PendingResult": "Resultado pendiente",
+      "Completed": "Completado"
+    },
+    "appointment-status": {
+      "Scheduled": "Programada",
+      "Completed": "Realizada",
+      "Cancelled": "Cancelada"
+    },
+    "errors": {
+      "load": "No pudimos cargar el seguimiento.",
+      "save": "No pudimos guardar el registro.",
+      "incomplete-report": "Elige un estado de ánimo y escribe las observaciones.",
+      "invalid-vital-sign": "Uno de los valores está fuera del rango válido. Revísalo e inténtalo de nuevo.",
+      "invalid-note": "Escribe al menos una descripción breve.",
+      "invalid-medication": "Completa nombre, dosis y horario en formato HH:mm.",
+      "duplicated-dose": "Esta dosis ya fue registrada hoy.",
+      "invalid-appointment": "Completa la especialidad y la fecha.",
+      "invalid-exam": "Escribe el nombre del examen."
     }
   }
 }
