@@ -1,9 +1,9 @@
 <script setup>
 import {computed, onMounted} from "vue";
 import useIamStore from "../../../iam/application/iam.store.js";
-import useProfilesStore from "../../../../../../vitalita-frontend/src/profiles/application/profiles.store.js";
+import useProfilesStore from "../../application/profiles.store.js";
 import useSubscriptionsStore from "../../../subscriptions/application/subscriptions.store.js";
-import useCareContextStore from "../../../../../../vitalita-frontend/src/shared/application/care-context.store.js";
+import useCareContextStore from "../../../shared/application/care-context.store.js";
 
 const iamStore = useIamStore();
 const profilesStore = useProfilesStore();

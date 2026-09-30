@@ -2,9 +2,9 @@
 import {computed, reactive, ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {useToast} from "primevue";
-import useProfilesStore from "../../../../../../vitalita-frontend/src/profiles/application/profiles.store.js";
-import {FamilyRelationship} from "../../../../../../vitalita-frontend/src/profiles/domain/model/family-relationship.js";
-import {Email} from "../../../../../../vitalita-frontend/src/shared/domain/model/email.js";
+import useProfilesStore from "../../application/profiles.store.js";
+import {FamilyRelationship} from "../../domain/model/family-relationship.js";
+import {Email} from "../../../shared/domain/model/email.js";
 
 const visible = defineModel('visible', {type: Boolean, default: false});
 const {t} = useI18n();
