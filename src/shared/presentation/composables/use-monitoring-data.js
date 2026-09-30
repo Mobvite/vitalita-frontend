@@ -1,8 +1,8 @@
 import {onMounted, watch} from "vue";
 import useIamStore from "../../../iam/application/iam.store.js";
 import useProfilesStore from "../../../profiles/application/profiles.store.js";
-import useMonitoringStore from "../../application/monitoring.store.js";
-import useCareContextStore from "../../../shared/application/care-context.store.js";
+import useMonitoringStore from "../../../monitoring/application/monitoring.store.js";
+import useCareContextStore from "../../application/care-context.store.js";
 
 /**
  * Loads the monitoring records of the selected older adult and reloads them

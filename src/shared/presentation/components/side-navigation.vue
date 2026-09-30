@@ -22,6 +22,10 @@ const items = [
   {label: 'navigation.profile', icon: 'pi pi-id-card', route: 'profiles-caregiver-profile'}
 ];
 
+// Some items open a different page depending on the role, like Home.
+const routeFor = (item) => iamStore.isCaregiver && item.caregiverRoute && router.hasRoute(item.caregiverRoute)
+    ? item.caregiverRoute : item.route;
+
 const visibleItems = computed(() => items.filter(item => {
   if (!router.hasRoute(item.route)) return false;
   const roles = router.resolve({name: item.route}).meta['roles'] ?? [];
