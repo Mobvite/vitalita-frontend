@@ -1,18 +1,41 @@
 {
   "name": "vitalita-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Vitalita is a web application that centralizes the daily care records of older adults and shares them with their families. Built with Vue 3, Pinia, PrimeVue and Axios following Domain-Driven Design.",
+  "author": "Mobvite",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "json-server --watch ../../../../Downloads/vitalita-frontend/server/db.json --routes server/routes.json --port 3000"
   },
+  "keywords": [
+    "vue",
+    "vite",
+    "pinia",
+    "primevue",
+    "axios",
+    "json-server",
+    "domain-driven-design",
+    "elderly-care"
+  ],
   "dependencies": {
-    "vue": "^3.5.42"
+    "@primeuix/themes": "^3.0.1",
+    "axios": "^1.20.0",
+    "pinia": "^4.0.3",
+    "primeflex": "^4.0.0",
+    "primeicons": "^8.0.2",
+    "primevue": "^5.0.2",
+    "vue": "^3.5.42",
+    "vue-i18n": "^11.4.12",
+    "vue-router": "^5.3.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.8",
+    "json-server": "^0.17.4",
     "vite": "^8.3.0"
   }
 }
