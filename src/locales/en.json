@@ -16,6 +16,7 @@
     "emergency": "Emergency summary",
     "subscription": "Subscription",
     "profile": "My profile",
+    "caregiver-profile": "Caregiver profile",
     "patients": "Older adults",
     "history": "History"
   },
@@ -52,7 +53,7 @@
     },
     "fields": {
       "email": "Email",
-      "email-placeholder": "name@email.com",
+      "email-placeholder": "name{'@'}email.com",
       "password": "Password",
       "confirm-password": "Confirm password",
       "first-name": "First name",

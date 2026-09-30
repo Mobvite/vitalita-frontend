@@ -1,17 +1,22 @@
 <script setup>
 import {computed, onMounted, ref} from "vue";
 import {useRouter} from "vue-router";
+import {useI18n} from "vue-i18n";
 import useIamStore from "../../../iam/application/iam.store.js";
 import useSubscriptionsStore from "../../application/subscriptions.store.js";
 import useProfilesStore from "../../../profiles/application/profiles.store.js";
 
 const router = useRouter();
+const {t} = useI18n();
 const iamStore = useIamStore();
 const store = useSubscriptionsStore();
 const profilesStore = useProfilesStore();
 const billingPeriod = ref('Monthly');
 
-const periodOptions = [{key: 'subscriptions.plans.monthly', value: 'Monthly'}, {key: 'subscriptions.plans.annual', value: 'Annual'}];
+const periodOptions = computed(() => [
+  {label: t('subscriptions.plans.monthly'), value: 'Monthly'},
+  {label: t('subscriptions.plans.annual'), value: 'Annual'}
+]);
 const visiblePlans = computed(() => store.plans.filter(plan => !plan.isPaid() || plan.billingPeriod === billingPeriod.value));
 
 function features(plan) {
@@ -40,10 +45,8 @@ onMounted(async () => {
     <div class="text-center mb-4">
       <h2 id="plans-title" class="vt-page-title">{{ $t('subscriptions.plans.heading') }}</h2>
       <p class="vt-page-subtitle">{{ $t('subscriptions.plans.subtitle') }}</p>
-      <pv-select-button v-model="billingPeriod" :options="periodOptions" option-value="value" :allow-empty="false"
-                        class="mt-3" :aria-label="$t('subscriptions.plans.period')">
-        <template #option="{option}">{{ $t(option.key) }}</template>
-      </pv-select-button>
+      <pv-select-button v-model="billingPeriod" :options="periodOptions" option-label="label" option-value="value"
+                        :allow-empty="false" class="mt-3" :aria-label="$t('subscriptions.plans.period')"/>
       <p v-if="billingPeriod === 'Annual'" class="text-sm text-primary font-semibold mt-2">{{ $t('subscriptions.plans.annual-saving') }}</p>
     </div>
 
