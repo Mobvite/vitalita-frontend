@@ -1,4 +1,4 @@
-import useIamStore from "../../../../../../../Downloads/vitalita-frontend/src/iam/application/iam.store.js";
+import useIamStore from "../application/iam.store.js";
 
 /**
  * Navigation guard for Vitalita.

@@ -1,11 +1,11 @@
 import {createRouter, createWebHistory} from "vue-router";
-import iamRoutes from "../../../../../Downloads/vitalita-frontend/src/iam/presentation/iam-routes.js";
-import {authenticationGuard} from "../../../../../Downloads/vitalita-frontend/src/iam/infrastructure/authentication.guard.js";
+import iamRoutes from "./iam/presentation/iam-routes.js";
+import {authenticationGuard} from "./iam/infrastructure/authentication.guard.js";
 import i18n from "./i18n.js";
 
 // Lazy-loaded views of the shared context
-const home = () => import('../../../../../Downloads/vitalita-frontend/src/shared/presentation/views/home.vue');
-const pageNotFound = () => import('../../../../../Downloads/vitalita-frontend/src/shared/presentation/views/page-not-found.vue');
+const home = () => import('./shared/presentation/views/home.vue');
+const pageNotFound = () => import('./shared/presentation/views/page-not-found.vue');
 
 /**
  * Route meta fields used in Vitalita:

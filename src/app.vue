@@ -1,7 +1,7 @@
 <script setup>
 import {computed} from "vue";
 import {useRoute} from "vue-router";
-import Layout from "../../../../../Downloads/vitalita-frontend/src/shared/presentation/components/layout.vue";
+import Layout from "./shared/presentation/components/layout.vue";
 
 const route = useRoute();
 const usesAuthLayout = computed(() => route.meta['layout'] === 'auth');
