@@ -1,104 +1,716 @@
 {
   "users": [
-    { "id": 1, "email": "andrea.mendoza@vitalita.pe", "password": "Vitalita123", "role": "Caregiver", "status": "Active", "createdAt": "2026-09-01T09:00:00", "lastLoginAt": "2026-10-05T08:10:00" },
-    { "id": 2, "email": "renzo.rodriguez@vitalita.pe", "password": "Vitalita123", "role": "FamilyMember", "status": "Active", "createdAt": "2026-09-03T18:30:00", "lastLoginAt": "2026-10-04T21:15:00" },
-    { "id": 3, "email": "lucia.torres@vitalita.pe", "password": "Vitalita123", "role": "Caregiver", "status": "Active", "createdAt": "2026-09-10T10:00:00", "lastLoginAt": "2026-10-02T07:45:00" }
+    {
+      "id": 1,
+      "email": "andrea.mendoza@vitalita.pe",
+      "password": "Vitalita123",
+      "role": "Caregiver",
+      "status": "Active",
+      "createdAt": "2026-09-01T09:00:00",
+      "lastLoginAt": "2026-10-05T08:10:00"
+    },
+    {
+      "id": 2,
+      "email": "renzo.rodriguez@vitalita.pe",
+      "password": "Vitalita123",
+      "role": "FamilyMember",
+      "status": "Active",
+      "createdAt": "2026-09-03T18:30:00",
+      "lastLoginAt": "2026-10-04T21:15:00"
+    },
+    {
+      "id": 3,
+      "email": "lucia.torres@vitalita.pe",
+      "password": "Vitalita123",
+      "role": "Caregiver",
+      "status": "Active",
+      "createdAt": "2026-09-10T10:00:00",
+      "lastLoginAt": "2026-10-02T07:45:00"
+    }
   ],
   "caregiver-profiles": [
-    { "id": 1, "userId": 1, "firstName": "Andrea", "lastName": "Mendoza", "phoneNumber": "987654321", "professionalTitle": "Licenciada en Enfermería", "bio": "Enfermera con 12 años de experiencia en cuidado geriátrico domiciliario.", "photoUrl": "", "certifications": ["Cuidado geriátrico", "Primeros auxilios", "Manejo de pacientes postrados"] },
-    { "id": 2, "userId": 3, "firstName": "Lucía", "lastName": "Torres", "phoneNumber": "956123478", "professionalTitle": "Técnica en Enfermería", "bio": "Cuidadora con experiencia en terapias de movilidad.", "photoUrl": "", "certifications": ["Terapia de movilidad"] }
+    {
+      "id": 1,
+      "userId": 1,
+      "firstName": "Andrea",
+      "lastName": "Mendoza",
+      "phoneNumber": "987654321",
+      "professionalTitle": "Licenciada en Enfermería",
+      "bio": "Enfermera con 12 años de experiencia en cuidado geriátrico domiciliario.",
+      "photoUrl": "",
+      "certifications": [
+        "Cuidado geriátrico",
+        "Primeros auxilios",
+        "Manejo de pacientes postrados"
+      ]
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "firstName": "Lucía",
+      "lastName": "Torres",
+      "phoneNumber": "956123478",
+      "professionalTitle": "Técnica en Enfermería",
+      "bio": "Cuidadora con experiencia en terapias de movilidad.",
+      "photoUrl": "",
+      "certifications": [
+        "Terapia de movilidad"
+      ]
+    }
   ],
   "family-member-profiles": [
-    { "id": 1, "userId": 2, "firstName": "Renzo", "lastName": "Rodríguez", "phoneNumber": "987111222" }
+    {
+      "id": 1,
+      "userId": 2,
+      "firstName": "Renzo",
+      "lastName": "Rodríguez",
+      "phoneNumber": "987111222"
+    }
   ],
   "older-adults": [
-    { "id": 1, "caregiverId": 1, "firstName": "María", "lastName": "Rodríguez", "birthDate": "1948-03-12", "documentNumber": "40218463", "bloodType": "O+", "allergies": ["Penicilina"], "chronicConditions": ["Hipertensión arterial", "Diabetes tipo 2"], "emergencyContact": { "name": "Renzo Rodríguez", "phoneNumber": "987111222", "relationship": "Son" }, "observations": "Requiere asistencia para caminar distancias largas.", "status": "Active" },
-    { "id": 2, "caregiverId": 1, "firstName": "Jorge", "lastName": "Salazar", "birthDate": "1941-07-25", "documentNumber": "08455120", "bloodType": "A+", "allergies": [], "chronicConditions": ["Artrosis de rodilla"], "emergencyContact": { "name": "Patricia Salazar", "phoneNumber": "945222333", "relationship": "Daughter" }, "observations": "", "status": "Active" },
-    { "id": 3, "caregiverId": 2, "firstName": "Rosa", "lastName": "Quispe", "birthDate": "1945-11-02", "documentNumber": "07123984", "bloodType": "B+", "allergies": ["Ibuprofeno"], "chronicConditions": ["Insuficiencia cardíaca"], "emergencyContact": { "name": "Luis Quispe", "phoneNumber": "999888777", "relationship": "Son" }, "observations": "", "status": "Active" }
+    {
+      "id": 1,
+      "caregiverId": 1,
+      "firstName": "María",
+      "lastName": "Rodríguez",
+      "birthDate": "1948-03-12",
+      "documentNumber": "40218463",
+      "bloodType": "O+",
+      "allergies": [
+        "Penicilina"
+      ],
+      "chronicConditions": [
+        "Hipertensión arterial",
+        "Diabetes tipo 2"
+      ],
+      "emergencyContact": {
+        "name": "Renzo Rodríguez",
+        "phoneNumber": "987111222",
+        "relationship": "Son"
+      },
+      "observations": "Requiere asistencia para caminar distancias largas.",
+      "status": "Active"
+    },
+    {
+      "id": 2,
+      "caregiverId": 1,
+      "firstName": "Jorge",
+      "lastName": "Salazar",
+      "birthDate": "1941-07-25",
+      "documentNumber": "08455120",
+      "bloodType": "A+",
+      "allergies": [],
+      "chronicConditions": [
+        "Artrosis de rodilla"
+      ],
+      "emergencyContact": {
+        "name": "Patricia Salazar",
+        "phoneNumber": "945222333",
+        "relationship": "Daughter"
+      },
+      "observations": "",
+      "status": "Active"
+    },
+    {
+      "id": 3,
+      "caregiverId": 2,
+      "firstName": "Rosa",
+      "lastName": "Quispe",
+      "birthDate": "1945-11-02",
+      "documentNumber": "07123984",
+      "bloodType": "B+",
+      "allergies": [
+        "Ibuprofeno"
+      ],
+      "chronicConditions": [
+        "Insuficiencia cardíaca"
+      ],
+      "emergencyContact": {
+        "name": "Luis Quispe",
+        "phoneNumber": "999888777",
+        "relationship": "Son"
+      },
+      "observations": "",
+      "status": "Active"
+    }
   ],
   "family-access": [
-    { "id": 1, "olderAdultId": 1, "familyMemberId": 1, "invitedEmail": "renzo.rodriguez@vitalita.pe", "invitationCode": "VITA-8H2K", "relationship": "Son", "status": "Active", "invitedAt": "2026-09-03T17:00:00", "acceptedAt": "2026-09-03T18:30:00", "expiresAt": "2026-09-10T17:00:00" },
-    { "id": 2, "olderAdultId": 1, "familyMemberId": null, "invitedEmail": "carla.rodriguez@correo.pe", "invitationCode": "VITA-4P9Q", "relationship": "Daughter", "status": "Pending", "invitedAt": "2026-10-01T10:00:00", "acceptedAt": null, "expiresAt": "2026-12-31T23:59:00" }
+    {
+      "id": 1,
+      "olderAdultId": 1,
+      "familyMemberId": 1,
+      "invitedEmail": "renzo.rodriguez@vitalita.pe",
+      "invitationCode": "VITA-8H2K",
+      "relationship": "Son",
+      "status": "Active",
+      "invitedAt": "2026-09-03T17:00:00",
+      "acceptedAt": "2026-09-03T18:30:00",
+      "expiresAt": "2026-09-10T17:00:00"
+    },
+    {
+      "id": 2,
+      "olderAdultId": 1,
+      "familyMemberId": null,
+      "invitedEmail": "carla.rodriguez@correo.pe",
+      "invitationCode": "VITA-4P9Q",
+      "relationship": "Daughter",
+      "status": "Pending",
+      "invitedAt": "2026-10-01T10:00:00",
+      "acceptedAt": null,
+      "expiresAt": "2026-12-31T23:59:00"
+    }
   ],
   "daily-reports": [
-    { "id": 1, "olderAdultId": 1, "recordedByUserId": 1, "reportDate": "2026-10-03T20:00:00", "mood": "Good", "generalCondition": "Stable", "observations": "Durmió bien y almorzó completo." },
-    { "id": 2, "olderAdultId": 1, "recordedByUserId": 1, "reportDate": "2026-10-04T20:00:00", "mood": "Neutral", "generalCondition": "Stable", "observations": "Leve dolor en la rodilla derecha al caminar." },
-    { "id": 3, "olderAdultId": 1, "recordedByUserId": 1, "reportDate": "2026-10-05T20:00:00", "mood": "VeryGood", "generalCondition": "Stable", "observations": "Se mostró animada durante la visita familiar." }
+    {
+      "id": 1,
+      "olderAdultId": 1,
+      "recordedByUserId": 1,
+      "reportDate": "2026-10-03T20:00:00",
+      "mood": "Good",
+      "generalCondition": "Stable",
+      "observations": "Durmió bien y almorzó completo."
+    },
+    {
+      "id": 2,
+      "olderAdultId": 1,
+      "recordedByUserId": 1,
+      "reportDate": "2026-10-04T20:00:00",
+      "mood": "Neutral",
+      "generalCondition": "Stable",
+      "observations": "Leve dolor en la rodilla derecha al caminar."
+    },
+    {
+      "id": 3,
+      "olderAdultId": 1,
+      "recordedByUserId": 1,
+      "reportDate": "2026-10-05T20:00:00",
+      "mood": "VeryGood",
+      "generalCondition": "Stable",
+      "observations": "Se mostró animada durante la visita familiar."
+    }
   ],
   "vital-signs": [
-    { "id": 1, "olderAdultId": 1, "type": "HeartRate", "value": 70, "secondaryValue": null, "unit": "bpm", "measuredAt": "2026-10-05T06:00:00" },
-    { "id": 2, "olderAdultId": 1, "type": "HeartRate", "value": 68, "secondaryValue": null, "unit": "bpm", "measuredAt": "2026-10-05T07:00:00" },
-    { "id": 3, "olderAdultId": 1, "type": "HeartRate", "value": 74, "secondaryValue": null, "unit": "bpm", "measuredAt": "2026-10-05T08:00:00" },
-    { "id": 4, "olderAdultId": 1, "type": "HeartRate", "value": 71, "secondaryValue": null, "unit": "bpm", "measuredAt": "2026-10-05T09:00:00" },
-    { "id": 5, "olderAdultId": 1, "type": "HeartRate", "value": 75, "secondaryValue": null, "unit": "bpm", "measuredAt": "2026-10-05T10:00:00" },
-    { "id": 6, "olderAdultId": 1, "type": "HeartRate", "value": 73, "secondaryValue": null, "unit": "bpm", "measuredAt": "2026-10-05T11:00:00" },
-    { "id": 7, "olderAdultId": 1, "type": "HeartRate", "value": 76, "secondaryValue": null, "unit": "bpm", "measuredAt": "2026-10-05T12:00:00" },
-    { "id": 8, "olderAdultId": 1, "type": "HeartRate", "value": 72, "secondaryValue": null, "unit": "bpm", "measuredAt": "2026-10-05T13:00:00" },
-    { "id": 9, "olderAdultId": 1, "type": "Temperature", "value": 36.6, "secondaryValue": null, "unit": "°C", "measuredAt": "2026-10-05T12:00:00" },
-    { "id": 10, "olderAdultId": 1, "type": "BloodPressure", "value": 120, "secondaryValue": 80, "unit": "mmHg", "measuredAt": "2026-10-05T12:00:00" },
-    { "id": 11, "olderAdultId": 1, "type": "OxygenSaturation", "value": 97, "secondaryValue": null, "unit": "%", "measuredAt": "2026-10-05T12:00:00" },
-    { "id": 12, "olderAdultId": 1, "type": "Glucose", "value": 110, "secondaryValue": null, "unit": "mg/dL", "measuredAt": "2026-10-05T07:30:00" },
-    { "id": 13, "olderAdultId": 2, "type": "HeartRate", "value": 80, "secondaryValue": null, "unit": "bpm", "measuredAt": "2026-10-05T09:00:00" },
-    { "id": 14, "olderAdultId": 2, "type": "BloodPressure", "value": 135, "secondaryValue": 85, "unit": "mmHg", "measuredAt": "2026-10-05T09:00:00" }
+    {
+      "id": 1,
+      "olderAdultId": 1,
+      "type": "HeartRate",
+      "value": 70,
+      "secondaryValue": null,
+      "unit": "bpm",
+      "measuredAt": "2026-10-05T06:00:00"
+    },
+    {
+      "id": 2,
+      "olderAdultId": 1,
+      "type": "HeartRate",
+      "value": 68,
+      "secondaryValue": null,
+      "unit": "bpm",
+      "measuredAt": "2026-10-05T07:00:00"
+    },
+    {
+      "id": 3,
+      "olderAdultId": 1,
+      "type": "HeartRate",
+      "value": 74,
+      "secondaryValue": null,
+      "unit": "bpm",
+      "measuredAt": "2026-10-05T08:00:00"
+    },
+    {
+      "id": 4,
+      "olderAdultId": 1,
+      "type": "HeartRate",
+      "value": 71,
+      "secondaryValue": null,
+      "unit": "bpm",
+      "measuredAt": "2026-10-05T09:00:00"
+    },
+    {
+      "id": 5,
+      "olderAdultId": 1,
+      "type": "HeartRate",
+      "value": 75,
+      "secondaryValue": null,
+      "unit": "bpm",
+      "measuredAt": "2026-10-05T10:00:00"
+    },
+    {
+      "id": 6,
+      "olderAdultId": 1,
+      "type": "HeartRate",
+      "value": 73,
+      "secondaryValue": null,
+      "unit": "bpm",
+      "measuredAt": "2026-10-05T11:00:00"
+    },
+    {
+      "id": 7,
+      "olderAdultId": 1,
+      "type": "HeartRate",
+      "value": 76,
+      "secondaryValue": null,
+      "unit": "bpm",
+      "measuredAt": "2026-10-05T12:00:00"
+    },
+    {
+      "id": 8,
+      "olderAdultId": 1,
+      "type": "HeartRate",
+      "value": 72,
+      "secondaryValue": null,
+      "unit": "bpm",
+      "measuredAt": "2026-10-05T13:00:00"
+    },
+    {
+      "id": 9,
+      "olderAdultId": 1,
+      "type": "Temperature",
+      "value": 36.6,
+      "secondaryValue": null,
+      "unit": "°C",
+      "measuredAt": "2026-10-05T12:00:00"
+    },
+    {
+      "id": 10,
+      "olderAdultId": 1,
+      "type": "BloodPressure",
+      "value": 120,
+      "secondaryValue": 80,
+      "unit": "mmHg",
+      "measuredAt": "2026-10-05T12:00:00"
+    },
+    {
+      "id": 11,
+      "olderAdultId": 1,
+      "type": "OxygenSaturation",
+      "value": 97,
+      "secondaryValue": null,
+      "unit": "%",
+      "measuredAt": "2026-10-05T12:00:00"
+    },
+    {
+      "id": 12,
+      "olderAdultId": 1,
+      "type": "Glucose",
+      "value": 110,
+      "secondaryValue": null,
+      "unit": "mg/dL",
+      "measuredAt": "2026-10-05T07:30:00"
+    },
+    {
+      "id": 13,
+      "olderAdultId": 2,
+      "type": "HeartRate",
+      "value": 80,
+      "secondaryValue": null,
+      "unit": "bpm",
+      "measuredAt": "2026-10-05T09:00:00"
+    },
+    {
+      "id": 14,
+      "olderAdultId": 2,
+      "type": "BloodPressure",
+      "value": 135,
+      "secondaryValue": 85,
+      "unit": "mmHg",
+      "measuredAt": "2026-10-05T09:00:00"
+    }
   ],
   "medications": [
-    { "id": 1, "olderAdultId": 1, "name": "Losartán", "dosage": "50 mg", "frequency": "Cada 24 horas", "scheduleTimes": ["12:00"], "instructions": "Tomar con el almuerzo.", "active": true },
-    { "id": 2, "olderAdultId": 1, "name": "Metformina", "dosage": "850 mg", "frequency": "Cada 12 horas", "scheduleTimes": ["08:00", "20:00"], "instructions": "Tomar después de las comidas.", "active": true },
-    { "id": 3, "olderAdultId": 2, "name": "Paracetamol", "dosage": "500 mg", "frequency": "Cada 8 horas si hay dolor", "scheduleTimes": ["09:00"], "instructions": "No exceder 3 dosis diarias.", "active": true }
+    {
+      "id": 1,
+      "olderAdultId": 1,
+      "name": "Losartán",
+      "dosage": "50 mg",
+      "frequency": "Cada 24 horas",
+      "scheduleTimes": [
+        "12:00"
+      ],
+      "instructions": "Tomar con el almuerzo.",
+      "active": true
+    },
+    {
+      "id": 2,
+      "olderAdultId": 1,
+      "name": "Metformina",
+      "dosage": "850 mg",
+      "frequency": "Cada 12 horas",
+      "scheduleTimes": [
+        "08:00",
+        "20:00"
+      ],
+      "instructions": "Tomar después de las comidas.",
+      "active": true
+    },
+    {
+      "id": 3,
+      "olderAdultId": 2,
+      "name": "Paracetamol",
+      "dosage": "500 mg",
+      "frequency": "Cada 8 horas si hay dolor",
+      "scheduleTimes": [
+        "09:00"
+      ],
+      "instructions": "No exceder 3 dosis diarias.",
+      "active": true
+    }
   ],
   "medication-administrations": [
-    { "id": 1, "medicationId": 2, "olderAdultId": 1, "scheduledTime": "08:00", "administeredAt": "2026-10-05T08:10:00", "dosageGiven": "850 mg", "status": "Administered" },
-    { "id": 2, "medicationId": 1, "olderAdultId": 1, "scheduledTime": "12:00", "administeredAt": "2026-10-05T12:05:00", "dosageGiven": "50 mg", "status": "Administered" }
+    {
+      "id": 1,
+      "medicationId": 2,
+      "olderAdultId": 1,
+      "scheduledTime": "08:00",
+      "administeredAt": "2026-10-05T08:10:00",
+      "dosageGiven": "850 mg",
+      "status": "Administered"
+    },
+    {
+      "id": 2,
+      "medicationId": 1,
+      "olderAdultId": 1,
+      "scheduledTime": "12:00",
+      "administeredAt": "2026-10-05T12:05:00",
+      "dosageGiven": "50 mg",
+      "status": "Administered"
+    }
   ],
   "medical-appointments": [
-    { "id": 1, "olderAdultId": 1, "specialty": "Cardiología", "doctorName": "Dr. Carlos Mendoza", "location": "Clínica San Felipe", "scheduledAt": "2026-10-19T10:30:00", "status": "Scheduled", "result": "", "observations": "" },
-    { "id": 2, "olderAdultId": 1, "specialty": "Endocrinología", "doctorName": "Dra. Silvia Paredes", "location": "Hospital Rebagliati", "scheduledAt": "2026-09-22T09:00:00", "status": "Completed", "result": "Glucosa controlada. Mantener tratamiento.", "observations": "Control en tres meses." },
-    { "id": 3, "olderAdultId": 2, "specialty": "Traumatología", "doctorName": "Dr. Andrés Vega", "location": "Clínica Internacional", "scheduledAt": "2026-10-12T16:00:00", "status": "Scheduled", "result": "", "observations": "" }
+    {
+      "id": 1,
+      "olderAdultId": 1,
+      "specialty": "Cardiología",
+      "doctorName": "Dr. Carlos Mendoza",
+      "location": "Clínica San Felipe",
+      "scheduledAt": "2026-10-19T10:30:00",
+      "status": "Scheduled",
+      "result": "",
+      "observations": ""
+    },
+    {
+      "id": 2,
+      "olderAdultId": 1,
+      "specialty": "Endocrinología",
+      "doctorName": "Dra. Silvia Paredes",
+      "location": "Hospital Rebagliati",
+      "scheduledAt": "2026-09-22T09:00:00",
+      "status": "Completed",
+      "result": "Glucosa controlada. Mantener tratamiento.",
+      "observations": "Control en tres meses."
+    },
+    {
+      "id": 3,
+      "olderAdultId": 2,
+      "specialty": "Traumatología",
+      "doctorName": "Dr. Andrés Vega",
+      "location": "Clínica Internacional",
+      "scheduledAt": "2026-10-12T16:00:00",
+      "status": "Scheduled",
+      "result": "",
+      "observations": ""
+    }
   ],
   "medical-exams": [
-    { "id": 1, "olderAdultId": 1, "examType": "Hemograma completo", "category": "Laboratory", "performedAt": "2026-09-15T08:00:00", "resultSummary": "Valores dentro del rango normal.", "status": "Completed" },
-    { "id": 2, "olderAdultId": 1, "examType": "Perfil lipídico", "category": "Laboratory", "performedAt": "2026-10-02T08:00:00", "resultSummary": "", "status": "PendingResult" },
-    { "id": 3, "olderAdultId": 1, "examType": "Radiografía de rodilla", "category": "MedicalImaging", "performedAt": "2026-08-04T11:00:00", "resultSummary": "Desgaste articular leve.", "status": "Completed" }
+    {
+      "id": 1,
+      "olderAdultId": 1,
+      "examType": "Hemograma completo",
+      "category": "Laboratory",
+      "performedAt": "2026-09-15T08:00:00",
+      "resultSummary": "Valores dentro del rango normal.",
+      "status": "Completed"
+    },
+    {
+      "id": 2,
+      "olderAdultId": 1,
+      "examType": "Perfil lipídico",
+      "category": "Laboratory",
+      "performedAt": "2026-10-02T08:00:00",
+      "resultSummary": "",
+      "status": "PendingResult"
+    },
+    {
+      "id": 3,
+      "olderAdultId": 1,
+      "examType": "Radiografía de rodilla",
+      "category": "MedicalImaging",
+      "performedAt": "2026-08-04T11:00:00",
+      "resultSummary": "Desgaste articular leve.",
+      "status": "Completed"
+    }
   ],
   "care-activities": [
-    { "id": 1, "olderAdultId": 1, "recordedByUserId": 1, "activityType": "Medication", "description": "Tomó Losartán 50 mg con el almuerzo. No presentó molestias.", "performedAt": "2026-10-05T12:05:00", "completed": true },
-    { "id": 2, "olderAdultId": 1, "recordedByUserId": 1, "activityType": "Observation", "description": "Se mostró animada durante la visita familiar y conversó por más de una hora.", "performedAt": "2026-10-05T18:20:00", "completed": true },
-    { "id": 3, "olderAdultId": 1, "recordedByUserId": 1, "activityType": "Feeding", "description": "Almorzó la porción completa y bebió aproximadamente 400 ml de agua.", "performedAt": "2026-10-04T13:10:00", "completed": true },
-    { "id": 4, "olderAdultId": 1, "recordedByUserId": 1, "activityType": "Symptom", "description": "Refirió dolor leve en la rodilla derecha al caminar.", "performedAt": "2026-10-04T09:00:00", "completed": true },
-    { "id": 5, "olderAdultId": 1, "recordedByUserId": 1, "activityType": "Therapy", "description": "Caminata asistida de 20 minutos en el parque.", "performedAt": "2026-10-03T17:30:00", "completed": true }
+    {
+      "id": 1,
+      "olderAdultId": 1,
+      "recordedByUserId": 1,
+      "activityType": "Medication",
+      "description": "Tomó Losartán 50 mg con el almuerzo. No presentó molestias.",
+      "performedAt": "2026-10-05T12:05:00",
+      "completed": true
+    },
+    {
+      "id": 2,
+      "olderAdultId": 1,
+      "recordedByUserId": 1,
+      "activityType": "Observation",
+      "description": "Se mostró animada durante la visita familiar y conversó por más de una hora.",
+      "performedAt": "2026-10-05T18:20:00",
+      "completed": true
+    },
+    {
+      "id": 3,
+      "olderAdultId": 1,
+      "recordedByUserId": 1,
+      "activityType": "Feeding",
+      "description": "Almorzó la porción completa y bebió aproximadamente 400 ml de agua.",
+      "performedAt": "2026-10-04T13:10:00",
+      "completed": true
+    },
+    {
+      "id": 4,
+      "olderAdultId": 1,
+      "recordedByUserId": 1,
+      "activityType": "Symptom",
+      "description": "Refirió dolor leve en la rodilla derecha al caminar.",
+      "performedAt": "2026-10-04T09:00:00",
+      "completed": true
+    },
+    {
+      "id": 5,
+      "olderAdultId": 1,
+      "recordedByUserId": 1,
+      "activityType": "Therapy",
+      "description": "Caminata asistida de 20 minutos en el parque.",
+      "performedAt": "2026-10-03T17:30:00",
+      "completed": true
+    }
   ],
   "clinical-assets": [
-    { "id": 1, "olderAdultId": 1, "fileName": "hemograma-completo.jpg", "storageUrl": "https://res.cloudinary.com/demo/image/upload/sample.jpg", "contentType": "image/jpeg", "assetType": "ExamImage", "uploadedAt": "2026-09-15T15:00:00" }
+    {
+      "id": 1,
+      "olderAdultId": 1,
+      "fileName": "hemograma-completo.jpg",
+      "storageUrl": "https://res.cloudinary.com/demo/image/upload/sample.jpg",
+      "contentType": "image/jpeg",
+      "assetType": "ExamImage",
+      "uploadedAt": "2026-09-15T15:00:00"
+    }
   ],
   "exam-evidences": [
-    { "id": 1, "examId": 1, "assetId": 1, "description": "Resultado entregado por el laboratorio." }
+    {
+      "id": 1,
+      "examId": 1,
+      "assetId": 1,
+      "description": "Resultado entregado por el laboratorio."
+    }
   ],
-  "emergency-reports": [],
+  "emergency-reports": [
+    {
+      "olderAdultId": 1,
+      "generatedByUserId": 1,
+      "generatedAt": "2026-09-30T08:10:15.728Z",
+      "fileUrl": "",
+      "status": "Generated",
+      "id": 1
+    }
+  ],
   "reminders": [
-    { "id": 1, "olderAdultId": 1, "userId": 1, "relatedRecordId": 1, "type": "Medication", "message": "Losartán 50 mg", "scheduledAt": "2026-10-06T12:00:00", "status": "Pending", "reviewedAt": null },
-    { "id": 2, "olderAdultId": 1, "userId": 1, "relatedRecordId": 5, "type": "Therapy", "message": "Caminata asistida", "scheduledAt": "2026-10-06T17:30:00", "status": "Pending", "reviewedAt": null },
-    { "id": 3, "olderAdultId": 1, "userId": 1, "relatedRecordId": 1, "type": "Appointment", "message": "Consulta de cardiología", "scheduledAt": "2026-10-18T10:30:00", "status": "Pending", "reviewedAt": null },
-    { "id": 4, "olderAdultId": 1, "userId": 1, "relatedRecordId": 2, "type": "ExamResult", "message": "Recoger resultado del perfil lipídico", "scheduledAt": "2026-10-08T09:00:00", "status": "Pending", "reviewedAt": null }
+    {
+      "id": 1,
+      "olderAdultId": 1,
+      "userId": 1,
+      "relatedRecordId": 1,
+      "type": "Medication",
+      "message": "Losartán 50 mg",
+      "scheduledAt": "2026-10-06T12:00:00",
+      "status": "Pending",
+      "reviewedAt": null
+    },
+    {
+      "id": 2,
+      "olderAdultId": 1,
+      "userId": 1,
+      "relatedRecordId": 5,
+      "type": "Therapy",
+      "message": "Caminata asistida",
+      "scheduledAt": "2026-10-06T17:30:00",
+      "status": "Pending",
+      "reviewedAt": null
+    },
+    {
+      "id": 3,
+      "olderAdultId": 1,
+      "userId": 1,
+      "relatedRecordId": 1,
+      "type": "Appointment",
+      "message": "Consulta de cardiología",
+      "scheduledAt": "2026-10-18T10:30:00",
+      "status": "Pending",
+      "reviewedAt": null
+    },
+    {
+      "id": 4,
+      "olderAdultId": 1,
+      "userId": 1,
+      "relatedRecordId": 2,
+      "type": "ExamResult",
+      "message": "Recoger resultado del perfil lipídico",
+      "scheduledAt": "2026-10-08T09:00:00",
+      "status": "Pending",
+      "reviewedAt": null
+    }
   ],
   "notifications": [
-    { "id": 1, "recipientUserId": 1, "olderAdultId": 1, "type": "AppointmentUpdate", "title": "Cita próxima", "message": "Cardiología el 19 de octubre a las 10:30.", "status": "Sent", "createdAt": "2026-10-05T08:00:00", "readAt": null },
-    { "id": 2, "recipientUserId": 1, "olderAdultId": 1, "type": "ExamUpdate", "title": "Resultado pendiente", "message": "El perfil lipídico aún no tiene resultado.", "status": "Sent", "createdAt": "2026-10-04T09:00:00", "readAt": null },
-    { "id": 3, "recipientUserId": 2, "olderAdultId": 1, "type": "HealthUpdate", "title": "Nuevo reporte diario", "message": "Andrea registró el reporte del 5 de octubre.", "status": "Sent", "createdAt": "2026-10-05T20:05:00", "readAt": null },
-    { "id": 4, "recipientUserId": 2, "olderAdultId": 1, "type": "ExamUpdate", "title": "Nuevo resultado", "message": "Se adjuntó la evidencia del hemograma completo.", "status": "Read", "createdAt": "2026-09-15T15:05:00", "readAt": "2026-09-15T19:00:00" }
+    {
+      "id": 1,
+      "recipientUserId": 1,
+      "olderAdultId": 1,
+      "type": "AppointmentUpdate",
+      "title": "Cita próxima",
+      "message": "Cardiología el 19 de octubre a las 10:30.",
+      "status": "Sent",
+      "createdAt": "2026-10-05T08:00:00",
+      "readAt": null
+    },
+    {
+      "id": 2,
+      "recipientUserId": 1,
+      "olderAdultId": 1,
+      "type": "ExamUpdate",
+      "title": "Resultado pendiente",
+      "message": "El perfil lipídico aún no tiene resultado.",
+      "status": "Sent",
+      "createdAt": "2026-10-04T09:00:00",
+      "readAt": null
+    },
+    {
+      "id": 3,
+      "recipientUserId": 2,
+      "olderAdultId": 1,
+      "type": "HealthUpdate",
+      "title": "Nuevo reporte diario",
+      "message": "Andrea registró el reporte del 5 de octubre.",
+      "status": "Sent",
+      "createdAt": "2026-10-05T20:05:00",
+      "readAt": null
+    },
+    {
+      "id": 4,
+      "recipientUserId": 2,
+      "olderAdultId": 1,
+      "type": "ExamUpdate",
+      "title": "Nuevo resultado",
+      "message": "Se adjuntó la evidencia del hemograma completo.",
+      "status": "Read",
+      "createdAt": "2026-09-15T15:05:00",
+      "readAt": "2026-09-15T19:00:00"
+    }
   ],
   "plans": [
-    { "id": 1, "name": "Freemium", "type": "Freemium", "price": 0, "billingPeriod": "Monthly", "maxOlderAdults": 1, "maxFamilyMembers": 2, "maxStorageMb": 100, "pdfExport": false, "emailReminders": false, "active": true },
-    { "id": 2, "name": "Pro", "type": "Pro", "price": 19.9, "billingPeriod": "Monthly", "maxOlderAdults": 3, "maxFamilyMembers": 5, "maxStorageMb": 2048, "pdfExport": true, "emailReminders": true, "active": true },
-    { "id": 3, "name": "Pro", "type": "Pro", "price": 199, "billingPeriod": "Annual", "maxOlderAdults": 3, "maxFamilyMembers": 5, "maxStorageMb": 2048, "pdfExport": true, "emailReminders": true, "active": true },
-    { "id": 4, "name": "Agency", "type": "Agency", "price": 59.9, "billingPeriod": "Monthly", "maxOlderAdults": 10, "maxFamilyMembers": null, "maxStorageMb": 10240, "pdfExport": true, "emailReminders": true, "active": true },
-    { "id": 5, "name": "Agency", "type": "Agency", "price": 599, "billingPeriod": "Annual", "maxOlderAdults": 10, "maxFamilyMembers": null, "maxStorageMb": 10240, "pdfExport": true, "emailReminders": true, "active": true }
+    {
+      "id": 1,
+      "name": "Freemium",
+      "type": "Freemium",
+      "price": 0,
+      "billingPeriod": "Monthly",
+      "maxOlderAdults": 1,
+      "maxFamilyMembers": 2,
+      "maxStorageMb": 100,
+      "pdfExport": false,
+      "emailReminders": false,
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Pro",
+      "type": "Pro",
+      "price": 19.9,
+      "billingPeriod": "Monthly",
+      "maxOlderAdults": 3,
+      "maxFamilyMembers": 5,
+      "maxStorageMb": 2048,
+      "pdfExport": true,
+      "emailReminders": true,
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "Pro",
+      "type": "Pro",
+      "price": 199,
+      "billingPeriod": "Annual",
+      "maxOlderAdults": 3,
+      "maxFamilyMembers": 5,
+      "maxStorageMb": 2048,
+      "pdfExport": true,
+      "emailReminders": true,
+      "active": true
+    },
+    {
+      "id": 4,
+      "name": "Agency",
+      "type": "Agency",
+      "price": 59.9,
+      "billingPeriod": "Monthly",
+      "maxOlderAdults": 10,
+      "maxFamilyMembers": null,
+      "maxStorageMb": 10240,
+      "pdfExport": true,
+      "emailReminders": true,
+      "active": true
+    },
+    {
+      "id": 5,
+      "name": "Agency",
+      "type": "Agency",
+      "price": 599,
+      "billingPeriod": "Annual",
+      "maxOlderAdults": 10,
+      "maxFamilyMembers": null,
+      "maxStorageMb": 10240,
+      "pdfExport": true,
+      "emailReminders": true,
+      "active": true
+    }
   ],
   "subscriptions": [
-    { "id": 1, "userId": 1, "planId": 2, "startDate": "2026-09-05T10:00:00", "endDate": "2026-11-05T10:00:00", "status": "Active" },
-    { "id": 2, "userId": 3, "planId": 1, "startDate": "2026-09-10T10:00:00", "endDate": null, "status": "Active" }
+    {
+      "id": 1,
+      "userId": 1,
+      "planId": 2,
+      "startDate": "2026-09-05T10:00:00",
+      "endDate": "2026-11-05T10:00:00",
+      "status": "Active"
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "planId": 1,
+      "startDate": "2026-09-10T10:00:00",
+      "endDate": null,
+      "status": "Active"
+    }
   ],
   "payments": [
-    { "id": 1, "subscriptionId": 1, "amount": 19.9, "paymentMethod": "Yape", "transactionId": "chr_test_8f2a91", "status": "Approved", "paidAt": "2026-09-05T10:02:00" },
-    { "id": 2, "subscriptionId": 1, "amount": 19.9, "paymentMethod": "CreditCard", "transactionId": "chr_test_4c7d12", "status": "Approved", "paidAt": "2026-10-05T10:01:00" }
+    {
+      "id": 1,
+      "subscriptionId": 1,
+      "amount": 19.9,
+      "paymentMethod": "Yape",
+      "transactionId": "chr_test_8f2a91",
+      "status": "Approved",
+      "paidAt": "2026-09-05T10:02:00"
+    },
+    {
+      "id": 2,
+      "subscriptionId": 1,
+      "amount": 19.9,
+      "paymentMethod": "CreditCard",
+      "transactionId": "chr_test_4c7d12",
+      "status": "Approved",
+      "paidAt": "2026-10-05T10:01:00"
+    }
   ]
 }
