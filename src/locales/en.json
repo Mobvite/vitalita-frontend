@@ -490,5 +490,105 @@
       "empty-message": "Write the detail of the reminder.",
       "past-date": "Choose a future date and time."
     }
+  },
+  "subscriptions": {
+    "plan-names": {
+      "Freemium": "Freemium",
+      "Pro": "Pro",
+      "Agency": "Agency"
+    },
+    "plans": {
+      "title": "Plans",
+      "heading": "Choose the plan that fits your work",
+      "subtitle": "Change or upgrade your plan whenever you need.",
+      "period": "Billing period",
+      "monthly": "Monthly",
+      "annual": "Annual",
+      "annual-saving": "Pay annually and get two months free.",
+      "per-Monthly": "/ month",
+      "per-Annual": "/ year",
+      "recommended": "RECOMMENDED",
+      "current": "Current plan",
+      "choose": "Choose plan",
+      "included": "Included",
+      "not-included": "Not included",
+      "does-not-fit": "You manage {count} older adults and this plan allows {max}."
+    },
+    "features": {
+      "older-adults": "Up to {count} older adults",
+      "family": "{count} family members per older adult",
+      "family-unlimited": "Unlimited family members",
+      "follow-up": "Daily follow-up, appointments and exams",
+      "emergency-screen": "Emergency summary on screen",
+      "pdf": "Emergency summary in PDF",
+      "email-reminders": "Email reminders",
+      "storage": "{size} for evidences"
+    },
+    "checkout": {
+      "title": "Checkout",
+      "heading": "Complete your subscription",
+      "culqi-hint": "The payment is processed by Culqi in test mode. Your card data never passes through Vitalita.",
+      "simulated-hint": "Demo mode: no real charge is made. Use the card 4111 1111 1111 1111 to approve or 4000 0000 0000 0002 to see a rejected payment.",
+      "method": "Payment method",
+      "card-number": "Card number",
+      "card-holder": "Name on the card",
+      "expiry": "Expiry date",
+      "phone": "Yape phone number",
+      "yape-code": "Approval code",
+      "yape-help": "Six digit code from your Yape app. Use 000000 to see a rejected payment.",
+      "pay": "Pay S/ {amount}",
+      "activate-free": "Activate free plan",
+      "summary": "Order summary",
+      "plan": "Plan",
+      "total": "Total",
+      "secure": "Secure payment. The charge is confirmed by the payment gateway.",
+      "change-plan": "Choose another plan",
+      "approved": "Payment approved",
+      "approved-detail": "Your {plan} plan is active now."
+    },
+    "mine": {
+      "title": "My subscription",
+      "subtitle": "Your plan, its validity and your payments.",
+      "change": "Change plan",
+      "valid-until": "Valid until {date}",
+      "expired-on": "Expired on {date}",
+      "days-left": "no days left | 1 day left | {count} days left",
+      "no-end": "The free plan has no end date.",
+      "expired-message": "Your subscription expired. You can still read your records, but some features are restricted until you renew.",
+      "usage": "Plan usage",
+      "older-adults-usage": "{count} of {max} older adults",
+      "payments": "Payment history",
+      "no-payments": "There are no payments yet."
+    },
+    "status": {
+      "Active": "Active",
+      "Expired": "Expired",
+      "Cancelled": "Cancelled",
+      "PastDue": "Past due",
+      "Trial": "Trial"
+    },
+    "payment-status": {
+      "Approved": "Approved",
+      "Rejected": "Rejected",
+      "Pending": "Pending",
+      "Cancelled": "Cancelled"
+    },
+    "methods": {
+      "CreditCard": "Credit card",
+      "DebitCard": "Debit card",
+      "Yape": "Yape",
+      "Plin": "Plin",
+      "BankTransfer": "Bank transfer",
+      "CashAgent": "Cash agent"
+    },
+    "validation": {
+      "card": "Enter a valid 16 digit card number.",
+      "phone": "Enter a 9 digit phone number that starts with 9."
+    },
+    "errors": {
+      "load": "We could not load your payments.",
+      "rejected": "The payment was rejected. Your current plan did not change.",
+      "gateway": "We could not connect with the payment gateway. Try again."
+    }
   }
 }

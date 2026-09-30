@@ -22,6 +22,47 @@ export class Subscription {
         this.status = status;
     }
 
+    /**
+     * Days until the end date, or null for the free plan.
+     * @returns {?number} Remaining days, never negative.
+     */
+    get remainingDays() {
+        if (!this.endDate) return null;
+        const days = Math.ceil((new Date(this.endDate) - new Date()) / (24 * 60 * 60 * 1000));
+        return Math.max(days, 0);
+    }
+
+    /** @returns {string} Effective status: Expired when the end date already passed. */
+    get effectiveStatus() {
+        return this.status === 'Active' && this.endDate && new Date(this.endDate) <= new Date() ? 'Expired' : this.status;
+    }
+
+    /** Cancels the subscription, for example when the caregiver changes plan. */
+    cancel() {
+        this.status = 'Cancelled';
+    }
+
+    /**
+     * Starts a subscription for a plan. Paid plans end after one month or one year;
+     * the free plan has no end date.
+     * @param {number} userId - Owner user.
+     * @param {import('./plan.entity.js').Plan} plan - Chosen plan.
+     * @returns {Subscription} New active subscription.
+     */
+    static start(userId, plan) {
+        const startDate = new Date();
+        let endDate = null;
+        if (plan.price > 0) {
+            endDate = new Date(startDate);
+            if (plan.billingPeriod === 'Annual') endDate.setFullYear(endDate.getFullYear() + 1);
+            else endDate.setMonth(endDate.getMonth() + 1);
+        }
+        return new Subscription({
+            userId, planId: plan.id, startDate: startDate.toISOString(),
+            endDate: endDate?.toISOString() ?? null, status: 'Active'
+        });
+    }
+
     /** @returns {boolean} True when the subscription can be used today. */
     isActive() {
         const notExpired = this.endDate === null || new Date(this.endDate) > new Date();

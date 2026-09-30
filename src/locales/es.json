@@ -490,5 +490,105 @@
       "empty-message": "Escribe el detalle del recordatorio.",
       "past-date": "Elige una fecha y hora futuras."
     }
+  },
+  "subscriptions": {
+    "plan-names": {
+      "Freemium": "Freemium",
+      "Pro": "Pro",
+      "Agency": "Agencia"
+    },
+    "plans": {
+      "title": "Planes",
+      "heading": "Elige el plan que se ajusta a tu trabajo",
+      "subtitle": "Cambia o mejora tu plan cuando lo necesites.",
+      "period": "Periodo de pago",
+      "monthly": "Mensual",
+      "annual": "Anual",
+      "annual-saving": "Paga anual y obtén dos meses gratis.",
+      "per-Monthly": "/ mes",
+      "per-Annual": "/ año",
+      "recommended": "RECOMENDADO",
+      "current": "Plan actual",
+      "choose": "Elegir plan",
+      "included": "Incluido",
+      "not-included": "No incluido",
+      "does-not-fit": "Gestionas {count} adultos mayores y este plan permite {max}."
+    },
+    "features": {
+      "older-adults": "Hasta {count} adultos mayores",
+      "family": "{count} familiares por adulto mayor",
+      "family-unlimited": "Familiares ilimitados",
+      "follow-up": "Seguimiento diario, citas y exámenes",
+      "emergency-screen": "Resumen de emergencia en pantalla",
+      "pdf": "Resumen de emergencia en PDF",
+      "email-reminders": "Recordatorios por correo",
+      "storage": "{size} para evidencias"
+    },
+    "checkout": {
+      "title": "Pago",
+      "heading": "Completa tu suscripción",
+      "culqi-hint": "El pago lo procesa Culqi en modo de prueba. Los datos de tu tarjeta nunca pasan por Vitalita.",
+      "simulated-hint": "Modo demo: no se realiza ningún cobro real. Usa la tarjeta 4111 1111 1111 1111 para aprobar o 4000 0000 0000 0002 para ver un pago rechazado.",
+      "method": "Método de pago",
+      "card-number": "Número de tarjeta",
+      "card-holder": "Nombre en la tarjeta",
+      "expiry": "Fecha de vencimiento",
+      "phone": "Celular de Yape",
+      "yape-code": "Código de aprobación",
+      "yape-help": "Código de seis dígitos de tu aplicación Yape. Usa 000000 para ver un pago rechazado.",
+      "pay": "Pagar S/ {amount}",
+      "activate-free": "Activar plan gratuito",
+      "summary": "Resumen del pedido",
+      "plan": "Plan",
+      "total": "Total",
+      "secure": "Pago seguro. El cobro lo confirma la pasarela de pagos.",
+      "change-plan": "Elegir otro plan",
+      "approved": "Pago aprobado",
+      "approved-detail": "Tu plan {plan} ya está activo."
+    },
+    "mine": {
+      "title": "Mi suscripción",
+      "subtitle": "Tu plan, su vigencia y tus pagos.",
+      "change": "Cambiar plan",
+      "valid-until": "Vigente hasta el {date}",
+      "expired-on": "Venció el {date}",
+      "days-left": "sin días restantes | 1 día restante | {count} días restantes",
+      "no-end": "El plan gratuito no tiene fecha de vencimiento.",
+      "expired-message": "Tu suscripción venció. Aún puedes consultar tus registros, pero algunas funcionalidades quedan restringidas hasta que renueves.",
+      "usage": "Uso del plan",
+      "older-adults-usage": "{count} de {max} adultos mayores",
+      "payments": "Historial de pagos",
+      "no-payments": "Aún no hay pagos."
+    },
+    "status": {
+      "Active": "Activa",
+      "Expired": "Vencida",
+      "Cancelled": "Cancelada",
+      "PastDue": "Pago pendiente",
+      "Trial": "Prueba"
+    },
+    "payment-status": {
+      "Approved": "Aprobado",
+      "Rejected": "Rechazado",
+      "Pending": "Pendiente",
+      "Cancelled": "Cancelado"
+    },
+    "methods": {
+      "CreditCard": "Tarjeta de crédito",
+      "DebitCard": "Tarjeta de débito",
+      "Yape": "Yape",
+      "Plin": "Plin",
+      "BankTransfer": "Transferencia bancaria",
+      "CashAgent": "Agente en efectivo"
+    },
+    "validation": {
+      "card": "Ingresa un número de tarjeta válido de 16 dígitos.",
+      "phone": "Ingresa un celular de 9 dígitos que empiece con 9."
+    },
+    "errors": {
+      "load": "No pudimos cargar tus pagos.",
+      "rejected": "El pago fue rechazado. Tu plan actual no cambió.",
+      "gateway": "No pudimos conectar con la pasarela de pagos. Inténtalo de nuevo."
+    }
   }
 }

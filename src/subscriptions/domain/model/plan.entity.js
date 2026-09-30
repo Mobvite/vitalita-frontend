@@ -51,6 +51,21 @@ export class Plan {
         return this.maxFamilyMembers === null || currentCount < this.maxFamilyMembers;
     }
 
+    /** @returns {boolean} True for plans that need a payment. */
+    isPaid() {
+        return this.price > 0;
+    }
+
+    /** @returns {string} Price in soles with two decimals, for example 19.90. */
+    get formattedPrice() {
+        return this.price.toFixed(2);
+    }
+
+    /** @returns {number} Price in cents, the unit that Culqi uses. */
+    get priceInCents() {
+        return Math.round(this.price * 100);
+    }
+
     /** @returns {Plan} The free plan used when a caregiver has no subscription yet. */
     static freemium() {
         return new Plan({name: 'Freemium', type: 'Freemium'});
