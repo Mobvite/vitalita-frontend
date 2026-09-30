@@ -1,8 +1,6 @@
 <div align="center">
 
-<img src="public/vitalita-logo-readme.png" alt="Vitalita logo" width="84" height="84"/>
-
-# Vitalita
+<img src="public/vitalita-logo-readme.png" alt="Vitalita logo" width="512"/>
 
 **Connected care for older adults.**
 One shared place where caregivers record the daily care and families stay informed.
