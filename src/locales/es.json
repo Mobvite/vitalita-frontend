@@ -1,0 +1,50 @@
+{
+  "language": { "label": "Seleccionar idioma" },
+  "navigation": {
+    "main": "Navegación principal", "menu": "Menú", "open-menu": "Abrir menú", "go-home": "Ir al inicio",
+    "skip-to-content": "Saltar al contenido principal",
+    "home": "Inicio", "notes": "Notas del paciente", "exams": "Exámenes y resultados", "calendar": "Calendario",
+    "family": "Familiares", "emergency": "Resumen de emergencia", "subscription": "Suscripción", "profile": "Mi perfil"
+  },
+  "footer": { "rights": "Todos los derechos reservados.", "legal": "Información legal", "terms": "Términos y condiciones", "privacy": "Política de privacidad" },
+  "home": { "title": "Bienvenido a Vitalita", "content": "Iniciaste sesión como {email}." },
+  "page-not-found": { "title": "Página no encontrada", "content": "La ruta {unavailable-route} no está disponible.", "go-home": "Ir al inicio" },
+  "iam": {
+    "sign-out": "Cerrar sesión",
+    "roles": { "caregiver": "Enfermera o cuidadora", "family-member": "Familiar" },
+    "brand": {
+      "chip": "CUIDADO CONECTADO",
+      "title": "La salud de quien más quieres, siempre acompañada.",
+      "text": "Centraliza signos de salud, notas, exámenes, citas y familiares en un solo lugar.",
+      "feature-follow-up": "Seguimiento diario del paciente",
+      "feature-family": "Información clara para toda la familia",
+      "feature-secure": "Acceso seguro según el rol"
+    },
+    "fields": {
+      "email": "Correo electrónico", "email-placeholder": "nombre@correo.com", "password": "Contraseña",
+      "confirm-password": "Confirmar contraseña", "first-name": "Nombres", "last-name": "Apellidos"
+    },
+    "validation": {
+      "required": "Este campo es obligatorio.", "email": "Ingresa un correo válido.",
+      "password-length": "Usa al menos 8 caracteres.", "password-match": "Las contraseñas no coinciden."
+    },
+    "sign-in": {
+      "chip": "BIENVENIDO", "title": "Ingresa a Vitalita", "subtitle": "Selecciona tu perfil para acceder a la información disponible.",
+      "role-label": "Tipo de perfil", "submit": "Ingresar",
+      "security-note": "Tus datos de salud están protegidos y se muestran según los permisos de tu perfil.",
+      "no-account": "¿No tienes una cuenta?", "create-account": "Crear cuenta de cuidadora",
+      "family-hint": "Los familiares acceden mediante la invitación que envía la cuidadora."
+    },
+    "sign-up": {
+      "title": "Crea tu cuenta de cuidadora", "subtitle": "Empieza a organizar el cuidado de los adultos mayores a tu cargo.",
+      "accept": "Acepto los", "submit": "Crear cuenta", "has-account": "¿Ya tienes una cuenta?",
+      "success": "Cuenta creada. Ya puedes iniciar sesión."
+    },
+    "errors": {
+      "invalid-credentials": "El correo o la contraseña no son correctos.",
+      "role-mismatch": "Esta cuenta no corresponde al perfil seleccionado.",
+      "email-in-use": "Ya existe una cuenta con este correo.",
+      "server": "No pudimos conectar con el servidor. Inténtalo en unos minutos."
+    }
+  }
+}

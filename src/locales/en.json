@@ -1,0 +1,50 @@
+{
+  "language": { "label": "Select language" },
+  "navigation": {
+    "main": "Main navigation", "menu": "Menu", "open-menu": "Open menu", "go-home": "Go to home",
+    "skip-to-content": "Skip to main content",
+    "home": "Home", "notes": "Patient notes", "exams": "Exams and results", "calendar": "Calendar",
+    "family": "Family members", "emergency": "Emergency summary", "subscription": "Subscription", "profile": "My profile"
+  },
+  "footer": { "rights": "All rights reserved.", "legal": "Legal information", "terms": "Terms and conditions", "privacy": "Privacy policy" },
+  "home": { "title": "Welcome to Vitalita", "content": "You are signed in as {email}." },
+  "page-not-found": { "title": "Page not found", "content": "The path {unavailable-route} is not available.", "go-home": "Go home" },
+  "iam": {
+    "sign-out": "Sign out",
+    "roles": { "caregiver": "Nurse or caregiver", "family-member": "Family member" },
+    "brand": {
+      "chip": "CONNECTED CARE",
+      "title": "The health of the people you love, always cared for.",
+      "text": "Keep vital signs, notes, exams, appointments and family in one place.",
+      "feature-follow-up": "Daily follow-up of the patient",
+      "feature-family": "Clear information for the whole family",
+      "feature-secure": "Secure access by role"
+    },
+    "fields": {
+      "email": "Email", "email-placeholder": "name@email.com", "password": "Password",
+      "confirm-password": "Confirm password", "first-name": "First name", "last-name": "Last name"
+    },
+    "validation": {
+      "required": "This field is required.", "email": "Enter a valid email.",
+      "password-length": "Use at least 8 characters.", "password-match": "Passwords do not match."
+    },
+    "sign-in": {
+      "chip": "WELCOME", "title": "Sign in to Vitalita", "subtitle": "Choose your profile to access the available information.",
+      "role-label": "Profile type", "submit": "Sign in",
+      "security-note": "Your health data is protected and shown according to the permissions of your profile.",
+      "no-account": "Don't have an account?", "create-account": "Create caregiver account",
+      "family-hint": "Family members get access through the invitation sent by the caregiver."
+    },
+    "sign-up": {
+      "title": "Create your caregiver account", "subtitle": "Start organizing the care of the older adults in your charge.",
+      "accept": "I accept the", "submit": "Create account", "has-account": "Already have an account?",
+      "success": "Account created. You can sign in now."
+    },
+    "errors": {
+      "invalid-credentials": "The email or password is not correct.",
+      "role-mismatch": "This account does not belong to the selected profile.",
+      "email-in-use": "There is already an account with this email.",
+      "server": "We could not connect with the server. Try again in a few minutes."
+    }
+  }
+}
