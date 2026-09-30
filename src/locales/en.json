@@ -1,17 +1,46 @@
 {
-  "language": { "label": "Select language" },
-  "navigation": {
-    "main": "Main navigation", "menu": "Menu", "open-menu": "Open menu", "go-home": "Go to home",
-    "skip-to-content": "Skip to main content",
-    "home": "Home", "notes": "Patient notes", "exams": "Exams and results", "calendar": "Calendar",
-    "family": "Family members", "emergency": "Emergency summary", "subscription": "Subscription", "profile": "My profile"
+  "language": {
+    "label": "Select language"
   },
-  "footer": { "rights": "All rights reserved.", "legal": "Legal information", "terms": "Terms and conditions", "privacy": "Privacy policy" },
-  "home": { "title": "Welcome to Vitalita", "content": "You are signed in as {email}." },
-  "page-not-found": { "title": "Page not found", "content": "The path {unavailable-route} is not available.", "go-home": "Go home" },
+  "navigation": {
+    "main": "Main navigation",
+    "menu": "Menu",
+    "open-menu": "Open menu",
+    "go-home": "Go to home",
+    "skip-to-content": "Skip to main content",
+    "home": "Home",
+    "notes": "Patient notes",
+    "exams": "Exams and results",
+    "calendar": "Calendar",
+    "family": "Family members",
+    "emergency": "Emergency summary",
+    "subscription": "Subscription",
+    "profile": "My profile",
+    "patients": "Older adults"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "legal": "Legal information",
+    "terms": "Terms and conditions",
+    "privacy": "Privacy policy"
+  },
+  "home": {
+    "title": "Welcome to Vitalita",
+    "content": "You are signed in as {email}.",
+    "register-first": "Register the first older adult to start the follow-up.",
+    "go-patients": "Go to older adults"
+  },
+  "page-not-found": {
+    "title": "Page not found",
+    "content": "The path {unavailable-route} is not available.",
+    "go-home": "Go home"
+  },
   "iam": {
     "sign-out": "Sign out",
-    "roles": { "caregiver": "Nurse or caregiver", "family-member": "Family member" },
+    "roles": {
+      "caregiver": "Nurse or caregiver",
+      "family-member": "Family member"
+    },
     "brand": {
       "chip": "CONNECTED CARE",
       "title": "The health of the people you love, always cared for.",
@@ -21,23 +50,37 @@
       "feature-secure": "Secure access by role"
     },
     "fields": {
-      "email": "Email", "email-placeholder": "name{'@'}email.com", "password": "Password",
-      "confirm-password": "Confirm password", "first-name": "First name", "last-name": "Last name"
+      "email": "Email",
+      "email-placeholder": "name@email.com",
+      "password": "Password",
+      "confirm-password": "Confirm password",
+      "first-name": "First name",
+      "last-name": "Last name"
     },
     "validation": {
-      "required": "This field is required.", "email": "Enter a valid email.",
-      "password-length": "Use at least 8 characters.", "password-match": "Passwords do not match."
+      "required": "This field is required.",
+      "email": "Enter a valid email.",
+      "password-length": "Use at least 8 characters.",
+      "password-match": "Passwords do not match."
     },
     "sign-in": {
-      "chip": "WELCOME", "title": "Sign in to Vitalita", "subtitle": "Choose your profile to access the available information.",
-      "role-label": "Profile type", "submit": "Sign in",
+      "chip": "WELCOME",
+      "title": "Sign in to Vitalita",
+      "subtitle": "Choose your profile to access the available information.",
+      "role-label": "Profile type",
+      "submit": "Sign in",
       "security-note": "Your health data is protected and shown according to the permissions of your profile.",
-      "no-account": "Don't have an account?", "create-account": "Create caregiver account",
-      "family-hint": "Family members get access through the invitation sent by the caregiver."
+      "no-account": "Don't have an account?",
+      "create-account": "Create caregiver account",
+      "family-hint": "Family members get access through the invitation sent by the caregiver.",
+      "use-invitation": "I have an invitation"
     },
     "sign-up": {
-      "title": "Create your caregiver account", "subtitle": "Start organizing the care of the older adults in your charge.",
-      "accept": "I accept the", "submit": "Create account", "has-account": "Already have an account?",
+      "title": "Create your caregiver account",
+      "subtitle": "Start organizing the care of the older adults in your charge.",
+      "accept": "I accept the",
+      "submit": "Create account",
+      "has-account": "Already have an account?",
       "success": "Account created. You can sign in now."
     },
     "errors": {
@@ -45,6 +88,124 @@
       "role-mismatch": "This account does not belong to the selected profile.",
       "email-in-use": "There is already an account with this email.",
       "server": "We could not connect with the server. Try again in a few minutes."
+    },
+    "family-sign-up": {
+      "title": "Join as a family member",
+      "subtitle": "Enter the code you received from the caregiver.",
+      "validate": "Validate",
+      "invalid-invitation": "The invitation is expired, revoked or does not exist.",
+      "valid-invitation": "Valid invitation for {email}. Complete your data to create your account."
+    }
+  },
+  "common": {
+    "add": "Add",
+    "remove-item": "Remove {item}",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "close": "Close",
+    "actions": "Actions",
+    "loading": "Loading...",
+    "no-records": "No records"
+  },
+  "profiles": {
+    "selector": {
+      "label": "Selected patient",
+      "change": "Change patient",
+      "count": "No patients | 1 active patient | {count} active patients",
+      "register-first": "Register your first patient",
+      "no-access": "You do not have access to a patient yet."
+    },
+    "older-adults": {
+      "title": "Older adults",
+      "subtitle": "{count} of {max} older adults allowed by your plan.",
+      "new": "Register older adult",
+      "empty": "You have not registered older adults yet.",
+      "age": "{age} years",
+      "active": "Active",
+      "select": "Set as active"
+    },
+    "older-adult-form": {
+      "new-title": "Register older adult",
+      "edit-title": "Edit older adult",
+      "subtitle": "Fields with * are required.",
+      "basic-data": "Basic data",
+      "health-data": "Health data",
+      "saved": "Older adult saved."
+    },
+    "fields": {
+      "birth-date": "Birth date",
+      "blood-type": "Blood type",
+      "allergies": "Allergies",
+      "allergies-placeholder": "Type an allergy and press Enter",
+      "chronic-conditions": "Chronic conditions",
+      "conditions-placeholder": "Type a condition and press Enter",
+      "observations": "Care observations",
+      "emergency-contact": "Emergency contact",
+      "contact-name": "Contact name",
+      "phone": "Phone",
+      "professional-title": "Professional title",
+      "bio": "About me",
+      "certifications": "Certifications",
+      "certifications-placeholder": "Type a certification and press Enter"
+    },
+    "validation": {
+      "document": "The DNI must have 8 digits."
+    },
+    "family": {
+      "title": "Family members",
+      "subtitle": "People who can see the follow-up of {name}.",
+      "empty": "There are no family members yet.",
+      "name": "Name",
+      "pending-name": "Invitation sent",
+      "relationship": "Relationship",
+      "status": "Status",
+      "invitation-code": "Invitation code",
+      "revoke": "Revoke access",
+      "revoke-header": "Revoke access",
+      "revoke-message": "{name} will not see the follow-up anymore. Do you want to continue?",
+      "read-only": "This list is read-only for family members."
+    },
+    "status": {
+      "Active": "Active",
+      "Pending": "Pending",
+      "Revoked": "Revoked",
+      "Expired": "Expired"
+    },
+    "relationships": {
+      "Son": "Son",
+      "Daughter": "Daughter",
+      "Spouse": "Spouse",
+      "Grandchild": "Grandchild",
+      "Sibling": "Sibling",
+      "Other": "Other"
+    },
+    "invite": {
+      "open": "Invite family member",
+      "title": "Invite a family member",
+      "description": "The family member will have read-only access to the follow-up.",
+      "submit": "Create invitation",
+      "created": "Invitation created for {email}.",
+      "code": "Invitation code",
+      "expires": "It expires on {date}.",
+      "copy-link": "Copy link",
+      "copied": "Link copied",
+      "share-whatsapp": "Share on WhatsApp",
+      "whatsapp-message": "Hi, I invite you to follow the care of your family member in Vitalita: {link}"
+    },
+    "caregiver": {
+      "title": "Professional profile",
+      "edit": "Edit my profile",
+      "no-title": "Professional title not registered",
+      "saved": "Profile updated."
+    },
+    "errors": {
+      "load": "We could not load the profiles.",
+      "save": "We could not save the changes.",
+      "plan-limit": "Your plan does not allow more older adults. Upgrade your plan to register another one.",
+      "family-limit": "Your plan does not allow more family members for this older adult.",
+      "already-invited": "This email already has an invitation.",
+      "required-data": "Complete the required fields."
     }
   }
 }
