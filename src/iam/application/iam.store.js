@@ -4,7 +4,7 @@ import {IamApi} from "../infrastructure/iam-api.js";
 import {SignInAssembler} from "../infrastructure/sign-in.assembler.js";
 import {UserAssembler} from "../infrastructure/user.assembler.js";
 import {User} from "../domain/model/user.entity.js";
-import {Email} from "../domain/model/email.js";
+import {Email} from "../../shared/domain/model/email.js";
 
 const iamApi = new IamApi();
 const SESSION_STORAGE_KEY = 'vitalita-session';

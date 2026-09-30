@@ -5,7 +5,7 @@ import {useI18n} from "vue-i18n";
 import {useToast} from "primevue";
 import useIamStore from "../../application/iam.store.js";
 import {SignUpCommand} from "../../domain/model/sign-up.command.js";
-import {Email} from "../../domain/model/email.js";
+import {Email} from "../../../shared/domain/model/email.js";
 import AuthBrandPanel from "../components/auth-brand-panel.vue";
 
 const {t} = useI18n();
