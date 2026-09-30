@@ -1,5 +1,4 @@
-import {User} from "../domain/model/user.entity.js";
-import {UserRole} from "../domain/model/user-role.js";
+import {User} from "../../../../demo/vitalita-frontend/src/iam/domain/model/user.entity.js";
 
 /**
  * Maps IAM resources into domain entities and commands into resources.
@@ -30,7 +29,7 @@ export class UserAssembler {
     }
 
     /**
-     * Builds the resource sent to create a caregiver account.
+     * Builds the resource sent to create an account.
      * @param {import('../domain/model/sign-up.command.js').SignUpCommand} command - Sign-up command.
      * @returns {Object} User resource.
      */
@@ -38,7 +37,7 @@ export class UserAssembler {
         return {
             email: command.email,
             password: command.password,
-            role: UserRole.CAREGIVER,
+            role: command.role,
             status: 'Active',
             createdAt: new Date().toISOString(),
             lastLoginAt: null

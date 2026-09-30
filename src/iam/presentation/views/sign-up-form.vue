@@ -3,15 +3,17 @@ import {computed, reactive} from "vue";
 import {useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
 import {useToast} from "primevue";
-import useIamStore from "../../application/iam.store.js";
-import {SignUpCommand} from "../../domain/model/sign-up.command.js";
-import {Email} from "../../../shared/domain/model/email.js";
+import useIamStore from "../../../../../../vitalita-frontend/src/iam/application/iam.store.js";
+import {SignUpCommand} from "../../../../../../vitalita-frontend/src/iam/domain/model/sign-up.command.js";
+import {Email} from "../../../../../../vitalita-frontend/src/shared/domain/model/email.js";
 import AuthBrandPanel from "../components/auth-brand-panel.vue";
+import useProfilesStore from "../../../../../../vitalita-frontend/src/profiles/application/profiles.store.js";
 
 const {t} = useI18n();
 const router = useRouter();
 const toast = useToast();
 const store = useIamStore();
+const profilesStore = useProfilesStore();
 const landingUrl = import.meta.env.VITE_LANDING_PAGE_URL;
 
 const form = reactive({firstName: '', lastName: '', email: '', password: '', confirmPassword: '', acceptsTerms: false, submitted: false});
@@ -28,8 +30,9 @@ const invalid = computed(() => ({
 async function performSignUp() {
   form.submitted = true;
   if (Object.values(invalid.value).some(Boolean)) return;
-  const created = await store.signUp(new SignUpCommand(form));
-  if (created) {
+  const userId = await store.signUp(new SignUpCommand(form));
+  if (userId) {
+    await profilesStore.createCaregiverProfile({userId, firstName: form.firstName.trim(), lastName: form.lastName.trim()});
     toast.add({severity: 'success', summary: t('iam.sign-up.success'), life: 4000});
     await router.push({name: 'iam-sign-in'});
   }
