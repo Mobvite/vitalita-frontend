@@ -5,12 +5,14 @@ import {useToast} from "primevue";
 import useMonitoringStore from "../../application/monitoring.store.js";
 import {DailyReport} from "../../domain/model/daily-report.entity.js";
 import {Mood} from "../../domain/model/mood.js";
+import usePlanningStore from "../../../planning/application/planning.store.js";
 
 const props = defineProps({olderAdultId: {type: Number, default: null}, userId: {type: Number, default: null}});
 const visible = defineModel('visible', {type: Boolean, default: false});
 const {t} = useI18n();
 const toast = useToast();
 const store = useMonitoringStore();
+const planningStore = usePlanningStore();
 
 const form = reactive({mood: Mood.GOOD, generalCondition: 'Stable', observations: ''});
 const moodOptions = computed(() => Object.values(Mood).map(value => ({label: t(`monitoring.moods.${value}`), value})));
@@ -19,6 +21,10 @@ const conditionOptions = computed(() => ['Stable', 'Attention', 'Critical'].map(
 async function save() {
   const report = new DailyReport({...form, olderAdultId: props.olderAdultId, recordedByUserId: props.userId});
   if (await store.addDailyReport(report)) {
+    planningStore.notifyFamilyMembers({
+      olderAdultId: props.olderAdultId, type: 'HealthUpdate', title: t('planning.messages.report-title'),
+      message: t('planning.messages.report-body', {mood: t(`monitoring.moods.${form.mood}`)})
+    });
     toast.add({severity: 'success', summary: t('monitoring.report.saved'), life: 3000});
     Object.assign(form, {mood: Mood.GOOD, generalCondition: 'Stable', observations: ''});
     visible.value = false;

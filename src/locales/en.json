@@ -16,7 +16,6 @@
     "emergency": "Emergency summary",
     "subscription": "Subscription",
     "profile": "My profile",
-    "caregiver-profile": "Caregiver profile",
     "patients": "Older adults",
     "history": "History"
   },
@@ -53,7 +52,7 @@
     },
     "fields": {
       "email": "Email",
-      "email-placeholder": "name{'@'}email.com",
+      "email-placeholder": "name@email.com",
       "password": "Password",
       "confirm-password": "Confirm password",
       "first-name": "First name",
@@ -434,6 +433,62 @@
       "dose": "Dose given",
       "appointment": "Appointment",
       "exam": "Exam"
+    }
+  },
+  "planning": {
+    "calendar": {
+      "title": "Calendar",
+      "heading": "Schedule of {name}",
+      "subtitle": "Medical appointments, therapies and care reminders.",
+      "previous": "Previous month",
+      "next": "Next month",
+      "today": "Today",
+      "events": "no events | 1 event | {count} events",
+      "no-events": "There are no activities registered for this day.",
+      "upcoming": "Upcoming events",
+      "no-upcoming": "There are no upcoming events."
+    },
+    "types": {
+      "Appointment": "Appointment",
+      "Medication": "Medication",
+      "Therapy": "Therapy",
+      "ExamResult": "Exam result",
+      "Other": "Other"
+    },
+    "reminders": {
+      "title": "Reminders",
+      "empty": "There are no pending reminders.",
+      "new": "Add reminder",
+      "detail": "Detail",
+      "when": "Date and time",
+      "saved": "Reminder scheduled.",
+      "overdue": "Overdue",
+      "mark-reviewed": "Mark as reviewed",
+      "review": "Mark {name} as reviewed"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "open": "Notifications, {count} unread",
+      "unread": "No new notifications | 1 new | {count} new",
+      "read-all": "Mark all as read",
+      "empty": "You have no notifications.",
+      "new": "New"
+    },
+    "messages": {
+      "report-title": "New daily report",
+      "report-body": "The caregiver registered today's report. Mood: {mood}.",
+      "exam-title": "New exam result",
+      "exam-body": "The result of {name} is available.",
+      "appointment-title": "New appointment",
+      "appointment-body": "An appointment of {name} was scheduled.",
+      "outcome-title": "Appointment outcome",
+      "outcome-body": "The caregiver registered the outcome of {name}."
+    },
+    "errors": {
+      "load": "We could not load the reminders.",
+      "save": "We could not save the reminder.",
+      "empty-message": "Write the detail of the reminder.",
+      "past-date": "Choose a future date and time."
     }
   }
 }
