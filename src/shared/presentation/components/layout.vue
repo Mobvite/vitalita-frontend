@@ -3,6 +3,7 @@ import {ref} from "vue";
 import SideNavigation from "./side-navigation.vue";
 import HeaderContent from "./header-content.vue";
 import FooterContent from "./footer-content.vue";
+import PatientSelector from "src/profiles/presentation/components/patient-selector.vue";
 
 const drawer = ref(false);
 </script>
@@ -11,10 +12,14 @@ const drawer = ref(false);
   <a href="#main-content" class="skip-link">{{ $t('navigation.skip-to-content') }}</a>
   <div class="app-shell">
     <aside class="app-sidebar hidden lg:block">
-      <side-navigation/>
+      <side-navigation>
+        <template #context><patient-selector/></template>
+      </side-navigation>
     </aside>
     <pv-drawer id="mobile-navigation" v-model:visible="drawer" :header="$t('navigation.menu')">
-      <side-navigation @navigate="drawer = false"/>
+      <side-navigation @navigate="drawer = false">
+        <template #context><patient-selector/></template>
+      </side-navigation>
     </pv-drawer>
     <div class="app-content">
       <header-content @toggle-menu="drawer = !drawer"/>
