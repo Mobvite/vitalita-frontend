@@ -496,6 +496,15 @@
       "contentType": "image/jpeg",
       "assetType": "ExamImage",
       "uploadedAt": "2026-09-15T15:00:00"
+    },
+    {
+      "olderAdultId": 1,
+      "fileName": "perfil-lipidico-evidence.webp",
+      "storageUrl": "https://res.cloudinary.com/g195urb0/image/upload/v1790805236/vitalita/evidences/ups4ji2wxdjqmv9fxuu6.webp",
+      "contentType": "image/webp",
+      "assetType": "ExamImage",
+      "uploadedAt": "2026-09-30T21:53:57.064Z",
+      "id": 2
     }
   ],
   "exam-evidences": [
@@ -504,6 +513,12 @@
       "examId": 1,
       "assetId": 1,
       "description": "Resultado entregado por el laboratorio."
+    },
+    {
+      "examId": 2,
+      "assetId": 2,
+      "description": "",
+      "id": 2
     }
   ],
   "emergency-reports": [
@@ -514,6 +529,22 @@
       "fileUrl": "",
       "status": "Generated",
       "id": 1
+    },
+    {
+      "olderAdultId": 2,
+      "generatedByUserId": 1,
+      "generatedAt": "2026-09-30T22:22:45.908Z",
+      "fileUrl": "",
+      "status": "Generated",
+      "id": 2
+    },
+    {
+      "olderAdultId": 2,
+      "generatedByUserId": 1,
+      "generatedAt": "2026-09-30T22:23:00.591Z",
+      "fileUrl": "",
+      "status": "Generated",
+      "id": 3
     }
   ],
   "reminders": [
@@ -560,6 +591,28 @@
       "scheduledAt": "2026-10-08T09:00:00",
       "status": "Pending",
       "reviewedAt": null
+    },
+    {
+      "olderAdultId": 2,
+      "userId": 1,
+      "relatedRecordId": 3,
+      "type": "Appointment",
+      "message": "Traumatología",
+      "scheduledAt": "2026-10-11T21:00:00.000Z",
+      "status": "Pending",
+      "reviewedAt": null,
+      "id": 5
+    },
+    {
+      "olderAdultId": 2,
+      "userId": 1,
+      "relatedRecordId": 3,
+      "type": "Appointment",
+      "message": "Traumatología",
+      "scheduledAt": "2026-10-11T21:00:00.000Z",
+      "status": "Pending",
+      "reviewedAt": null,
+      "id": 6
     }
   ],
   "notifications": [
