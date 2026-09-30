@@ -20,7 +20,7 @@ const items = [
   {label: 'navigation.family', icon: 'pi pi-users', route: 'profiles-family-members'},
   {label: 'navigation.emergency', icon: 'pi pi-exclamation-circle', route: 'asset-management-emergency-summary'},
   {label: 'navigation.subscription', icon: 'pi pi-credit-card', route: 'subscriptions-my-subscription'},
-  {label: 'navigation.profile', icon: 'pi pi-id-card', route: 'profiles-caregiver-profile'}
+  {label: 'navigation.profile', familyLabel: 'navigation.caregiver-profile', icon: 'pi pi-id-card', route: 'profiles-caregiver-profile'}
 ];
 
 // Some items open a different page depending on the role, like Home.
@@ -29,7 +29,11 @@ const routeFor = (item) => {
   return roleRoute && router.hasRoute(roleRoute) ? roleRoute : item.route;
 };
 
-const visibleItems = computed(() => items.map(item => ({...item, route: routeFor(item)})).filter(item => {
+const visibleItems = computed(() => items.map(item => ({
+  ...item,
+  label: !iamStore.isCaregiver && item.familyLabel ? item.familyLabel : item.label,
+  route: routeFor(item)
+})).filter(item => {
   if (!router.hasRoute(item.route)) return false;
   const roles = router.resolve({name: item.route}).meta['roles'] ?? [];
   return roles.length === 0 || roles.includes(iamStore.currentRole);

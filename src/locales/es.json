@@ -16,6 +16,7 @@
     "emergency": "Resumen de emergencia",
     "subscription": "Suscripción",
     "profile": "Mi perfil",
+    "caregiver-profile": "Perfil de la cuidadora",
     "patients": "Adultos mayores",
     "history": "Historial"
   },
@@ -52,7 +53,7 @@
     },
     "fields": {
       "email": "Correo electrónico",
-      "email-placeholder": "nombre@correo.com",
+      "email-placeholder": "nombre{'@'}correo.com",
       "password": "Contraseña",
       "confirm-password": "Confirmar contraseña",
       "first-name": "Nombres",

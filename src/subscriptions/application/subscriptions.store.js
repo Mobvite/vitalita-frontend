@@ -74,9 +74,14 @@ const useSubscriptionsStore = defineStore('subscriptions', () => {
         return currentPlan.value.allowsAnotherFamilyMember(currentCount);
     }
 
+    /** Plan Entitlement Contract: can the current plan export an emergency PDF? */
+    function canExportPdf() {
+        return currentPlan.value.pdfExport;
+    }
+
     return {
         plans, currentSubscription, currentPlan, plansLoaded, subscriptionLoaded, errors,
-        fetchPlans, fetchCurrentSubscription, canManageAnotherOlderAdult, canInviteAnotherFamilyMember
+        fetchPlans, fetchCurrentSubscription, canManageAnotherOlderAdult, canInviteAnotherFamilyMember, canExportPdf
     };
 });
 
