@@ -5,7 +5,7 @@ import {useConfirm} from "primevue";
 import useIamStore from "../../../iam/application/iam.store.js";
 import useProfilesStore from "../../../../../../vitalita-frontend/src/profiles/application/profiles.store.js";
 import useCareContextStore from "../../../../../../vitalita-frontend/src/shared/application/care-context.store.js";
-import InviteFamilyDialog from "../components/invite-family-dialog.vue";
+import InviteFamilyDialog from "../../../../../../vitalita-frontend/src/profiles/presentation/components/invite-family-dialog.vue";
 
 const {t} = useI18n();
 const confirm = useConfirm();
