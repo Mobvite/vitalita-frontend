@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
 import iamRoutes from "./iam/presentation/iam-routes.js";
+import profilesRoutes from "src/profiles/presentation/profiles-routes.js";
 import {authenticationGuard} from "./iam/infrastructure/authentication.guard.js";
 import i18n from "./i18n.js";
 
@@ -17,6 +18,7 @@ const pageNotFound = () => import('./shared/presentation/views/page-not-found.vu
 const routes = [
     { path: '/home',             name: 'home',      component: home,         meta: { title: 'navigation.home' } },
     { path: '/iam',              name: 'iam',       children: iamRoutes },
+    { path: '/profiles',         name: 'profiles',  children: profilesRoutes },
     { path: '/',                 redirect: '/home' },
     { path: '/:pathMatch(.*)*',  name: 'not-found', component: pageNotFound, meta: { title: 'page-not-found.title', public: true } }
 ];

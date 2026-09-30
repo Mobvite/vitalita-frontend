@@ -12,6 +12,7 @@ const iamStore = useIamStore();
 // New bounded contexts appear in the menu as soon as their routes are added.
 const items = [
   {label: 'navigation.home', icon: 'pi pi-home', route: 'home'},
+  {label: 'navigation.patients', icon: 'pi pi-heart', route: 'profiles-older-adults'},
   {label: 'navigation.notes', icon: 'pi pi-file-edit', route: 'monitoring-notes'},
   {label: 'navigation.exams', icon: 'pi pi-folder-open', route: 'monitoring-exams'},
   {label: 'navigation.calendar', icon: 'pi pi-calendar', route: 'planning-calendar'},
