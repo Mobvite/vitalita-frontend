@@ -4,6 +4,7 @@ import {useI18n} from "vue-i18n";
 import {useToast} from "primevue";
 import useMonitoringStore from "../../application/monitoring.store.js";
 import {MedicalExam} from "../../domain/model/medical-exam.entity.js";
+import usePlanningStore from "../../../planning/application/planning.store.js";
 
 const props = defineProps({
   olderAdultId: {type: Number, default: null},
@@ -13,6 +14,7 @@ const visible = defineModel('visible', {type: Boolean, default: false});
 const {t} = useI18n();
 const toast = useToast();
 const store = useMonitoringStore();
+const planningStore = usePlanningStore();
 
 const isResultMode = computed(() => props.exam !== null);
 const form = reactive({examType: '', category: 'Laboratory', performedAt: new Date(), resultSummary: ''});
@@ -36,6 +38,13 @@ async function save() {
     }));
   }
   if (saved) {
+    const examName = props.exam?.examType ?? form.examType;
+    if (isResultMode.value || form.resultSummary.trim()) {
+      planningStore.notifyFamilyMembers({
+        olderAdultId: props.exam?.olderAdultId ?? props.olderAdultId, type: 'ExamUpdate',
+        title: t('planning.messages.exam-title'), message: t('planning.messages.exam-body', {name: examName})
+      });
+    }
     toast.add({severity: 'success', summary: t('monitoring.records.exam-saved'), life: 3000});
     visible.value = false;
   }

@@ -4,6 +4,7 @@ import profilesRoutes from "./profiles/presentation/profiles-routes.js";
 import monitoringRoutes from "./monitoring/presentation/monitoring-routes.js";
 import assetManagementRoutes from "./asset-management/presentation/asset-management-routes.js";
 import dashboardRoutes from "./dashboard/presentation/dashboard-routes.js";
+import planningRoutes from "./planning/presentation/planning-routes.js";
 import useIamStore from "./iam/application/iam.store.js";
 import {authenticationGuard} from "./iam/infrastructure/authentication.guard.js";
 import i18n from "./i18n.js";
@@ -36,6 +37,7 @@ const routes = [
     { path: '/monitoring',       name: 'monitoring', children: monitoringRoutes },
     { path: '/asset-management', name: 'asset-management', children: assetManagementRoutes },
     { path: '/dashboard',        name: 'dashboard', children: dashboardRoutes },
+    { path: '/planning',         name: 'planning',  children: planningRoutes },
     { path: '/',                 redirect: '/home' },
     { path: '/:pathMatch(.*)*',  name: 'not-found', component: pageNotFound, meta: { title: 'page-not-found.title', public: true } }
 ];

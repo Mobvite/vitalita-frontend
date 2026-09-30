@@ -16,7 +16,6 @@
     "emergency": "Resumen de emergencia",
     "subscription": "Suscripción",
     "profile": "Mi perfil",
-    "caregiver-profile": "Perfil de la cuidadora",
     "patients": "Adultos mayores",
     "history": "Historial"
   },
@@ -53,7 +52,7 @@
     },
     "fields": {
       "email": "Correo electrónico",
-      "email-placeholder": "nombre{'@'}correo.com",
+      "email-placeholder": "nombre@correo.com",
       "password": "Contraseña",
       "confirm-password": "Confirmar contraseña",
       "first-name": "Nombres",
@@ -434,6 +433,62 @@
       "dose": "Dosis administrada",
       "appointment": "Cita",
       "exam": "Examen"
+    }
+  },
+  "planning": {
+    "calendar": {
+      "title": "Calendario",
+      "heading": "Agenda de {name}",
+      "subtitle": "Citas médicas, terapias y recordatorios de cuidado.",
+      "previous": "Mes anterior",
+      "next": "Mes siguiente",
+      "today": "Hoy",
+      "events": "sin actividades | 1 actividad | {count} actividades",
+      "no-events": "No existen actividades registradas para este día.",
+      "upcoming": "Próximos eventos",
+      "no-upcoming": "No hay eventos próximos."
+    },
+    "types": {
+      "Appointment": "Cita",
+      "Medication": "Medicación",
+      "Therapy": "Terapia",
+      "ExamResult": "Resultado de examen",
+      "Other": "Otro"
+    },
+    "reminders": {
+      "title": "Recordatorios",
+      "empty": "No hay recordatorios pendientes.",
+      "new": "Agregar recordatorio",
+      "detail": "Detalle",
+      "when": "Fecha y hora",
+      "saved": "Recordatorio programado.",
+      "overdue": "Vencido",
+      "mark-reviewed": "Marcar como revisado",
+      "review": "Marcar {name} como revisado"
+    },
+    "notifications": {
+      "title": "Notificaciones",
+      "open": "Notificaciones, {count} sin leer",
+      "unread": "Sin notificaciones nuevas | 1 nueva | {count} nuevas",
+      "read-all": "Marcar todas como leídas",
+      "empty": "No tienes notificaciones.",
+      "new": "Nueva"
+    },
+    "messages": {
+      "report-title": "Nuevo reporte diario",
+      "report-body": "La cuidadora registró el reporte de hoy. Estado de ánimo: {mood}.",
+      "exam-title": "Nuevo resultado de examen",
+      "exam-body": "El resultado de {name} ya está disponible.",
+      "appointment-title": "Nueva cita",
+      "appointment-body": "Se programó una cita de {name}.",
+      "outcome-title": "Resultado de cita",
+      "outcome-body": "La cuidadora registró el resultado de {name}."
+    },
+    "errors": {
+      "load": "No pudimos cargar los recordatorios.",
+      "save": "No pudimos guardar el recordatorio.",
+      "empty-message": "Escribe el detalle del recordatorio.",
+      "past-date": "Elige una fecha y hora futuras."
     }
   }
 }

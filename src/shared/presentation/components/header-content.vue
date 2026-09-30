@@ -2,6 +2,7 @@
 import {computed} from "vue";
 import {useRoute} from "vue-router";
 import LanguageSwitcher from "./language-switcher.vue";
+import NotificationBell from "../../../planning/presentation/components/notification-bell.vue";
 
 defineEmits(['toggle-menu']);
 const route = useRoute();
@@ -15,7 +16,10 @@ const titleKey = computed(() => route.meta['title'] ?? 'navigation.home');
                  aria-controls="mobile-navigation" @click="$emit('toggle-menu')"/>
       <h1 class="text-xl font-semibold">{{ $t(titleKey) }}</h1>
     </div>
-    <language-switcher/>
+    <div class="flex align-items-center gap-2">
+      <notification-bell/>
+      <language-switcher/>
+    </div>
   </header>
 </template>
 
