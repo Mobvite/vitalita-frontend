@@ -1,6 +1,6 @@
-import {ClinicalAsset} from "../model/clinical-asset.entity.js"
-import {ExamEvidence} from "../model/exam-evidence.entity.js";
-import {EmergencyReport} from "../model/emergency-report.entity.js";
+import {ClinicalAsset} from "../domain/model/clinical-asset.entity.js"
+import {ExamEvidence} from "../domain/model/exam-evidence.entity.js";
+import {EmergencyReport} from "../domain/model/emergency-report.entity.js";
 
 /**
  * Builds entities from an HTTP response with a collection.

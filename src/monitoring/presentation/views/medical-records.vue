@@ -5,10 +5,22 @@ import {useMonitoringData} from "../../../shared/presentation/composables/use-mo
 import {useDateFormat} from "../../../shared/presentation/composables/use-date-format.js";
 import ExamDialog from "../components/exam-dialog.vue";
 import AppointmentDialog from "../components/appointment-dialog.vue";
+import EvidenceDialog from "../../../asset-management/presentation/components/evidence-dialog.vue";
+import useAssetManagementStore from "../../../asset-management/application/asset-management.store.js";
 
 const {t} = useI18n();
 const {iamStore, profilesStore, monitoringStore} = useMonitoringData();
 const {formatDate, formatDateTime} = useDateFormat();
+const assetStore = useAssetManagementStore();
+const evidenceDialog = ref(false);
+const evidenceExam = ref(null);
+
+// Evidences belong to Resource and Asset Management; they are loaded when the exams change
+watch(() => monitoringStore.exams.map(exam => exam.id).join(','), () => {
+  assetStore.fetchEvidences(monitoringStore.olderAdultId, monitoringStore.exams.map(exam => exam.id));
+}, {immediate: true});
+
+function openEvidences(exam) { evidenceExam.value = exam; evidenceDialog.value = true; }
 
 const section = ref('exams');
 const search = ref('');
@@ -99,6 +111,13 @@ function openAppointmentOutcome(appointment) { selectedAppointment.value = appoi
           <pv-column :header="$t('profiles.family.status')">
             <template #body="{data}"><pv-tag :severity="examSeverity[data.status]" :value="$t(`monitoring.exam-status.${data.status}`)"/></template>
           </pv-column>
+          <pv-column :header="$t('asset-management.evidence.column')">
+            <template #body="{data}">
+              <pv-button icon="pi pi-images" text rounded :badge="String(assetStore.getEvidencesForExam(data.id).length)"
+                         badge-severity="secondary" :aria-label="$t('asset-management.evidence.open-for', {name: data.examType, count: assetStore.getEvidencesForExam(data.id).length})"
+                         v-tooltip.top="$t('asset-management.evidence.column')" @click="openEvidences(data)"/>
+            </template>
+          </pv-column>
           <pv-column v-if="iamStore.isCaregiver" :header="$t('common.actions')">
             <template #body="{data}">
               <pv-button v-if="data.isPending()" icon="pi pi-file-check" text rounded
@@ -143,6 +162,8 @@ function openAppointmentOutcome(appointment) { selectedAppointment.value = appoi
     </div>
 
     <exam-dialog v-model:visible="examDialog" :older-adult-id="profilesStore.selectedOlderAdult?.id ?? null" :exam="selectedExam"/>
+    <evidence-dialog v-model:visible="evidenceDialog" :exam="evidenceExam" :older-adult-id="profilesStore.selectedOlderAdult?.id ?? null"
+                     :read-only="!iamStore.isCaregiver"/>
     <appointment-dialog v-model:visible="appointmentDialog" :older-adult-id="profilesStore.selectedOlderAdult?.id ?? null"
                         :appointment="selectedAppointment"/>
   </section>
