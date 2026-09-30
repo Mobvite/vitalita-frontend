@@ -323,7 +323,22 @@ const useProfilesStore = defineStore('profiles', () => {
         }
     }
 
+    /**
+     * Returns the IAM users of the family members with active access.
+     * Other contexts use it to know who can receive a notification.
+     * @param {number} olderAdultId - Older adult identifier.
+     * @returns {Promise<number[]>} User identifiers.
+     */
+    async function getActiveFamilyUserIds(olderAdultId) {
+        const accesses = ProfilesAssembler.toFamilyAccessesFromResponse(await profilesApi.getFamilyAccessesByOlderAdultId(olderAdultId));
+        const profileIds = accesses.filter(access => access.isActive()).map(access => access.familyMemberId);
+        if (profileIds.length === 0) return [];
+        const profiles = ProfilesAssembler.toFamilyMemberProfilesFromResponse(await profilesApi.getFamilyMemberProfilesByIds(profileIds));
+        return profiles.map(profile => profile.userId);
+    }
+
     return {
+        getActiveFamilyUserIds,
         olderAdults, caregiverProfile, familyMemberProfile, familyAccesses, familyMemberProfiles, responsibleCaregiver,
         errors, isLoading, olderAdultsLoaded, selectedOlderAdult, olderAdultsCount,
         initialize, addOlderAdult, updateOlderAdult, getOlderAdultById,
