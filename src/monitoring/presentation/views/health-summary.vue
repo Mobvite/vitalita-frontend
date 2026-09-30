@@ -6,6 +6,7 @@ import VitalSignCard from "../components/vital-sign-card.vue";
 import HeartRateTrend from "../components/heart-rate-trend.vue";
 import VitalSignsDialog from "../components/vital-signs-dialog.vue";
 import MedicationSchedule from "../components/medication-schedule.vue";
+import UpcomingReminders from "../../../planning/presentation/components/upcoming-reminders.vue";
 
 const {iamStore, profilesStore, monitoringStore} = useMonitoringData();
 const {formatDate, formatTime, formatDateTime} = useDateFormat();
@@ -114,8 +115,9 @@ const today = computed(() => formatDate(new Date(), {weekday: 'long', day: 'nume
         </article>
       </div>
 
-      <div class="col-12 xl:col-4">
+      <div class="col-12 xl:col-4 flex flex-column gap-3">
         <medication-schedule :older-adult-id="patient?.id ?? null" :read-only="!iamStore.isCaregiver"/>
+        <upcoming-reminders :older-adult-id="patient?.id ?? null"/>
       </div>
     </div>
 
