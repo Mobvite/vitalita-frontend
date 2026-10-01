@@ -1,11 +1,28 @@
 import {createRouter, createWebHistory} from "vue-router";
-import iamRoutes from "../../../../../Downloads/vitalita-frontend/src/iam/presentation/iam-routes.js";
-import {authenticationGuard} from "../../../../../Downloads/vitalita-frontend/src/iam/infrastructure/authentication.guard.js";
+import iamRoutes from "./iam/presentation/iam-routes.js";
+import profilesRoutes from "./profiles/presentation/profiles-routes.js";
+import monitoringRoutes from "./monitoring/presentation/monitoring-routes.js";
+import assetManagementRoutes from "./asset-management/presentation/asset-management-routes.js";
+import dashboardRoutes from "./dashboard/presentation/dashboard-routes.js";
+import planningRoutes from "./planning/presentation/planning-routes.js";
+import subscriptionsRoutes from "./subscriptions/presentation/subscriptions-routes.js";
+import useIamStore from "./iam/application/iam.store.js";
+import {authenticationGuard} from "./iam/infrastructure/authentication.guard.js";
 import i18n from "./i18n.js";
 
 // Lazy-loaded views of the shared context
-const home = () => import('../../../../../Downloads/vitalita-frontend/src/shared/presentation/views/home.vue');
-const pageNotFound = () => import('../../../../../Downloads/vitalita-frontend/src/shared/presentation/views/page-not-found.vue');
+const home = () => import('./shared/presentation/views/home.vue');
+const pageNotFound = () => import('./shared/presentation/views/page-not-found.vue');
+
+/**
+ * Sends each role to its own home page: the caregiver to the health summary
+ * and the family member to the family dashboard.
+ * @returns {{name: string}} Route to open.
+ */
+function redirectToRoleHome() {
+    const iamStore = useIamStore();
+    return iamStore.isCaregiver ? {name: 'monitoring-summary'} : {name: 'dashboard-home'};
+}
 
 /**
  * Route meta fields used in Vitalita:
@@ -15,8 +32,14 @@ const pageNotFound = () => import('../../../../../Downloads/vitalita-frontend/sr
  * - roles: list of roles that can open the page. Empty means any signed-in user.
  */
 const routes = [
-    { path: '/home',             name: 'home',      component: home,         meta: { title: 'navigation.home' } },
+    { path: '/home',             name: 'home',      component: home,         meta: { title: 'navigation.home' }, beforeEnter: redirectToRoleHome },
     { path: '/iam',              name: 'iam',       children: iamRoutes },
+    { path: '/profiles',         name: 'profiles',  children: profilesRoutes },
+    { path: '/monitoring',       name: 'monitoring', children: monitoringRoutes },
+    { path: '/asset-management', name: 'asset-management', children: assetManagementRoutes },
+    { path: '/dashboard',        name: 'dashboard', children: dashboardRoutes },
+    { path: '/planning',         name: 'planning',  children: planningRoutes },
+    { path: '/subscriptions',    name: 'subscriptions', children: subscriptionsRoutes },
     { path: '/',                 redirect: '/home' },
     { path: '/:pathMatch(.*)*',  name: 'not-found', component: pageNotFound, meta: { title: 'page-not-found.title', public: true } }
 ];

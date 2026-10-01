@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "server": "json-server --watch ../../../../Downloads/vitalita-frontend/server/db.json --routes server/routes.json --port 3000"
+    "server": "json-server --watch server/db.json --routes server/routes.json --port 3000"
   },
   "keywords": [
     "vue",
@@ -25,6 +25,7 @@
   "dependencies": {
     "@primeuix/themes": "^3.0.1",
     "axios": "^1.20.0",
+    "jspdf": "^4.2.1",
     "pinia": "^4.0.3",
     "primeflex": "^4.0.0",
     "primeicons": "^8.0.2",

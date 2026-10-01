@@ -4,7 +4,7 @@ import {IamApi} from "../infrastructure/iam-api.js";
 import {SignInAssembler} from "../infrastructure/sign-in.assembler.js";
 import {UserAssembler} from "../infrastructure/user.assembler.js";
 import {User} from "../domain/model/user.entity.js";
-import {Email} from "../domain/model/email.js";
+import {Email} from "../../shared/domain/model/email.js";
 
 const iamApi = new IamApi();
 const SESSION_STORAGE_KEY = 'vitalita-session';
@@ -78,9 +78,9 @@ const useIamStore = defineStore('iam', () => {
     }
 
     /**
-     * Registers a caregiver account. Duplicated emails are rejected (US05).
+     * Registers an account. Duplicated emails are rejected (US05, US31).
      * @param {import('../domain/model/sign-up.command.js').SignUpCommand} signUpCommand - Sign-up command.
-     * @returns {Promise<boolean>} True when the account was created.
+     * @returns {Promise<number|null>} Identifier of the new user, or null when it failed.
      */
     async function signUp(signUpCommand) {
         errors.value = [];
@@ -90,14 +90,14 @@ const useIamStore = defineStore('iam', () => {
             const existing = await iamApi.findUsersByEmail(email);
             if (existing.data.length > 0) {
                 errors.value.push('iam.errors.email-in-use');
-                return false;
+                return null;
             }
-            await iamApi.createUser(UserAssembler.toResourceFromSignUpCommand({...signUpCommand, email}));
-            return true;
+            const response = await iamApi.createUser(UserAssembler.toResourceFromSignUpCommand({...signUpCommand, email}));
+            return response.data.id;
         } catch (error) {
             console.error(error);
             errors.value.push('iam.errors.server');
-            return false;
+            return null;
         } finally {
             isLoading.value = false;
         }

@@ -1,4 +1,4 @@
-import useIamStore from "../../../../../../../Downloads/vitalita-frontend/src/iam/application/iam.store.js";
+import useIamStore from "../application/iam.store.js";
 
 /**
  * Adds the bearer token to every request when a user is signed in.

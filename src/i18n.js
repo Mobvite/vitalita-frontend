@@ -1,6 +1,6 @@
 import {createI18n} from "vue-i18n";
-import en from "../../../../../Downloads/vitalita-frontend/src/locales/en.json";
-import es from "../../../../../Downloads/vitalita-frontend/src/locales/es.json";
+import en from "./locales/en.json";
+import es from "./locales/es.json";
 
 const LOCALE_STORAGE_KEY = 'vitalita-locale';
 

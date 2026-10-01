@@ -1,17 +1,48 @@
 {
-  "language": { "label": "Seleccionar idioma" },
-  "navigation": {
-    "main": "Navegación principal", "menu": "Menú", "open-menu": "Abrir menú", "go-home": "Ir al inicio",
-    "skip-to-content": "Saltar al contenido principal",
-    "home": "Inicio", "notes": "Notas del paciente", "exams": "Exámenes y resultados", "calendar": "Calendario",
-    "family": "Familiares", "emergency": "Resumen de emergencia", "subscription": "Suscripción", "profile": "Mi perfil"
+  "language": {
+    "label": "Seleccionar idioma"
   },
-  "footer": { "rights": "Todos los derechos reservados.", "legal": "Información legal", "terms": "Términos y condiciones", "privacy": "Política de privacidad" },
-  "home": { "title": "Bienvenido a Vitalita", "content": "Iniciaste sesión como {email}." },
-  "page-not-found": { "title": "Página no encontrada", "content": "La ruta {unavailable-route} no está disponible.", "go-home": "Ir al inicio" },
+  "navigation": {
+    "main": "Navegación principal",
+    "menu": "Menú",
+    "open-menu": "Abrir menú",
+    "go-home": "Ir al inicio",
+    "skip-to-content": "Saltar al contenido principal",
+    "home": "Inicio",
+    "notes": "Notas del paciente",
+    "exams": "Exámenes y resultados",
+    "calendar": "Calendario",
+    "family": "Familiares",
+    "emergency": "Resumen de emergencia",
+    "subscription": "Suscripción",
+    "profile": "Mi perfil",
+    "caregiver-profile": "Perfil de la cuidadora",
+    "patients": "Adultos mayores",
+    "history": "Historial"
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados.",
+    "legal": "Información legal",
+    "terms": "Términos y condiciones",
+    "privacy": "Política de privacidad"
+  },
+  "home": {
+    "title": "Bienvenido a Vitalita",
+    "content": "Iniciaste sesión como {email}.",
+    "register-first": "Registra al primer adulto mayor para empezar el seguimiento.",
+    "go-patients": "Ir a adultos mayores"
+  },
+  "page-not-found": {
+    "title": "Página no encontrada",
+    "content": "La ruta {unavailable-route} no está disponible.",
+    "go-home": "Ir al inicio"
+  },
   "iam": {
     "sign-out": "Cerrar sesión",
-    "roles": { "caregiver": "Enfermera o cuidadora", "family-member": "Familiar" },
+    "roles": {
+      "caregiver": "Enfermera o cuidadora",
+      "family-member": "Familiar"
+    },
     "brand": {
       "chip": "CUIDADO CONECTADO",
       "title": "La salud de quien más quieres, siempre acompañada.",
@@ -21,23 +52,37 @@
       "feature-secure": "Acceso seguro según el rol"
     },
     "fields": {
-      "email": "Correo electrónico", "email-placeholder": "nombre@correo.com", "password": "Contraseña",
-      "confirm-password": "Confirmar contraseña", "first-name": "Nombres", "last-name": "Apellidos"
+      "email": "Correo electrónico",
+      "email-placeholder": "nombre{'@'}correo.com",
+      "password": "Contraseña",
+      "confirm-password": "Confirmar contraseña",
+      "first-name": "Nombres",
+      "last-name": "Apellidos"
     },
     "validation": {
-      "required": "Este campo es obligatorio.", "email": "Ingresa un correo válido.",
-      "password-length": "Usa al menos 8 caracteres.", "password-match": "Las contraseñas no coinciden."
+      "required": "Este campo es obligatorio.",
+      "email": "Ingresa un correo válido.",
+      "password-length": "Usa al menos 8 caracteres.",
+      "password-match": "Las contraseñas no coinciden."
     },
     "sign-in": {
-      "chip": "BIENVENIDO", "title": "Ingresa a Vitalita", "subtitle": "Selecciona tu perfil para acceder a la información disponible.",
-      "role-label": "Tipo de perfil", "submit": "Ingresar",
+      "chip": "BIENVENIDO",
+      "title": "Ingresa a Vitalita",
+      "subtitle": "Selecciona tu perfil para acceder a la información disponible.",
+      "role-label": "Tipo de perfil",
+      "submit": "Ingresar",
       "security-note": "Tus datos de salud están protegidos y se muestran según los permisos de tu perfil.",
-      "no-account": "¿No tienes una cuenta?", "create-account": "Crear cuenta de cuidadora",
-      "family-hint": "Los familiares acceden mediante la invitación que envía la cuidadora."
+      "no-account": "¿No tienes una cuenta?",
+      "create-account": "Crear cuenta de cuidadora",
+      "family-hint": "Los familiares acceden mediante la invitación que envía la cuidadora.",
+      "use-invitation": "Tengo una invitación"
     },
     "sign-up": {
-      "title": "Crea tu cuenta de cuidadora", "subtitle": "Empieza a organizar el cuidado de los adultos mayores a tu cargo.",
-      "accept": "Acepto los", "submit": "Crear cuenta", "has-account": "¿Ya tienes una cuenta?",
+      "title": "Crea tu cuenta de cuidadora",
+      "subtitle": "Empieza a organizar el cuidado de los adultos mayores a tu cargo.",
+      "accept": "Acepto los",
+      "submit": "Crear cuenta",
+      "has-account": "¿Ya tienes una cuenta?",
       "success": "Cuenta creada. Ya puedes iniciar sesión."
     },
     "errors": {
@@ -45,6 +90,506 @@
       "role-mismatch": "Esta cuenta no corresponde al perfil seleccionado.",
       "email-in-use": "Ya existe una cuenta con este correo.",
       "server": "No pudimos conectar con el servidor. Inténtalo en unos minutos."
+    },
+    "family-sign-up": {
+      "title": "Únete como familiar",
+      "subtitle": "Ingresa el código que recibiste de la cuidadora.",
+      "validate": "Validar",
+      "invalid-invitation": "La invitación venció, fue revocada o no existe.",
+      "valid-invitation": "Invitación válida para {email}. Completa tus datos para crear tu cuenta."
+    }
+  },
+  "common": {
+    "add": "Agregar",
+    "remove-item": "Quitar {item}",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "actions": "Acciones",
+    "loading": "Cargando...",
+    "no-records": "Sin registros"
+  },
+  "profiles": {
+    "selector": {
+      "label": "Paciente seleccionado",
+      "change": "Cambiar paciente",
+      "count": "Sin pacientes | 1 paciente activo | {count} pacientes activos",
+      "register-first": "Registra a tu primer paciente",
+      "no-access": "Aún no tienes acceso a un paciente."
+    },
+    "older-adults": {
+      "title": "Adultos mayores",
+      "subtitle": "{count} de {max} adultos mayores permitidos por tu plan.",
+      "new": "Registrar adulto mayor",
+      "empty": "Aún no registras adultos mayores.",
+      "age": "{age} años",
+      "active": "Activo",
+      "select": "Marcar como activo"
+    },
+    "older-adult-form": {
+      "new-title": "Registrar adulto mayor",
+      "edit-title": "Editar adulto mayor",
+      "subtitle": "Los campos con * son obligatorios.",
+      "basic-data": "Datos básicos",
+      "health-data": "Datos de salud",
+      "saved": "Adulto mayor guardado."
+    },
+    "fields": {
+      "birth-date": "Fecha de nacimiento",
+      "blood-type": "Grupo sanguíneo",
+      "allergies": "Alergias",
+      "allergies-placeholder": "Escribe una alergia y presiona Enter",
+      "chronic-conditions": "Enfermedades crónicas",
+      "conditions-placeholder": "Escribe una condición y presiona Enter",
+      "observations": "Observaciones de cuidado",
+      "emergency-contact": "Contacto de emergencia",
+      "contact-name": "Nombre del contacto",
+      "phone": "Teléfono",
+      "professional-title": "Título profesional",
+      "bio": "Sobre mí",
+      "certifications": "Certificaciones",
+      "certifications-placeholder": "Escribe una certificación y presiona Enter"
+    },
+    "validation": {
+      "document": "El DNI debe tener 8 dígitos."
+    },
+    "family": {
+      "title": "Familiares",
+      "subtitle": "Personas que pueden consultar el seguimiento de {name}.",
+      "empty": "Aún no hay familiares.",
+      "name": "Nombre",
+      "pending-name": "Invitación enviada",
+      "relationship": "Parentesco",
+      "status": "Estado",
+      "invitation-code": "Código de invitación",
+      "revoke": "Revocar acceso",
+      "revoke-header": "Revocar acceso",
+      "revoke-message": "{name} ya no podrá consultar el seguimiento. ¿Deseas continuar?",
+      "read-only": "Esta lista es de solo lectura para los familiares."
+    },
+    "status": {
+      "Active": "Activo",
+      "Pending": "Pendiente",
+      "Revoked": "Revocado",
+      "Expired": "Vencido"
+    },
+    "relationships": {
+      "Son": "Hijo",
+      "Daughter": "Hija",
+      "Spouse": "Cónyuge",
+      "Grandchild": "Nieto(a)",
+      "Sibling": "Hermano(a)",
+      "Other": "Otro"
+    },
+    "invite": {
+      "open": "Invitar familiar",
+      "title": "Invitar a un familiar",
+      "description": "El familiar tendrá acceso de solo lectura al seguimiento.",
+      "submit": "Crear invitación",
+      "created": "Invitación creada para {email}.",
+      "code": "Código de invitación",
+      "expires": "Vence el {date}.",
+      "copy-link": "Copiar enlace",
+      "copied": "Enlace copiado",
+      "share-whatsapp": "Compartir por WhatsApp",
+      "whatsapp-message": "Hola, te invito a seguir el cuidado de tu familiar en Vitalita: {link}"
+    },
+    "caregiver": {
+      "title": "Perfil profesional",
+      "edit": "Editar mi perfil",
+      "no-title": "Título profesional no registrado",
+      "saved": "Perfil actualizado."
+    },
+    "errors": {
+      "load": "No pudimos cargar los perfiles.",
+      "save": "No pudimos guardar los cambios.",
+      "plan-limit": "Tu plan no permite más adultos mayores. Mejora tu plan para registrar otro.",
+      "family-limit": "Tu plan no permite más familiares para este adulto mayor.",
+      "already-invited": "Este correo ya tiene una invitación.",
+      "required-data": "Completa los campos obligatorios."
+    }
+  },
+  "monitoring": {
+    "summary": {
+      "title": "Resumen de salud",
+      "good-morning": "Buenos días, {name}",
+      "good-afternoon": "Buenas tardes, {name}",
+      "good-evening": "Buenas noches, {name}",
+      "subtitle": "Este es el estado actual de tu paciente seleccionado.",
+      "measured-at": "Medido a las {time}",
+      "last-report": "Último reporte: {date}",
+      "trend": "Tendencia del ritmo cardíaco",
+      "trend-subtitle": "Últimas 8 mediciones",
+      "no-trend": "No hay suficientes mediciones para mostrar la tendencia.",
+      "recent-activity": "Actividad reciente",
+      "see-notes": "Ver todas las notas",
+      "next-appointment": "Próxima cita médica",
+      "no-appointment": "No hay citas próximas."
+    },
+    "vital-types": {
+      "HeartRate": "Ritmo cardíaco",
+      "BloodPressure": "Presión arterial",
+      "OxygenSaturation": "Saturación de oxígeno",
+      "Temperature": "Temperatura",
+      "Glucose": "Glucosa"
+    },
+    "vitals": {
+      "title": "Registrar signos vitales",
+      "hint": "Completa solo los valores que mediste.",
+      "systolic": "Sistólica (mmHg)",
+      "diastolic": "Diastólica (mmHg)",
+      "saved": "Signos vitales guardados."
+    },
+    "moods": {
+      "VeryGood": "Muy bien",
+      "Good": "Bien",
+      "Neutral": "Neutral",
+      "Bad": "Mal",
+      "VeryBad": "Muy mal"
+    },
+    "conditions": {
+      "Stable": "Estable",
+      "Attention": "Requiere atención",
+      "Critical": "Crítico"
+    },
+    "report": {
+      "title": "Registrar reporte diario",
+      "mood": "Estado de ánimo",
+      "condition": "Estado general",
+      "saved": "Reporte diario guardado."
+    },
+    "activity-types": {
+      "Observation": "Observación",
+      "Medication": "Medicación",
+      "Feeding": "Alimentación",
+      "Symptom": "Síntomas",
+      "Therapy": "Terapia"
+    },
+    "notes": {
+      "title": "Notas del paciente",
+      "heading": "Notas y seguimiento diario",
+      "subtitle": "Registra observaciones, medicación y acontecimientos relevantes.",
+      "new": "Nueva nota",
+      "placeholder": "Escribe lo que sucedió, qué tomó o cómo se sintió el paciente...",
+      "save": "Guardar nota",
+      "saved": "Nota guardada.",
+      "all": "Todas",
+      "filter": "Filtrar notas por categoría",
+      "history": "Historial reciente",
+      "pages": "Páginas de notas",
+      "today-summary": "Resumen de hoy",
+      "notes-today": "Notas registradas",
+      "medications": "Medicación administrada",
+      "tip-title": "Una buena nota es clara y breve",
+      "tip-text": "Incluye la hora, el hecho observado y cualquier acción realizada."
+    },
+    "medication": {
+      "today": "Medicación de hoy",
+      "add": "Agregar medicamento",
+      "empty": "No hay medicamentos activos.",
+      "given": "Administrado",
+      "register-dose": "Registrar dosis",
+      "register-dose-for": "Registrar dosis de {name} a las {time}",
+      "dose-saved": "Dosis de {name} registrada.",
+      "name": "Nombre",
+      "dosage": "Dosis",
+      "frequency": "Frecuencia",
+      "times": "Horario",
+      "times-help": "Horas en formato de 24 horas separadas por comas.",
+      "instructions": "Indicaciones"
+    },
+    "records": {
+      "title": "Exámenes y resultados",
+      "heading": "Registros clínicos",
+      "subtitle": "Exámenes y citas médicas de {name}.",
+      "section": "Tipo de registro",
+      "exams": "Exámenes",
+      "appointments": "Citas",
+      "new-exam": "Registrar examen",
+      "new-appointment": "Registrar cita",
+      "register-result": "Registrar resultado",
+      "register-result-for": "Registrar resultado de {name}",
+      "register-outcome": "Registrar resultado de la cita",
+      "register-outcome-for": "Registrar resultado de {name}",
+      "exam-type": "Examen",
+      "category": "Categoría",
+      "date": "Fecha",
+      "result": "Resultado",
+      "result-help": "Déjalo vacío si el resultado aún está pendiente.",
+      "no-result": "Resultado pendiente",
+      "indications": "Indicaciones",
+      "specialty": "Especialidad",
+      "doctor": "Médico",
+      "location": "Lugar",
+      "search": "Buscar por nombre o resultado",
+      "all-types": "Todos los tipos",
+      "exam-saved": "Examen guardado.",
+      "appointment-saved": "Cita guardada.",
+      "stats": {
+        "total": "Exámenes registrados",
+        "recent": "Resultados en los últimos 30 días",
+        "pending": "Resultados pendientes"
+      }
+    },
+    "exam-categories": {
+      "Laboratory": "Laboratorio",
+      "MedicalImaging": "Imágenes médicas",
+      "Report": "Informe"
+    },
+    "exam-status": {
+      "Requested": "Solicitado",
+      "PendingResult": "Resultado pendiente",
+      "Completed": "Completado"
+    },
+    "appointment-status": {
+      "Scheduled": "Programada",
+      "Completed": "Realizada",
+      "Cancelled": "Cancelada"
+    },
+    "errors": {
+      "load": "No pudimos cargar el seguimiento.",
+      "save": "No pudimos guardar el registro.",
+      "incomplete-report": "Elige un estado de ánimo y escribe las observaciones.",
+      "invalid-vital-sign": "Uno de los valores está fuera del rango válido. Revísalo e inténtalo de nuevo.",
+      "invalid-note": "Escribe al menos una descripción breve.",
+      "invalid-medication": "Completa nombre, dosis y horario en formato HH:mm.",
+      "duplicated-dose": "Esta dosis ya fue registrada hoy.",
+      "invalid-appointment": "Completa la especialidad y la fecha.",
+      "invalid-exam": "Escribe el nombre del examen."
+    }
+  },
+  "asset-management": {
+    "evidence": {
+      "title": "Evidencias de {name}",
+      "column": "Evidencias",
+      "open": "Abrir {name}",
+      "open-for": "Evidencias de {name}: {count}",
+      "empty": "Este examen aún no tiene evidencias.",
+      "description": "Descripción (opcional)",
+      "drop": "Arrastra un archivo aquí o haz clic para elegirlo",
+      "formats": "JPG, PNG, WEBP o PDF. Máximo 5 MB.",
+      "saved": "Evidencia guardada."
+    },
+    "emergency": {
+      "title": "Resumen de emergencia",
+      "subtitle": "Información clínica clave para compartir con una clínica u hospital.",
+      "export": "Exportar PDF",
+      "exported": "El PDF se descargó.",
+      "generated-at": "Generado el",
+      "patient": "Paciente",
+      "age": "Edad",
+      "medications": "Medicación vigente",
+      "vital-signs": "Últimos signos vitales",
+      "recent-exams": "Exámenes recientes",
+      "caregiver": "Cuidadora responsable",
+      "call": "Llamar a {name}",
+      "disclaimer": "Resumen generado por Vitalita con los registros de la cuidadora. No reemplaza una evaluación médica."
+    },
+    "errors": {
+      "load": "No pudimos cargar las evidencias.",
+      "file-type": "Solo se permiten archivos JPG, PNG, WEBP y PDF.",
+      "file-size": "El archivo supera los 5 MB.",
+      "upload": "No pudimos subir el archivo. Inténtalo de nuevo.",
+      "local-size": "Sin Cloudinary configurado, los archivos deben pesar menos de 1 MB.",
+      "plan-pdf": "Tu plan muestra el resumen en pantalla. La exportación a PDF está incluida en los planes Pro y Agencia.",
+      "pdf": "No pudimos generar el PDF."
+    }
+  },
+  "dashboard": {
+    "home": {
+      "title": "Inicio",
+      "greeting": "Hola, {name}",
+      "subtitle": "Así se encuentra tu familiar hoy.",
+      "last-update": "Actualizado {date}",
+      "latest": "Últimos registros",
+      "see-history": "Ver historial completo",
+      "at-a-glance": "De un vistazo",
+      "doses-today": "Dosis administradas hoy",
+      "pending-appointments": "Citas próximas",
+      "emergency-hint": "Abre la información para compartir en una clínica."
+    },
+    "history": {
+      "title": "Historial del paciente",
+      "subtitle": "Todos los registros del seguimiento en un solo lugar.",
+      "filters": "Filtros del historial",
+      "keyword": "Palabra clave",
+      "keyword-placeholder": "Medicamento, examen, síntoma...",
+      "range": "Rango de fechas",
+      "clear": "Limpiar filtros",
+      "types": "Tipos de registro",
+      "count": "Sin registros | 1 registro | {count} registros",
+      "empty": "Ningún registro coincide con los filtros."
+    },
+    "types": {
+      "DailyReport": "Reportes diarios",
+      "VitalSign": "Signos vitales",
+      "Medication": "Medicación",
+      "Appointment": "Citas",
+      "Exam": "Exámenes",
+      "CareActivity": "Notas"
+    },
+    "entries": {
+      "daily-report": "Reporte diario",
+      "dose": "Dosis administrada",
+      "appointment": "Cita",
+      "exam": "Examen"
+    }
+  },
+  "planning": {
+    "calendar": {
+      "title": "Calendario",
+      "heading": "Agenda de {name}",
+      "subtitle": "Citas médicas, terapias y recordatorios de cuidado.",
+      "previous": "Mes anterior",
+      "next": "Mes siguiente",
+      "today": "Hoy",
+      "events": "sin actividades | 1 actividad | {count} actividades",
+      "no-events": "No existen actividades registradas para este día.",
+      "upcoming": "Próximos eventos",
+      "no-upcoming": "No hay eventos próximos."
+    },
+    "types": {
+      "Appointment": "Cita",
+      "Medication": "Medicación",
+      "Therapy": "Terapia",
+      "ExamResult": "Resultado de examen",
+      "Other": "Otro"
+    },
+    "reminders": {
+      "title": "Recordatorios",
+      "empty": "No hay recordatorios pendientes.",
+      "new": "Agregar recordatorio",
+      "detail": "Detalle",
+      "when": "Fecha y hora",
+      "saved": "Recordatorio programado.",
+      "overdue": "Vencido",
+      "mark-reviewed": "Marcar como revisado",
+      "review": "Marcar {name} como revisado"
+    },
+    "notifications": {
+      "title": "Notificaciones",
+      "open": "Notificaciones, {count} sin leer",
+      "unread": "Sin notificaciones nuevas | 1 nueva | {count} nuevas",
+      "read-all": "Marcar todas como leídas",
+      "empty": "No tienes notificaciones.",
+      "new": "Nueva"
+    },
+    "messages": {
+      "report-title": "Nuevo reporte diario",
+      "report-body": "La cuidadora registró el reporte de hoy. Estado de ánimo: {mood}.",
+      "exam-title": "Nuevo resultado de examen",
+      "exam-body": "El resultado de {name} ya está disponible.",
+      "appointment-title": "Nueva cita",
+      "appointment-body": "Se programó una cita de {name}.",
+      "outcome-title": "Resultado de cita",
+      "outcome-body": "La cuidadora registró el resultado de {name}."
+    },
+    "errors": {
+      "load": "No pudimos cargar los recordatorios.",
+      "save": "No pudimos guardar el recordatorio.",
+      "empty-message": "Escribe el detalle del recordatorio.",
+      "past-date": "Elige una fecha y hora futuras."
+    }
+  },
+  "subscriptions": {
+    "plan-names": {
+      "Freemium": "Freemium",
+      "Pro": "Pro",
+      "Agency": "Agencia"
+    },
+    "plans": {
+      "title": "Planes",
+      "heading": "Elige el plan que se ajusta a tu trabajo",
+      "subtitle": "Cambia o mejora tu plan cuando lo necesites.",
+      "period": "Periodo de pago",
+      "monthly": "Mensual",
+      "annual": "Anual",
+      "annual-saving": "Paga anual y obtén dos meses gratis.",
+      "per-Monthly": "/ mes",
+      "per-Annual": "/ año",
+      "recommended": "RECOMENDADO",
+      "current": "Plan actual",
+      "choose": "Elegir plan",
+      "included": "Incluido",
+      "not-included": "No incluido",
+      "does-not-fit": "Gestionas {count} adultos mayores y este plan permite {max}."
+    },
+    "features": {
+      "older-adults": "Hasta {count} adultos mayores",
+      "family": "{count} familiares por adulto mayor",
+      "family-unlimited": "Familiares ilimitados",
+      "follow-up": "Seguimiento diario, citas y exámenes",
+      "emergency-screen": "Resumen de emergencia en pantalla",
+      "pdf": "Resumen de emergencia en PDF",
+      "email-reminders": "Recordatorios por correo",
+      "storage": "{size} para evidencias"
+    },
+    "checkout": {
+      "title": "Pago",
+      "heading": "Completa tu suscripción",
+      "culqi-hint": "El pago lo procesa Culqi en modo de prueba. Los datos de tu tarjeta nunca pasan por Vitalita.",
+      "simulated-hint": "Modo demo: no se realiza ningún cobro real. Usa la tarjeta 4111 1111 1111 1111 para aprobar o 4000 0000 0000 0002 para ver un pago rechazado.",
+      "method": "Método de pago",
+      "card-number": "Número de tarjeta",
+      "card-holder": "Nombre en la tarjeta",
+      "expiry": "Fecha de vencimiento",
+      "phone": "Celular de Yape",
+      "yape-code": "Código de aprobación",
+      "yape-help": "Código de seis dígitos de tu aplicación Yape. Usa 000000 para ver un pago rechazado.",
+      "pay": "Pagar S/ {amount}",
+      "activate-free": "Activar plan gratuito",
+      "summary": "Resumen del pedido",
+      "plan": "Plan",
+      "total": "Total",
+      "secure": "Pago seguro. El cobro lo confirma la pasarela de pagos.",
+      "change-plan": "Elegir otro plan",
+      "approved": "Pago aprobado",
+      "approved-detail": "Tu plan {plan} ya está activo."
+    },
+    "mine": {
+      "title": "Mi suscripción",
+      "subtitle": "Tu plan, su vigencia y tus pagos.",
+      "change": "Cambiar plan",
+      "valid-until": "Vigente hasta el {date}",
+      "expired-on": "Venció el {date}",
+      "days-left": "sin días restantes | 1 día restante | {count} días restantes",
+      "no-end": "El plan gratuito no tiene fecha de vencimiento.",
+      "expired-message": "Tu suscripción venció. Aún puedes consultar tus registros, pero algunas funcionalidades quedan restringidas hasta que renueves.",
+      "usage": "Uso del plan",
+      "older-adults-usage": "{count} de {max} adultos mayores",
+      "payments": "Historial de pagos",
+      "no-payments": "Aún no hay pagos."
+    },
+    "status": {
+      "Active": "Activa",
+      "Expired": "Vencida",
+      "Cancelled": "Cancelada",
+      "PastDue": "Pago pendiente",
+      "Trial": "Prueba"
+    },
+    "payment-status": {
+      "Approved": "Aprobado",
+      "Rejected": "Rechazado",
+      "Pending": "Pendiente",
+      "Cancelled": "Cancelado"
+    },
+    "methods": {
+      "CreditCard": "Tarjeta de crédito",
+      "DebitCard": "Tarjeta de débito",
+      "Yape": "Yape",
+      "Plin": "Plin",
+      "BankTransfer": "Transferencia bancaria",
+      "CashAgent": "Agente en efectivo"
+    },
+    "validation": {
+      "card": "Ingresa un número de tarjeta válido de 16 dígitos.",
+      "phone": "Ingresa un celular de 9 dígitos que empiece con 9."
+    },
+    "errors": {
+      "load": "No pudimos cargar tus pagos.",
+      "rejected": "El pago fue rechazado. Tu plan actual no cambió.",
+      "gateway": "No pudimos conectar con la pasarela de pagos. Inténtalo de nuevo."
     }
   }
 }

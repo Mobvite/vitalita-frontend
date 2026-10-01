@@ -1,17 +1,48 @@
 {
-  "language": { "label": "Select language" },
-  "navigation": {
-    "main": "Main navigation", "menu": "Menu", "open-menu": "Open menu", "go-home": "Go to home",
-    "skip-to-content": "Skip to main content",
-    "home": "Home", "notes": "Patient notes", "exams": "Exams and results", "calendar": "Calendar",
-    "family": "Family members", "emergency": "Emergency summary", "subscription": "Subscription", "profile": "My profile"
+  "language": {
+    "label": "Select language"
   },
-  "footer": { "rights": "All rights reserved.", "legal": "Legal information", "terms": "Terms and conditions", "privacy": "Privacy policy" },
-  "home": { "title": "Welcome to Vitalita", "content": "You are signed in as {email}." },
-  "page-not-found": { "title": "Page not found", "content": "The path {unavailable-route} is not available.", "go-home": "Go home" },
+  "navigation": {
+    "main": "Main navigation",
+    "menu": "Menu",
+    "open-menu": "Open menu",
+    "go-home": "Go to home",
+    "skip-to-content": "Skip to main content",
+    "home": "Home",
+    "notes": "Patient notes",
+    "exams": "Exams and results",
+    "calendar": "Calendar",
+    "family": "Family members",
+    "emergency": "Emergency summary",
+    "subscription": "Subscription",
+    "profile": "My profile",
+    "caregiver-profile": "Caregiver profile",
+    "patients": "Older adults",
+    "history": "History"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "legal": "Legal information",
+    "terms": "Terms and conditions",
+    "privacy": "Privacy policy"
+  },
+  "home": {
+    "title": "Welcome to Vitalita",
+    "content": "You are signed in as {email}.",
+    "register-first": "Register the first older adult to start the follow-up.",
+    "go-patients": "Go to older adults"
+  },
+  "page-not-found": {
+    "title": "Page not found",
+    "content": "The path {unavailable-route} is not available.",
+    "go-home": "Go home"
+  },
   "iam": {
     "sign-out": "Sign out",
-    "roles": { "caregiver": "Nurse or caregiver", "family-member": "Family member" },
+    "roles": {
+      "caregiver": "Nurse or caregiver",
+      "family-member": "Family member"
+    },
     "brand": {
       "chip": "CONNECTED CARE",
       "title": "The health of the people you love, always cared for.",
@@ -21,23 +52,37 @@
       "feature-secure": "Secure access by role"
     },
     "fields": {
-      "email": "Email", "email-placeholder": "name@email.com", "password": "Password",
-      "confirm-password": "Confirm password", "first-name": "First name", "last-name": "Last name"
+      "email": "Email",
+      "email-placeholder": "name{'@'}email.com",
+      "password": "Password",
+      "confirm-password": "Confirm password",
+      "first-name": "First name",
+      "last-name": "Last name"
     },
     "validation": {
-      "required": "This field is required.", "email": "Enter a valid email.",
-      "password-length": "Use at least 8 characters.", "password-match": "Passwords do not match."
+      "required": "This field is required.",
+      "email": "Enter a valid email.",
+      "password-length": "Use at least 8 characters.",
+      "password-match": "Passwords do not match."
     },
     "sign-in": {
-      "chip": "WELCOME", "title": "Sign in to Vitalita", "subtitle": "Choose your profile to access the available information.",
-      "role-label": "Profile type", "submit": "Sign in",
+      "chip": "WELCOME",
+      "title": "Sign in to Vitalita",
+      "subtitle": "Choose your profile to access the available information.",
+      "role-label": "Profile type",
+      "submit": "Sign in",
       "security-note": "Your health data is protected and shown according to the permissions of your profile.",
-      "no-account": "Don't have an account?", "create-account": "Create caregiver account",
-      "family-hint": "Family members get access through the invitation sent by the caregiver."
+      "no-account": "Don't have an account?",
+      "create-account": "Create caregiver account",
+      "family-hint": "Family members get access through the invitation sent by the caregiver.",
+      "use-invitation": "I have an invitation"
     },
     "sign-up": {
-      "title": "Create your caregiver account", "subtitle": "Start organizing the care of the older adults in your charge.",
-      "accept": "I accept the", "submit": "Create account", "has-account": "Already have an account?",
+      "title": "Create your caregiver account",
+      "subtitle": "Start organizing the care of the older adults in your charge.",
+      "accept": "I accept the",
+      "submit": "Create account",
+      "has-account": "Already have an account?",
       "success": "Account created. You can sign in now."
     },
     "errors": {
@@ -45,6 +90,506 @@
       "role-mismatch": "This account does not belong to the selected profile.",
       "email-in-use": "There is already an account with this email.",
       "server": "We could not connect with the server. Try again in a few minutes."
+    },
+    "family-sign-up": {
+      "title": "Join as a family member",
+      "subtitle": "Enter the code you received from the caregiver.",
+      "validate": "Validate",
+      "invalid-invitation": "The invitation is expired, revoked or does not exist.",
+      "valid-invitation": "Valid invitation for {email}. Complete your data to create your account."
+    }
+  },
+  "common": {
+    "add": "Add",
+    "remove-item": "Remove {item}",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "close": "Close",
+    "actions": "Actions",
+    "loading": "Loading...",
+    "no-records": "No records"
+  },
+  "profiles": {
+    "selector": {
+      "label": "Selected patient",
+      "change": "Change patient",
+      "count": "No patients | 1 active patient | {count} active patients",
+      "register-first": "Register your first patient",
+      "no-access": "You do not have access to a patient yet."
+    },
+    "older-adults": {
+      "title": "Older adults",
+      "subtitle": "{count} of {max} older adults allowed by your plan.",
+      "new": "Register older adult",
+      "empty": "You have not registered older adults yet.",
+      "age": "{age} years",
+      "active": "Active",
+      "select": "Set as active"
+    },
+    "older-adult-form": {
+      "new-title": "Register older adult",
+      "edit-title": "Edit older adult",
+      "subtitle": "Fields with * are required.",
+      "basic-data": "Basic data",
+      "health-data": "Health data",
+      "saved": "Older adult saved."
+    },
+    "fields": {
+      "birth-date": "Birth date",
+      "blood-type": "Blood type",
+      "allergies": "Allergies",
+      "allergies-placeholder": "Type an allergy and press Enter",
+      "chronic-conditions": "Chronic conditions",
+      "conditions-placeholder": "Type a condition and press Enter",
+      "observations": "Care observations",
+      "emergency-contact": "Emergency contact",
+      "contact-name": "Contact name",
+      "phone": "Phone",
+      "professional-title": "Professional title",
+      "bio": "About me",
+      "certifications": "Certifications",
+      "certifications-placeholder": "Type a certification and press Enter"
+    },
+    "validation": {
+      "document": "The DNI must have 8 digits."
+    },
+    "family": {
+      "title": "Family members",
+      "subtitle": "People who can see the follow-up of {name}.",
+      "empty": "There are no family members yet.",
+      "name": "Name",
+      "pending-name": "Invitation sent",
+      "relationship": "Relationship",
+      "status": "Status",
+      "invitation-code": "Invitation code",
+      "revoke": "Revoke access",
+      "revoke-header": "Revoke access",
+      "revoke-message": "{name} will not see the follow-up anymore. Do you want to continue?",
+      "read-only": "This list is read-only for family members."
+    },
+    "status": {
+      "Active": "Active",
+      "Pending": "Pending",
+      "Revoked": "Revoked",
+      "Expired": "Expired"
+    },
+    "relationships": {
+      "Son": "Son",
+      "Daughter": "Daughter",
+      "Spouse": "Spouse",
+      "Grandchild": "Grandchild",
+      "Sibling": "Sibling",
+      "Other": "Other"
+    },
+    "invite": {
+      "open": "Invite family member",
+      "title": "Invite a family member",
+      "description": "The family member will have read-only access to the follow-up.",
+      "submit": "Create invitation",
+      "created": "Invitation created for {email}.",
+      "code": "Invitation code",
+      "expires": "It expires on {date}.",
+      "copy-link": "Copy link",
+      "copied": "Link copied",
+      "share-whatsapp": "Share on WhatsApp",
+      "whatsapp-message": "Hi, I invite you to follow the care of your family member in Vitalita: {link}"
+    },
+    "caregiver": {
+      "title": "Professional profile",
+      "edit": "Edit my profile",
+      "no-title": "Professional title not registered",
+      "saved": "Profile updated."
+    },
+    "errors": {
+      "load": "We could not load the profiles.",
+      "save": "We could not save the changes.",
+      "plan-limit": "Your plan does not allow more older adults. Upgrade your plan to register another one.",
+      "family-limit": "Your plan does not allow more family members for this older adult.",
+      "already-invited": "This email already has an invitation.",
+      "required-data": "Complete the required fields."
+    }
+  },
+  "monitoring": {
+    "summary": {
+      "title": "Health summary",
+      "good-morning": "Good morning, {name}",
+      "good-afternoon": "Good afternoon, {name}",
+      "good-evening": "Good evening, {name}",
+      "subtitle": "This is the current status of your selected patient.",
+      "measured-at": "Measured at {time}",
+      "last-report": "Last report: {date}",
+      "trend": "Heart rate trend",
+      "trend-subtitle": "Last 8 measurements",
+      "no-trend": "There are not enough measurements to show the trend.",
+      "recent-activity": "Recent activity",
+      "see-notes": "See all notes",
+      "next-appointment": "Next medical appointment",
+      "no-appointment": "There are no upcoming appointments."
+    },
+    "vital-types": {
+      "HeartRate": "Heart rate",
+      "BloodPressure": "Blood pressure",
+      "OxygenSaturation": "Oxygen saturation",
+      "Temperature": "Temperature",
+      "Glucose": "Glucose"
+    },
+    "vitals": {
+      "title": "Register vital signs",
+      "hint": "Fill only the values you measured.",
+      "systolic": "Systolic (mmHg)",
+      "diastolic": "Diastolic (mmHg)",
+      "saved": "Vital signs saved."
+    },
+    "moods": {
+      "VeryGood": "Very good",
+      "Good": "Good",
+      "Neutral": "Neutral",
+      "Bad": "Bad",
+      "VeryBad": "Very bad"
+    },
+    "conditions": {
+      "Stable": "Stable",
+      "Attention": "Needs attention",
+      "Critical": "Critical"
+    },
+    "report": {
+      "title": "Register daily report",
+      "mood": "Mood",
+      "condition": "General condition",
+      "saved": "Daily report saved."
+    },
+    "activity-types": {
+      "Observation": "Observation",
+      "Medication": "Medication",
+      "Feeding": "Feeding",
+      "Symptom": "Symptoms",
+      "Therapy": "Therapy"
+    },
+    "notes": {
+      "title": "Patient notes",
+      "heading": "Notes and daily follow-up",
+      "subtitle": "Record observations, medication and relevant events.",
+      "new": "New note",
+      "placeholder": "Write what happened, what the patient took or how the patient felt...",
+      "save": "Save note",
+      "saved": "Note saved.",
+      "all": "All",
+      "filter": "Filter notes by category",
+      "history": "Recent history",
+      "pages": "Notes pages",
+      "today-summary": "Today's summary",
+      "notes-today": "Notes registered",
+      "medications": "Medications given",
+      "tip-title": "A good note is clear and short",
+      "tip-text": "Include the time, the observed fact and any action taken."
+    },
+    "medication": {
+      "today": "Today's medication",
+      "add": "Add medication",
+      "empty": "There are no active medications.",
+      "given": "Given",
+      "register-dose": "Register dose",
+      "register-dose-for": "Register dose of {name} at {time}",
+      "dose-saved": "Dose of {name} registered.",
+      "name": "Name",
+      "dosage": "Dose",
+      "frequency": "Frequency",
+      "times": "Schedule",
+      "times-help": "Hours in 24-hour format separated by commas.",
+      "instructions": "Instructions"
+    },
+    "records": {
+      "title": "Exams and results",
+      "heading": "Clinical records",
+      "subtitle": "Exams and medical appointments of {name}.",
+      "section": "Record type",
+      "exams": "Exams",
+      "appointments": "Appointments",
+      "new-exam": "Register exam",
+      "new-appointment": "Register appointment",
+      "register-result": "Register result",
+      "register-result-for": "Register result of {name}",
+      "register-outcome": "Register outcome",
+      "register-outcome-for": "Register outcome of {name}",
+      "exam-type": "Exam",
+      "category": "Category",
+      "date": "Date",
+      "result": "Result",
+      "result-help": "Leave it empty if the result is still pending.",
+      "no-result": "Result pending",
+      "indications": "Indications",
+      "specialty": "Specialty",
+      "doctor": "Doctor",
+      "location": "Place",
+      "search": "Search by name or result",
+      "all-types": "All types",
+      "exam-saved": "Exam saved.",
+      "appointment-saved": "Appointment saved.",
+      "stats": {
+        "total": "Registered exams",
+        "recent": "Results in the last 30 days",
+        "pending": "Pending results"
+      }
+    },
+    "exam-categories": {
+      "Laboratory": "Laboratory",
+      "MedicalImaging": "Medical imaging",
+      "Report": "Report"
+    },
+    "exam-status": {
+      "Requested": "Requested",
+      "PendingResult": "Pending result",
+      "Completed": "Completed"
+    },
+    "appointment-status": {
+      "Scheduled": "Scheduled",
+      "Completed": "Completed",
+      "Cancelled": "Cancelled"
+    },
+    "errors": {
+      "load": "We could not load the follow-up.",
+      "save": "We could not save the record.",
+      "incomplete-report": "Choose a mood and write the observations.",
+      "invalid-vital-sign": "One of the values is outside the valid range. Check it and try again.",
+      "invalid-note": "Write at least a short description.",
+      "invalid-medication": "Complete name, dose and schedule in HH:mm format.",
+      "duplicated-dose": "This dose was already registered today.",
+      "invalid-appointment": "Complete the specialty and the date.",
+      "invalid-exam": "Write the name of the exam."
+    }
+  },
+  "asset-management": {
+    "evidence": {
+      "title": "Evidences of {name}",
+      "column": "Evidences",
+      "open": "Open {name}",
+      "open-for": "Evidences of {name}: {count}",
+      "empty": "This exam has no evidences yet.",
+      "description": "Description (optional)",
+      "drop": "Drag a file here or click to choose",
+      "formats": "JPG, PNG, WEBP or PDF. Max 5 MB.",
+      "saved": "Evidence saved."
+    },
+    "emergency": {
+      "title": "Emergency summary",
+      "subtitle": "Key clinical information to share with a clinic or hospital.",
+      "export": "Export PDF",
+      "exported": "The PDF was downloaded.",
+      "generated-at": "Generated on",
+      "patient": "Patient",
+      "age": "Age",
+      "medications": "Current medication",
+      "vital-signs": "Latest vital signs",
+      "recent-exams": "Recent exams",
+      "caregiver": "Caregiver in charge",
+      "call": "Call {name}",
+      "disclaimer": "Summary generated by Vitalita with the records of the caregiver. It does not replace a medical assessment."
+    },
+    "errors": {
+      "load": "We could not load the evidences.",
+      "file-type": "Only JPG, PNG, WEBP and PDF files are allowed.",
+      "file-size": "The file is bigger than 5 MB.",
+      "upload": "We could not upload the file. Try again.",
+      "local-size": "Without Cloudinary configured, files must be smaller than 1 MB.",
+      "plan-pdf": "Your plan shows the summary on screen. PDF export is included in the Pro and Agency plans.",
+      "pdf": "We could not generate the PDF."
+    }
+  },
+  "dashboard": {
+    "home": {
+      "title": "Home",
+      "greeting": "Hello, {name}",
+      "subtitle": "This is how your family member is doing today.",
+      "last-update": "Updated {date}",
+      "latest": "Latest records",
+      "see-history": "See full history",
+      "at-a-glance": "At a glance",
+      "doses-today": "Doses given today",
+      "pending-appointments": "Upcoming appointments",
+      "emergency-hint": "Open the information to share in a clinic."
+    },
+    "history": {
+      "title": "Patient history",
+      "subtitle": "All the records of the follow-up in one place.",
+      "filters": "History filters",
+      "keyword": "Keyword",
+      "keyword-placeholder": "Medication, exam, symptom...",
+      "range": "Date range",
+      "clear": "Clear filters",
+      "types": "Record types",
+      "count": "No records | 1 record | {count} records",
+      "empty": "No records match the filters."
+    },
+    "types": {
+      "DailyReport": "Daily reports",
+      "VitalSign": "Vital signs",
+      "Medication": "Medication",
+      "Appointment": "Appointments",
+      "Exam": "Exams",
+      "CareActivity": "Notes"
+    },
+    "entries": {
+      "daily-report": "Daily report",
+      "dose": "Dose given",
+      "appointment": "Appointment",
+      "exam": "Exam"
+    }
+  },
+  "planning": {
+    "calendar": {
+      "title": "Calendar",
+      "heading": "Schedule of {name}",
+      "subtitle": "Medical appointments, therapies and care reminders.",
+      "previous": "Previous month",
+      "next": "Next month",
+      "today": "Today",
+      "events": "no events | 1 event | {count} events",
+      "no-events": "There are no activities registered for this day.",
+      "upcoming": "Upcoming events",
+      "no-upcoming": "There are no upcoming events."
+    },
+    "types": {
+      "Appointment": "Appointment",
+      "Medication": "Medication",
+      "Therapy": "Therapy",
+      "ExamResult": "Exam result",
+      "Other": "Other"
+    },
+    "reminders": {
+      "title": "Reminders",
+      "empty": "There are no pending reminders.",
+      "new": "Add reminder",
+      "detail": "Detail",
+      "when": "Date and time",
+      "saved": "Reminder scheduled.",
+      "overdue": "Overdue",
+      "mark-reviewed": "Mark as reviewed",
+      "review": "Mark {name} as reviewed"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "open": "Notifications, {count} unread",
+      "unread": "No new notifications | 1 new | {count} new",
+      "read-all": "Mark all as read",
+      "empty": "You have no notifications.",
+      "new": "New"
+    },
+    "messages": {
+      "report-title": "New daily report",
+      "report-body": "The caregiver registered today's report. Mood: {mood}.",
+      "exam-title": "New exam result",
+      "exam-body": "The result of {name} is available.",
+      "appointment-title": "New appointment",
+      "appointment-body": "An appointment of {name} was scheduled.",
+      "outcome-title": "Appointment outcome",
+      "outcome-body": "The caregiver registered the outcome of {name}."
+    },
+    "errors": {
+      "load": "We could not load the reminders.",
+      "save": "We could not save the reminder.",
+      "empty-message": "Write the detail of the reminder.",
+      "past-date": "Choose a future date and time."
+    }
+  },
+  "subscriptions": {
+    "plan-names": {
+      "Freemium": "Freemium",
+      "Pro": "Pro",
+      "Agency": "Agency"
+    },
+    "plans": {
+      "title": "Plans",
+      "heading": "Choose the plan that fits your work",
+      "subtitle": "Change or upgrade your plan whenever you need.",
+      "period": "Billing period",
+      "monthly": "Monthly",
+      "annual": "Annual",
+      "annual-saving": "Pay annually and get two months free.",
+      "per-Monthly": "/ month",
+      "per-Annual": "/ year",
+      "recommended": "RECOMMENDED",
+      "current": "Current plan",
+      "choose": "Choose plan",
+      "included": "Included",
+      "not-included": "Not included",
+      "does-not-fit": "You manage {count} older adults and this plan allows {max}."
+    },
+    "features": {
+      "older-adults": "Up to {count} older adults",
+      "family": "{count} family members per older adult",
+      "family-unlimited": "Unlimited family members",
+      "follow-up": "Daily follow-up, appointments and exams",
+      "emergency-screen": "Emergency summary on screen",
+      "pdf": "Emergency summary in PDF",
+      "email-reminders": "Email reminders",
+      "storage": "{size} for evidences"
+    },
+    "checkout": {
+      "title": "Checkout",
+      "heading": "Complete your subscription",
+      "culqi-hint": "The payment is processed by Culqi in test mode. Your card data never passes through Vitalita.",
+      "simulated-hint": "Demo mode: no real charge is made. Use the card 4111 1111 1111 1111 to approve or 4000 0000 0000 0002 to see a rejected payment.",
+      "method": "Payment method",
+      "card-number": "Card number",
+      "card-holder": "Name on the card",
+      "expiry": "Expiry date",
+      "phone": "Yape phone number",
+      "yape-code": "Approval code",
+      "yape-help": "Six digit code from your Yape app. Use 000000 to see a rejected payment.",
+      "pay": "Pay S/ {amount}",
+      "activate-free": "Activate free plan",
+      "summary": "Order summary",
+      "plan": "Plan",
+      "total": "Total",
+      "secure": "Secure payment. The charge is confirmed by the payment gateway.",
+      "change-plan": "Choose another plan",
+      "approved": "Payment approved",
+      "approved-detail": "Your {plan} plan is active now."
+    },
+    "mine": {
+      "title": "My subscription",
+      "subtitle": "Your plan, its validity and your payments.",
+      "change": "Change plan",
+      "valid-until": "Valid until {date}",
+      "expired-on": "Expired on {date}",
+      "days-left": "no days left | 1 day left | {count} days left",
+      "no-end": "The free plan has no end date.",
+      "expired-message": "Your subscription expired. You can still read your records, but some features are restricted until you renew.",
+      "usage": "Plan usage",
+      "older-adults-usage": "{count} of {max} older adults",
+      "payments": "Payment history",
+      "no-payments": "There are no payments yet."
+    },
+    "status": {
+      "Active": "Active",
+      "Expired": "Expired",
+      "Cancelled": "Cancelled",
+      "PastDue": "Past due",
+      "Trial": "Trial"
+    },
+    "payment-status": {
+      "Approved": "Approved",
+      "Rejected": "Rejected",
+      "Pending": "Pending",
+      "Cancelled": "Cancelled"
+    },
+    "methods": {
+      "CreditCard": "Credit card",
+      "DebitCard": "Debit card",
+      "Yape": "Yape",
+      "Plin": "Plin",
+      "BankTransfer": "Bank transfer",
+      "CashAgent": "Cash agent"
+    },
+    "validation": {
+      "card": "Enter a valid 16 digit card number.",
+      "phone": "Enter a 9 digit phone number that starts with 9."
+    },
+    "errors": {
+      "load": "We could not load your payments.",
+      "rejected": "The payment was rejected. Your current plan did not change.",
+      "gateway": "We could not connect with the payment gateway. Try again."
     }
   }
 }

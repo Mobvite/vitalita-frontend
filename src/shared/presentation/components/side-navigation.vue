@@ -1,8 +1,8 @@
 <script setup>
 import {computed} from "vue";
 import {useRouter} from "vue-router";
-import useIamStore from "../../../../../../../../Downloads/vitalita-frontend/src/iam/application/iam.store.js";
-import AuthenticationSection from "../../../../../../../../Downloads/vitalita-frontend/src/iam/presentation/components/authentication-section.vue";
+import useIamStore from "../../../iam/application/iam.store.js";
+import AuthenticationSection from "../../../iam/presentation/components/authentication-section.vue";
 
 defineEmits(['navigate']);
 const router = useRouter();
@@ -11,17 +11,29 @@ const iamStore = useIamStore();
 // Items are shown only when their route exists and the user role can open it.
 // New bounded contexts appear in the menu as soon as their routes are added.
 const items = [
-  {label: 'navigation.home', icon: 'pi pi-home', route: 'home'},
+  {label: 'navigation.home', icon: 'pi pi-home', route: 'home', caregiverRoute: 'monitoring-summary', familyRoute: 'dashboard-home'},
+  {label: 'navigation.patients', icon: 'pi pi-heart', route: 'profiles-older-adults'},
   {label: 'navigation.notes', icon: 'pi pi-file-edit', route: 'monitoring-notes'},
   {label: 'navigation.exams', icon: 'pi pi-folder-open', route: 'monitoring-exams'},
+  {label: 'navigation.history', icon: 'pi pi-history', route: 'dashboard-history'},
   {label: 'navigation.calendar', icon: 'pi pi-calendar', route: 'planning-calendar'},
   {label: 'navigation.family', icon: 'pi pi-users', route: 'profiles-family-members'},
   {label: 'navigation.emergency', icon: 'pi pi-exclamation-circle', route: 'asset-management-emergency-summary'},
   {label: 'navigation.subscription', icon: 'pi pi-credit-card', route: 'subscriptions-my-subscription'},
-  {label: 'navigation.profile', icon: 'pi pi-id-card', route: 'profiles-caregiver-profile'}
+  {label: 'navigation.profile', familyLabel: 'navigation.caregiver-profile', icon: 'pi pi-id-card', route: 'profiles-caregiver-profile'}
 ];
 
-const visibleItems = computed(() => items.filter(item => {
+// Some items open a different page depending on the role, like Home.
+const routeFor = (item) => {
+  const roleRoute = iamStore.isCaregiver ? item.caregiverRoute : item.familyRoute;
+  return roleRoute && router.hasRoute(roleRoute) ? roleRoute : item.route;
+};
+
+const visibleItems = computed(() => items.map(item => ({
+  ...item,
+  label: !iamStore.isCaregiver && item.familyLabel ? item.familyLabel : item.label,
+  route: routeFor(item)
+})).filter(item => {
   if (!router.hasRoute(item.route)) return false;
   const roles = router.resolve({name: item.route}).meta['roles'] ?? [];
   return roles.length === 0 || roles.includes(iamStore.currentRole);

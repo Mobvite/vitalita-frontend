@@ -5,7 +5,7 @@ import {useI18n} from "vue-i18n";
 import useIamStore from "../../application/iam.store.js";
 import {SignInCommand} from "../../domain/model/sign-in.command.js";
 import {UserRole} from "../../domain/model/user-role.js";
-import {Email} from "../../domain/model/email.js";
+import {Email} from "../../../shared/domain/model/email.js";
 import AuthBrandPanel from "../components/auth-brand-panel.vue";
 
 const {t} = useI18n();
@@ -75,7 +75,10 @@ function performSignIn() {
           {{ $t('iam.sign-in.no-account') }}
           <router-link :to="{name: 'iam-sign-up'}" class="text-primary font-semibold">{{ $t('iam.sign-in.create-account') }}</router-link>
         </p>
-        <p v-else class="text-center text-sm mt-4 text-600">{{ $t('iam.sign-in.family-hint') }}</p>
+        <p v-else class="text-center text-sm mt-4 text-600">
+          {{ $t('iam.sign-in.family-hint') }}
+          <router-link :to="{name: 'iam-family-sign-up'}" class="text-primary font-semibold">{{ $t('iam.sign-in.use-invitation') }}</router-link>
+        </p>
       </form>
     </div>
   </main>

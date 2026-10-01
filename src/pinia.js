@@ -1,4 +1,4 @@
-import {createPinia} from "src/pinia.js";
+import {createPinia} from "pinia";
 
 const pinia = createPinia();
 
