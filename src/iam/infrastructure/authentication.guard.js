@@ -12,6 +12,7 @@ import useIamStore from "../application/iam.store.js";
  */
 export const authenticationGuard = (to, from) => {
     const store = useIamStore();
+    store.validateSession();
     const isPublicRoute = to.meta['public'] === true;
 
     if (!store.isSignedIn && !isPublicRoute) {
