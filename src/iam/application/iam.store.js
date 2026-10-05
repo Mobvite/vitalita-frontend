@@ -5,9 +5,9 @@ import {SignInAssembler} from "../infrastructure/sign-in.assembler.js";
 import {UserAssembler} from "../infrastructure/user.assembler.js";
 import {User} from "../domain/model/user.entity.js";
 import {Email} from "../../shared/domain/model/email.js";
+import {readSession, saveSession, SESSION_STORAGE_KEY} from './session-storage.js';
 
 const iamApi = new IamApi();
-const SESSION_STORAGE_KEY = 'vitalita-session';
 
 /**
  * Reads the saved session, so a page refresh does not sign the user out.
@@ -15,8 +15,8 @@ const SESSION_STORAGE_KEY = 'vitalita-session';
  */
 function readSavedSession() {
     try {
-        const saved = JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY));
-        return saved ? {user: new User(saved.user), token: saved.token} : null;
+        const saved = readSession();
+        return saved ? {...saved, user: new User(saved.user)} : null;
     } catch {
         return null;
     }
@@ -33,6 +33,7 @@ const useIamStore = defineStore('iam', () => {
     const currentUser = ref(savedSession?.user ?? null);
     /** @type {import('vue').Ref<string|null>} Bearer token. */
     const token = ref(savedSession?.token ?? null);
+    const lastActivityAt = ref(savedSession?.lastActivityAt ?? null);
     /** @type {import('vue').Ref<string[]>} i18n keys of the last errors. */
     const errors = ref([]);
     /** @type {import('vue').Ref<boolean>} True while a request is running. */
@@ -67,7 +68,7 @@ const useIamStore = defineStore('iam', () => {
             }
             currentUser.value = UserAssembler.toEntityFromResource(resource);
             token.value = resource.token;
-            localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({user: currentUser.value, token: token.value}));
+            lastActivityAt.value = saveSession(currentUser.value, token.value);
             await router.push(redirect);
         } catch (error) {
             console.error(error);
@@ -103,23 +104,44 @@ const useIamStore = defineStore('iam', () => {
         }
     }
 
-    /**
-     * Closes the session and removes the saved data.
-     * @param {import('vue-router').Router} router - Router used to go to the sign-in page.
-     * @returns {Promise<void>}
-     */
-    async function signOut(router) {
+    /** Clear the in-memory identity without deleting another tab's new session. */
+    function clearCurrentSession() {
         currentUser.value = null;
         token.value = null;
+        lastActivityAt.value = null;
         errors.value = [];
+    }
+
+    /** Check shared storage so reloads, sleeping tabs and other tabs respect expiration. */
+    function validateSession() {
+        if (!isSignedIn.value) return false;
+        const saved = readSession();
+        if (!saved || saved.token !== token.value) {
+            clearCurrentSession();
+            return false;
+        }
+        lastActivityAt.value = saved.lastActivityAt;
+        return true;
+    }
+
+    /** Only actual user interaction renews the inactivity deadline. */
+    function recordActivity() {
+        if (validateSession()) {
+            lastActivityAt.value = saveSession(currentUser.value, token.value);
+        }
+    }
+
+    /** Close the session and navigate to sign-in. */
+    async function signOut(router) {
+        clearCurrentSession();
         localStorage.removeItem(SESSION_STORAGE_KEY);
         await router.push({name: 'iam-sign-in'});
     }
 
     return {
-        currentUser, token, errors, isLoading,
+        currentUser, token, lastActivityAt, errors, isLoading,
         isSignedIn, currentUserId, currentRole, isCaregiver, isFamilyMember,
-        signIn, signUp, signOut
+        signIn, signUp, signOut, validateSession, recordActivity
     };
 });
 

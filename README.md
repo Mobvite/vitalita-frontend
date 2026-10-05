@@ -289,6 +289,10 @@ npm run dev
 
 ### Demo accounts
 
+Sessions expire after 30 minutes without user interaction. The activity timestamp is saved with the session, so reloading or reopening the browser does not renew an expired session. Activity and sign-out are shared across tabs; existing sessions without an activity timestamp require signing in again.
+
+Run `npm test` to verify session expiration and renewal, including an IAM login against an in-memory JSON Server using the demo seed data.
+
 All accounts use the password `Vitalita123`.
 
 | Email | Role | Plan and data |
