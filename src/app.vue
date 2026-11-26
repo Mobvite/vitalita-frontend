@@ -13,6 +13,8 @@ let sessionActivity;
 
 onMounted(() => {
   sessionActivity = startSessionActivity(iamStore, () => router.replace({name: 'iam-sign-in'}));
+  // A reload restores the saved session; the API confirms it is still valid.
+  iamStore.restoreSession();
 });
 watch(() => iamStore.isSignedIn, (isSignedIn) => {
   sessionActivity?.check();

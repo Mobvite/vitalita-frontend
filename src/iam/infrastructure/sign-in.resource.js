@@ -1,6 +1,6 @@
 /**
- * Resource returned after a successful authentication.
- * It has the same shape that the Vitalita API will return.
+ * Resource returned after a successful authentication or token refresh.
+ * It matches the AuthenticatedUserResource of the Vitalita API.
  *
  * @class SignInResource
  */
@@ -11,7 +11,7 @@ export class SignInResource {
      * @param {string} params.email - Authenticated user email.
      * @param {string} params.role - Authenticated user role.
      * @param {string} params.status - Account status.
-     * @param {string} params.token - Bearer token.
+     * @param {string} params.token - JWT access token (it lasts 15 minutes).
      */
     constructor({id, email, role, status, token}) {
         this.id = id;

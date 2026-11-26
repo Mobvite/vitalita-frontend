@@ -303,7 +303,7 @@ npm run dev
 
 Sessions expire after 30 minutes without user interaction. The activity timestamp is saved with the session, so reloading or reopening the browser does not renew an expired session. Activity and sign-out are shared across tabs; existing sessions without an activity timestamp require signing in again.
 
-Run `npm test` to verify session expiration and renewal, including an IAM login against an in-memory JSON Server using the demo seed data.
+Run `npm test` to verify session expiration and renewal, including an IAM sign-in against an in-memory fake of the Vitalita authentication endpoints.
 
 All accounts use the password `Vitalita123`.
 
@@ -315,7 +315,7 @@ All accounts use the password `Vitalita123`.
 
 To try the family sign-up, use the invitation code `VITA-4P9Q`.
 
-> `json-server` cannot authenticate users, so sign-in is simulated inside `src/iam/infrastructure/iam-api.js`. The passwords in `server/db.json` are demo data only.
+> Sign-in uses `POST /authentication/sign-in` of the Vitalita API. The accounts above come from `server/db.json` and only work if the same users exist in the backend you point to; ask the team for a test account of the deployed API. The passwords in `server/db.json` are demo data only.
 
 ### Test payments
 
