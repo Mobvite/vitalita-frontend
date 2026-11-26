@@ -1,7 +1,10 @@
+import {ApiError} from "./api-error.js";
+
 /**
  * Axios interceptor for centralized error handling.
- * It turns any HTTP error into a simple Error with a readable message,
- * so the stores do not need to know Axios details.
+ * It turns any HTTP error into an ApiError with a readable message,
+ * so the stores do not need to know Axios details. ProblemDetails
+ * responses (title, detail, errors) keep their localized text.
  */
 export const errorInterceptor = {
     /**
@@ -13,21 +16,23 @@ export const errorInterceptor = {
 
     /**
      * Builds a readable error from a failed request.
-     * @param {import('axios').AxiosError} error - The Axios error.
-     * @returns {Promise<never>} A rejected promise with an Error.
+     * @param {import('axios').AxiosError|ApiError} error - The Axios error.
+     * @returns {Promise<never>} A rejected promise with an ApiError.
      */
     onError: (error) => {
-        let message;
+        // A retried request (token refresh) was already converted by its own interceptor chain.
+        if (error instanceof ApiError) return Promise.reject(error);
+        let apiError;
         if (error.response) {
             // The server answered with a status code outside the 2xx range
-            message = error.response.data?.['message'] || `Error ${error.response.status}: ${error.response.statusText}`;
+            apiError = ApiError.fromProblemDetails(error.response.status, error.response.data, error.response.statusText);
         } else if (error.request) {
             // The request was sent but the server did not answer
-            message = 'No response from the server. Please check your connection.';
+            apiError = new ApiError({message: 'No response from the server. Please check your connection.'});
         } else {
-            message = error.message;
+            apiError = new ApiError({message: error.message});
         }
-        console.error(message);
-        return Promise.reject(new Error(message));
+        console.error(apiError.message);
+        return Promise.reject(apiError);
     }
 };

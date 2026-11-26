@@ -1,5 +1,5 @@
 import axios from "axios";
-import {iamInterceptor} from "../../iam/infrastructure/iam.interceptor.js";
+import {createIamInterceptor, createUnauthorizedInterceptor} from "../../iam/infrastructure/iam.interceptor.js";
 import {errorInterceptor} from "./error.interceptor.js";
 import {localeInterceptor} from "./locale.interceptor.js";
 
@@ -31,7 +31,9 @@ export class BaseApi {
             },
         });
         this.#http.interceptors.request.use(localeInterceptor);
-        this.#http.interceptors.request.use(iamInterceptor);
+        this.#http.interceptors.request.use(createIamInterceptor(this.#http));
+        // The 401 handler runs before the error interceptor, so it still sees the Axios error.
+        this.#http.interceptors.response.use(null, createUnauthorizedInterceptor(this.#http));
         this.#http.interceptors.response.use(errorInterceptor.onResponse, errorInterceptor.onError);
     }
 

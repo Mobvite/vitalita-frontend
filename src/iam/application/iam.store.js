@@ -116,12 +116,32 @@ const useIamStore = defineStore('iam', () => {
     function validateSession() {
         if (!isSignedIn.value) return false;
         const saved = readSession();
-        if (!saved || saved.token !== token.value) {
+        if (!saved || saved.user?.id !== currentUser.value.id) {
             clearCurrentSession();
             return false;
         }
+        // Another tab may have refreshed the token of the same session.
+        token.value = saved.token;
         lastActivityAt.value = saved.lastActivityAt;
         return true;
+    }
+
+    /**
+     * Keeps the session with the new token returned by POST /authentication/refresh.
+     * Refreshing is not user activity, so the inactivity deadline does not change.
+     * @param {import('../infrastructure/sign-in.resource.js').SignInResource} resource - Refresh response.
+     */
+    function applyRefreshedToken(resource) {
+        if (!isSignedIn.value) return;
+        currentUser.value = UserAssembler.toEntityFromResource(resource);
+        token.value = resource.token;
+        saveSession(currentUser.value, token.value, localStorage, lastActivityAt.value);
+    }
+
+    /** Close the session when the API no longer accepts it. The app then opens the sign-in page. */
+    function expireSession() {
+        clearCurrentSession();
+        localStorage.removeItem(SESSION_STORAGE_KEY);
     }
 
     /** Only actual user interaction renews the inactivity deadline. */
@@ -133,15 +153,14 @@ const useIamStore = defineStore('iam', () => {
 
     /** Close the session and navigate to sign-in. */
     async function signOut(router) {
-        clearCurrentSession();
-        localStorage.removeItem(SESSION_STORAGE_KEY);
+        expireSession();
         await router.push({name: 'iam-sign-in'});
     }
 
     return {
         currentUser, token, lastActivityAt, errors, isLoading,
         isSignedIn, currentUserId, currentRole, isCaregiver, isFamilyMember,
-        signIn, signUp, signOut, validateSession, recordActivity
+        signIn, signUp, signOut, validateSession, recordActivity, applyRefreshedToken, expireSession
     };
 });
 
