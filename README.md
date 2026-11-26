@@ -261,7 +261,7 @@ VITE_PRIME_UI_LICENSE_KEY="your-license-key"
 
 | Variable | Required | Purpose |
 |---|:---:|---|
-| `VITE_VITALITA_API_URL` | Yes | Base URL of the API. Defaults to the local json-server |
+| `VITE_VITALITA_API_URL` | Yes | Base URL of the API. In development it points to the deployed Vitalita API |
 | `VITE_*_ENDPOINT_PATH` | Yes | Resource path of each endpoint (users, older adults, reminders, plans, ...) |
 | `VITE_PRIME_UI_LICENSE_KEY` | Yes | PrimeUI community license key. Without it PrimeVue shows a license banner |
 | `VITE_LANDING_PAGE_URL` | Yes | Landing page, used for the legal links in the footer |
@@ -274,6 +274,18 @@ Without the Cloudinary variables, small files are kept locally for demos. Withou
 **Never put a secret key in these files.** Everything in a frontend bundle is public.
 
 </details>
+
+#### Choosing the API
+
+In development, `VITE_VITALITA_API_URL` points to the deployed [Vitalita API](https://vitalita-api.onrender.com/swagger). Production keeps using the fake API until every screen is integrated with the backend.
+
+To work against a backend running on your machine, start [vitalita-backend](https://github.com/Mobvite/vitalita-backend) and override the URL in a `.env.development.local` file (ignored by Git, it takes precedence over `.env.development`):
+
+```dotenv
+VITE_VITALITA_API_URL="http://localhost:5240/api/v1"
+```
+
+The local backend must allow the `http://localhost:5173` origin in its CORS configuration. Use `http://localhost:3000/api/v1` to go back to `json-server`.
 
 ### Run locally
 
@@ -291,7 +303,7 @@ npm run dev
 
 Sessions expire after 30 minutes without user interaction. The activity timestamp is saved with the session, so reloading or reopening the browser does not renew an expired session. Activity and sign-out are shared across tabs; existing sessions without an activity timestamp require signing in again.
 
-Run `npm test` to verify session expiration and renewal, including an IAM login against an in-memory JSON Server using the demo seed data.
+Run `npm test` to verify session expiration and renewal, including an IAM sign-in against an in-memory fake of the Vitalita authentication endpoints.
 
 All accounts use the password `Vitalita123`.
 
@@ -303,7 +315,7 @@ All accounts use the password `Vitalita123`.
 
 To try the family sign-up, use the invitation code `VITA-4P9Q`.
 
-> `json-server` cannot authenticate users, so sign-in is simulated inside `src/iam/infrastructure/iam-api.js`. The passwords in `server/db.json` are demo data only.
+> Sign-in uses `POST /authentication/sign-in` of the Vitalita API. The accounts above come from `server/db.json` and only work if the same users exist in the backend you point to; ask the team for a test account of the deployed API. The passwords in `server/db.json` are demo data only.
 
 ### Test payments
 

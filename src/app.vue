@@ -13,8 +13,16 @@ let sessionActivity;
 
 onMounted(() => {
   sessionActivity = startSessionActivity(iamStore, () => router.replace({name: 'iam-sign-in'}));
+  // A reload restores the saved session; the API confirms it is still valid.
+  iamStore.restoreSession();
 });
-watch(() => iamStore.isSignedIn, () => sessionActivity?.check());
+watch(() => iamStore.isSignedIn, (isSignedIn) => {
+  sessionActivity?.check();
+  // The API rejected the session (for example, the token could not be refreshed).
+  if (!isSignedIn && route.meta['public'] !== true) {
+    router.replace({name: 'iam-sign-in'});
+  }
+});
 onUnmounted(() => sessionActivity?.stop());
 </script>
 

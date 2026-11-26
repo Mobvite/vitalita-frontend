@@ -38,6 +38,8 @@ const useIamStore = defineStore('iam', () => {
     const errors = ref([]);
     /** @type {import('vue').Ref<boolean>} True while a request is running. */
     const isLoading = ref(false);
+    /** True when the API already confirmed the current session. */
+    let sessionVerified = false;
 
     const isSignedIn = computed(() => currentUser.value !== null && token.value !== null);
     const currentUserId = computed(() => currentUser.value?.id ?? null);
@@ -59,7 +61,7 @@ const useIamStore = defineStore('iam', () => {
             const response = await iamApi.signIn(signInCommand);
             const resource = SignInAssembler.toResourceFromResponse(response);
             if (!resource) {
-                errors.value.push('iam.errors.invalid-credentials');
+                errors.value.push('iam.errors.server');
                 return;
             }
             if (resource.role !== signInCommand.role) {
@@ -69,12 +71,37 @@ const useIamStore = defineStore('iam', () => {
             currentUser.value = UserAssembler.toEntityFromResource(resource);
             token.value = resource.token;
             lastActivityAt.value = saveSession(currentUser.value, token.value);
+            sessionVerified = true;
             await router.push(redirect);
         } catch (error) {
             console.error(error);
-            errors.value.push('iam.errors.server');
+            // 401: wrong credentials or inactive account. 400: the API rejected the email or password format.
+            errors.value.push([400, 401].includes(error.status) ? 'iam.errors.invalid-credentials' : 'iam.errors.server');
         } finally {
             isLoading.value = false;
+        }
+    }
+
+    /**
+     * Checks a session restored from storage with GET /authentication/me and keeps
+     * the user data sent by the API. A rejected token closes the session (the
+     * interceptor tries a refresh first); network errors keep the saved session.
+     * @returns {Promise<boolean>} True when the API confirmed the session.
+     */
+    async function restoreSession() {
+        if (!isSignedIn.value) return false;
+        if (sessionVerified) return true;
+        try {
+            const response = await iamApi.getCurrentUser();
+            if (!isSignedIn.value) return false;
+            currentUser.value = UserAssembler.toEntityFromResource(response.data);
+            saveSession(currentUser.value, token.value, localStorage, lastActivityAt.value);
+            sessionVerified = true;
+            return true;
+        } catch (error) {
+            console.error(error);
+            if (error.status === 401) expireSession();
+            return false;
         }
     }
 
@@ -106,6 +133,7 @@ const useIamStore = defineStore('iam', () => {
 
     /** Clear the in-memory identity without deleting another tab's new session. */
     function clearCurrentSession() {
+        sessionVerified = false;
         currentUser.value = null;
         token.value = null;
         lastActivityAt.value = null;
@@ -116,12 +144,32 @@ const useIamStore = defineStore('iam', () => {
     function validateSession() {
         if (!isSignedIn.value) return false;
         const saved = readSession();
-        if (!saved || saved.token !== token.value) {
+        if (!saved || saved.user?.id !== currentUser.value.id) {
             clearCurrentSession();
             return false;
         }
+        // Another tab may have refreshed the token of the same session.
+        token.value = saved.token;
         lastActivityAt.value = saved.lastActivityAt;
         return true;
+    }
+
+    /**
+     * Keeps the session with the new token returned by POST /authentication/refresh.
+     * Refreshing is not user activity, so the inactivity deadline does not change.
+     * @param {import('../infrastructure/sign-in.resource.js').SignInResource} resource - Refresh response.
+     */
+    function applyRefreshedToken(resource) {
+        if (!isSignedIn.value) return;
+        currentUser.value = UserAssembler.toEntityFromResource(resource);
+        token.value = resource.token;
+        saveSession(currentUser.value, token.value, localStorage, lastActivityAt.value);
+    }
+
+    /** Close the session when the API no longer accepts it. The app then opens the sign-in page. */
+    function expireSession() {
+        clearCurrentSession();
+        localStorage.removeItem(SESSION_STORAGE_KEY);
     }
 
     /** Only actual user interaction renews the inactivity deadline. */
@@ -133,15 +181,14 @@ const useIamStore = defineStore('iam', () => {
 
     /** Close the session and navigate to sign-in. */
     async function signOut(router) {
-        clearCurrentSession();
-        localStorage.removeItem(SESSION_STORAGE_KEY);
+        expireSession();
         await router.push({name: 'iam-sign-in'});
     }
 
     return {
         currentUser, token, lastActivityAt, errors, isLoading,
         isSignedIn, currentUserId, currentRole, isCaregiver, isFamilyMember,
-        signIn, signUp, signOut, validateSession, recordActivity
+        signIn, restoreSession, signUp, signOut, validateSession, recordActivity, applyRefreshedToken, expireSession
     };
 });
 

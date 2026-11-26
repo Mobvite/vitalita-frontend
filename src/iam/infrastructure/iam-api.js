@@ -1,15 +1,15 @@
 import {BaseApi} from "../../shared/infrastructure/base-api.js";
 import {BaseEndpoint} from "../../shared/infrastructure/base-endpoint.js";
+import {SignInAssembler} from "./sign-in.assembler.js";
 
 const usersEndpointPath = import.meta.env.VITE_USERS_ENDPOINT_PATH;
+const signInPath = '/authentication/sign-in';
+const currentUserPath = '/authentication/me';
 
 /**
  * Infrastructure gateway for the IAM bounded context.
- *
- * Important: json-server cannot authenticate users. While we work with the
- * fake API, sign-in looks for a user with the same email and password and
- * builds a fake token. The response keeps the same shape that the Vitalita API
- * will return (TS01), so when the backend is ready only this class changes.
+ * Sign-in and the current user use the authentication endpoints of the Vitalita API.
+ * Sign-up still uses the users resource until it is migrated.
  *
  * @class IamApi
  * @extends BaseApi
@@ -25,26 +25,21 @@ export class IamApi extends BaseApi {
     }
 
     /**
-     * Authenticates a user.
-     * Temporary version for json-server. With the real API this will be:
-     * return this.http.post('/authentication/sign-in', signInCommand);
+     * Authenticates a user with POST /authentication/sign-in.
+     * A 401 here means wrong credentials, so it never triggers a token refresh.
      * @param {import('../domain/model/sign-in.command.js').SignInCommand} signInCommand - Sign-in command.
-     * @returns {Promise<{status: number, statusText: string, data: Object|null}>} Response with id, email, role, status and token.
+     * @returns {Promise<import('axios').AxiosResponse>} Response with the AuthenticatedUserResource (id, email, role, status and token).
      */
-    async signIn(signInCommand) {
-        const response = await this.#usersEndpoint.getAll({
-            email: signInCommand.email,
-            password: signInCommand.password
-        });
-        const user = response.data[0];
-        const data = user ? {
-            id: user.id,
-            email: user.email,
-            role: user.role,
-            status: user.status,
-            token: `fake-token-${crypto.randomUUID()}`
-        } : null;
-        return {status: response.status, statusText: response.statusText, data};
+    signIn(signInCommand) {
+        return this.http.post(signInPath, SignInAssembler.toResourceFromCommand(signInCommand), {skipAuthRefresh: true});
+    }
+
+    /**
+     * Gets the user of the current bearer token with GET /authentication/me.
+     * @returns {Promise<import('axios').AxiosResponse>} Response with the UserResource.
+     */
+    getCurrentUser() {
+        return this.http.get(currentUserPath);
     }
 
     /**
