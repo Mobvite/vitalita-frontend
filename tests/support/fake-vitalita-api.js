@@ -20,10 +20,11 @@ export function fakeToken(expiresAt, id = Math.random().toString(36).slice(2)) {
  * sign-in, me and refresh, with RFC 7807 ProblemDetails errors. Every request is recorded.
  * @param {Object} [options] - Behaviour of the fake API.
  * @param {(request: Object) => Object|undefined} [options.handle] - Optional handler for other paths.
- * @returns {Promise<{url: string, requests: Object[], validTokens: Set<string>, refreshShouldFail: boolean, close: () => Promise<void>}>} Running API.
+ * Tokens in rejectedByResources get a 401 from the other paths but can still be refreshed.
+ * @returns {Promise<{url: string, requests: Object[], validTokens: Set<string>, rejectedByResources: Set<string>, refreshShouldFail: boolean, close: () => Promise<void>}>} Running API.
  */
 export async function startFakeVitalitaApi({handle} = {}) {
-    const api = {requests: [], validTokens: new Set(), refreshShouldFail: false};
+    const api = {requests: [], validTokens: new Set(), rejectedByResources: new Set(), refreshShouldFail: false};
     const server = createServer(async (req, res) => {
         let body = '';
         for await (const chunk of req) body += chunk;
@@ -61,7 +62,7 @@ export async function startFakeVitalitaApi({handle} = {}) {
             api.validTokens.delete(token);
             return send(200, {...user, token: issueToken()});
         }
-        const custom = handle?.({...request, authorized});
+        const custom = handle?.({...request, authorized: authorized && !api.rejectedByResources.has(token)});
         if (custom) return send(custom.status, custom.body, custom.type);
         return problem(404, 'Not found');
     });
