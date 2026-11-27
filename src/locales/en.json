@@ -312,7 +312,15 @@
       "frequency": "Frequency",
       "times": "Schedule",
       "times-help": "Hours in 24-hour format separated by commas.",
-      "instructions": "Instructions"
+      "instructions": "Instructions",
+      "manage": "Manage medications",
+      "edit": "Edit medication",
+      "edit-for": "Edit {name}",
+      "deactivate": "Deactivate",
+      "deactivate-for": "Deactivate {name}",
+      "deactivate-header": "Deactivate medication",
+      "deactivate-message": "{name} will leave the daily schedule. Its history is kept. Do you want to continue?",
+      "deactivated": "{name} was deactivated."
     },
     "records": {
       "title": "Exams and results",
@@ -371,7 +379,9 @@
       "invalid-medication": "Complete name, dose and schedule in HH:mm format.",
       "duplicated-dose": "This dose was already registered today.",
       "invalid-appointment": "Complete the specialty and the date.",
-      "invalid-exam": "Write the name of the exam."
+      "invalid-exam": "Write the name of the exam.",
+      "forbidden": "You do not have permission to see or change the records of this older adult.",
+      "invalid-data": "Some data is not valid. Check the values and the date, which cannot be in the future."
     }
   },
   "asset-management": {

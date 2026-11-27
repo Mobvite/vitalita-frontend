@@ -5,6 +5,7 @@ import {MedicationAdministration} from "../domain/model/medication-administratio
 import {MedicalAppointment} from "../domain/model/medical-appointment.entity.js";
 import {MedicalExam} from "../domain/model/medical-exam.entity.js";
 import {CareActivity} from "../domain/model/care-activity.entity.js";
+import {VitalSignType} from "../domain/model/vital-sign-type.js";
 
 /**
  * Builds entities from an HTTP response with a collection.
@@ -42,6 +43,57 @@ export class MonitoringAssembler {
      * @param {import('axios').AxiosResponse} response - HTTP response with one resource.
      * @returns {Object} Entity.
      */
+    /**
+     * Builds the SaveDailyReportResource of the API. ReportDate is an ISO 8601 instant;
+     * the author is taken from the token, so recordedByUserId is not sent.
+     * @param {DailyReport} report - Daily report.
+     * @returns {Object} Request body.
+     */
+    static toDailyReportResource(report) {
+        return {
+            olderAdultId: report.olderAdultId,
+            reportDate: new Date(report.reportDate).toISOString(),
+            mood: report.mood,
+            generalCondition: report.generalCondition,
+            observations: report.observations.trim()
+        };
+    }
+
+    /**
+     * Builds the SaveVitalSignResource of the API. For BloodPressure, value is the systolic
+     * and secondaryValue the diastolic pressure; the other types send no secondaryValue.
+     * The unit is derived by the API from the type.
+     * @param {VitalSign} sign - Vital sign.
+     * @returns {Object} Request body.
+     */
+    static toVitalSignResource(sign) {
+        return {
+            olderAdultId: sign.olderAdultId,
+            type: sign.type,
+            value: sign.value,
+            secondaryValue: sign.type === VitalSignType.BLOOD_PRESSURE ? sign.secondaryValue : null,
+            measuredAt: new Date(sign.measuredAt).toISOString()
+        };
+    }
+
+    /**
+     * Builds the SaveMedicationResource of the API (POST and PUT). There is no DELETE:
+     * a medication is deactivated with active false.
+     * @param {Medication} medication - Medication.
+     * @returns {Object} Request body.
+     */
+    static toMedicationResource(medication) {
+        return {
+            olderAdultId: medication.olderAdultId,
+            name: medication.name.trim(),
+            dosage: medication.dosage.trim(),
+            frequency: medication.frequency?.trim() ?? '',
+            scheduleTimes: [...medication.scheduleTimes],
+            instructions: medication.instructions?.trim() ?? '',
+            active: medication.active
+        };
+    }
+
     static toEntity(EntityClass, response) {
         return new EntityClass({...response.data});
     }

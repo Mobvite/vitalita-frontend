@@ -32,12 +32,16 @@ export class MonitoringApi extends BaseApi {
 
     getDailyReports(olderAdultId) { return this.#dailyReports.getAll({olderAdultId}); }
     createDailyReport(resource) { return this.#dailyReports.create(resource); }
+    updateDailyReport(id, resource) { return this.#dailyReports.update(id, resource); }
 
     getVitalSigns(olderAdultId) { return this.#vitalSigns.getAll({olderAdultId}); }
     createVitalSign(resource) { return this.#vitalSigns.create(resource); }
+    updateVitalSign(id, resource) { return this.#vitalSigns.update(id, resource); }
 
     getMedications(olderAdultId) { return this.#medications.getAll({olderAdultId}); }
     createMedication(resource) { return this.#medications.create(resource); }
+    /** There is no DELETE: deactivating is a PUT with active false. */
+    updateMedication(id, resource) { return this.#medications.update(id, resource); }
 
     getAdministrations(olderAdultId) { return this.#administrations.getAll({olderAdultId}); }
     createAdministration(resource) { return this.#administrations.create(resource); }

@@ -13,6 +13,19 @@ import {VitalSignType} from "../domain/model/vital-sign-type.js";
 
 const monitoringApi = new MonitoringApi();
 
+/**
+ * Chooses the i18n key for a failed request. The API answers 403 when the user cannot
+ * access the older adult, which gets a clear message instead of breaking the screen.
+ * @param {{status?: number}} error - Error of the API client.
+ * @param {string} [fallback='monitoring.errors.save'] - Key for any other error.
+ * @returns {string} i18n key.
+ */
+function errorKeyFor(error, fallback = 'monitoring.errors.save') {
+    if (error.status === 403) return 'monitoring.errors.forbidden';
+    if (error.status === 400) return 'monitoring.errors.invalid-data';
+    return fallback;
+}
+
 /** Sorts records from the newest to the oldest. */
 const newestFirst = (field) => (a, b) => new Date(b[field]) - new Date(a[field]);
 
@@ -81,11 +94,18 @@ const useMonitoringStore = defineStore('monitoring', () => {
         isLoading.value = true;
         errors.value = [];
         try {
-            const [reports, signs, meds, admins, appts, examList, activities] = await Promise.all([
-                monitoringApi.getDailyReports(id), monitoringApi.getVitalSigns(id), monitoringApi.getMedications(id),
+            // Daily reports, vital signs and medications come from the Vitalita API. The other
+            // resources are not there yet, so a failure there leaves an empty list instead of
+            // hiding the data that did load.
+            const [reports, signs, meds] = await Promise.all([
+                monitoringApi.getDailyReports(id), monitoringApi.getVitalSigns(id), monitoringApi.getMedications(id)
+            ]);
+            const optional = await Promise.allSettled([
                 monitoringApi.getAdministrations(id), monitoringApi.getAppointments(id), monitoringApi.getExams(id),
                 monitoringApi.getCareActivities(id)
             ]);
+            const [admins, appts, examList, activities] = optional.map(result =>
+                result.status === 'fulfilled' ? result.value : {status: 200, data: []});
             dailyReports.value = MonitoringAssembler.toDailyReports(reports);
             vitalSigns.value = MonitoringAssembler.toVitalSigns(signs);
             medications.value = MonitoringAssembler.toMedications(meds);
@@ -96,7 +116,7 @@ const useMonitoringStore = defineStore('monitoring', () => {
             olderAdultId.value = id;
         } catch (error) {
             console.error(error);
-            errors.value.push('monitoring.errors.load');
+            errors.value.push(errorKeyFor(error, 'monitoring.errors.load'));
         } finally {
             isLoading.value = false;
         }
@@ -110,15 +130,15 @@ const useMonitoringStore = defineStore('monitoring', () => {
      * @param {Object} entity - Entity to save.
      * @returns {Promise<Object|null>} Saved entity or null.
      */
-    async function create(createCall, EntityClass, list, entity) {
+    async function create(createCall, EntityClass, list, entity, toResource = MonitoringAssembler.toResource) {
         try {
-            const response = await createCall(MonitoringAssembler.toResource(entity));
+            const response = await createCall(toResource(entity));
             const saved = MonitoringAssembler.toEntity(EntityClass, response);
             list.value.push(saved);
             return saved;
         } catch (error) {
             console.error(error);
-            errors.value.push('monitoring.errors.save');
+            errors.value.push(errorKeyFor(error));
             return null;
         }
     }
@@ -132,7 +152,8 @@ const useMonitoringStore = defineStore('monitoring', () => {
             errors.value.push('monitoring.errors.incomplete-report');
             return null;
         }
-        return create(monitoringApi.createDailyReport.bind(monitoringApi), DailyReport, dailyReports, report);
+        return create(monitoringApi.createDailyReport.bind(monitoringApi), DailyReport, dailyReports, report,
+            MonitoringAssembler.toDailyReportResource);
     }
 
     /**
@@ -147,7 +168,8 @@ const useMonitoringStore = defineStore('monitoring', () => {
             return false;
         }
         for (const sign of signs) {
-            const saved = await create(monitoringApi.createVitalSign.bind(monitoringApi), VitalSign, vitalSigns, sign);
+            const saved = await create(monitoringApi.createVitalSign.bind(monitoringApi), VitalSign, vitalSigns, sign,
+                MonitoringAssembler.toVitalSignResource);
             if (!saved) return false;
         }
         return true;
@@ -170,7 +192,43 @@ const useMonitoringStore = defineStore('monitoring', () => {
             errors.value.push('monitoring.errors.invalid-medication');
             return null;
         }
-        return create(monitoringApi.createMedication.bind(monitoringApi), Medication, medications, medication);
+        return create(monitoringApi.createMedication.bind(monitoringApi), Medication, medications, medication,
+            MonitoringAssembler.toMedicationResource);
+    }
+
+    /**
+     * Replaces a medication with PUT /medications/{id}.
+     * @param {Medication} medication - Medication with changes.
+     * @returns {Promise<Medication|null>} Updated medication or null.
+     */
+    async function updateMedication(medication) {
+        errors.value = [];
+        if (!medication.isValid()) {
+            errors.value.push('monitoring.errors.invalid-medication');
+            return null;
+        }
+        try {
+            const response = await monitoringApi.updateMedication(medication.id, MonitoringAssembler.toMedicationResource(medication));
+            const updated = MonitoringAssembler.toEntity(Medication, response);
+            const index = medications.value.findIndex(item => item.id === updated.id);
+            if (index !== -1) medications.value[index] = updated;
+            return updated;
+        } catch (error) {
+            console.error(error);
+            errors.value.push(errorKeyFor(error));
+            return null;
+        }
+    }
+
+    /**
+     * Deactivates a medication: the API has no DELETE, so it is a PUT with active false.
+     * It leaves today's schedule but stays in the history.
+     * @param {Medication} medication - Medication to deactivate.
+     * @returns {Promise<boolean>} True when it was deactivated.
+     */
+    async function deactivateMedication(medication) {
+        const inactive = new Medication({...medication, active: false});
+        return (await updateMedication(inactive)) !== null;
     }
 
     /**
@@ -257,7 +315,8 @@ const useMonitoringStore = defineStore('monitoring', () => {
         errors, isLoading,
         latestVitalSigns, heartRateTrend, sortedCareActivities, latestDailyReport, sortedExams, sortedAppointments,
         nextAppointment, activeMedications, todayDoses,
-        fetchForOlderAdult, addDailyReport, addVitalSigns, addCareActivity, addMedication, administerMedication,
+        fetchForOlderAdult, addDailyReport, addVitalSigns, addCareActivity, addMedication, updateMedication,
+        deactivateMedication, administerMedication,
         addAppointment, completeAppointment, addExam, registerExamResult
     };
 });
