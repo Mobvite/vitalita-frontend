@@ -43,6 +43,8 @@ const useProfilesStore = defineStore('profiles', () => {
      * @param {boolean} [force=false] - Reload even if the data is already there.
      */
     async function initialize(userId, isCaregiver, force = false) {
+        // Without a session there is nothing to load, and the API would answer 401.
+        if (!userId) return;
         if (!force && loadedForUserId.value === userId && olderAdultsLoaded.value) return;
         isLoading.value = true;
         errors.value = [];
