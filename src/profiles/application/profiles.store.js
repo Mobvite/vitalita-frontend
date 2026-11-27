@@ -10,6 +10,19 @@ import useSubscriptionsStore from "../../subscriptions/application/subscriptions
 const profilesApi = new ProfilesApi();
 
 /**
+ * Chooses the i18n key for a failed request. The API enforces ownership, so a 403
+ * gets its own message instead of breaking the screen.
+ * @param {{status?: number}} error - Error of the API client.
+ * @param {string} [fallback='profiles.errors.save'] - Key for any other error.
+ * @returns {string} i18n key.
+ */
+function errorKeyFor(error, fallback = 'profiles.errors.save') {
+    if (error.status === 403) return 'profiles.errors.forbidden';
+    if (error.status === 400) return 'profiles.errors.invalid-data';
+    return fallback;
+}
+
+/**
  * Application store for the Profiles Management context.
  * Errors are saved as i18n keys, so the views show them in the active language.
  */
@@ -75,7 +88,7 @@ const useProfilesStore = defineStore('profiles', () => {
             olderAdultsLoaded.value = true;
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.load');
+            errors.value.push(errorKeyFor(error, 'profiles.errors.load'));
         } finally {
             isLoading.value = false;
         }
@@ -319,7 +332,7 @@ const useProfilesStore = defineStore('profiles', () => {
                 caregiverProfile.value = profiles[0] ?? null;
                 if (caregiverProfile.value) return true;
             }
-            errors.value.push(error.status === 400 ? 'profiles.errors.required-data' : 'profiles.errors.save');
+            errors.value.push(errorKeyFor(error));
             return false;
         }
     }
@@ -336,12 +349,36 @@ const useProfilesStore = defineStore('profiles', () => {
             return false;
         }
         try {
-            const response = await profilesApi.updateCaregiverProfile({...profile});
+            const response = await profilesApi.updateCaregiverProfile(profile.id,
+                ProfilesAssembler.toResourceFromCaregiverProfile(profile));
             caregiverProfile.value = ProfilesAssembler.toCaregiverProfileFromResource(response.data);
             return true;
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.save');
+            errors.value.push(errorKeyFor(error));
+            return false;
+        }
+    }
+
+    /**
+     * Updates the data of the signed-in family member.
+     * @param {import('../domain/model/family-member-profile.entity.js').FamilyMemberProfile} profile - Profile with changes.
+     * @returns {Promise<boolean>} True when it was updated.
+     */
+    async function updateFamilyMemberProfile(profile) {
+        errors.value = [];
+        if (!profile.firstName.trim() || !profile.lastName.trim()) {
+            errors.value.push('profiles.errors.required-data');
+            return false;
+        }
+        try {
+            const response = await profilesApi.updateFamilyMemberProfile(profile.id,
+                ProfilesAssembler.toResourceFromFamilyMemberProfile(profile));
+            familyMemberProfile.value = ProfilesAssembler.toFamilyMemberProfileFromResource(response.data);
+            return true;
+        } catch (error) {
+            console.error(error);
+            errors.value.push(errorKeyFor(error));
             return false;
         }
     }
@@ -357,7 +394,7 @@ const useProfilesStore = defineStore('profiles', () => {
             responsibleCaregiver.value = ProfilesAssembler.toCaregiverProfileFromResource(response.data);
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.load');
+            errors.value.push(errorKeyFor(error, 'profiles.errors.load'));
         }
     }
 
@@ -381,7 +418,7 @@ const useProfilesStore = defineStore('profiles', () => {
         errors, isLoading, olderAdultsLoaded, selectedOlderAdult, olderAdultsCount,
         initialize, addOlderAdult, updateOlderAdult, getOlderAdultById,
         fetchFamilyAccesses, getFamilyMemberName, inviteFamilyMember, revokeFamilyAccess,
-        findValidInvitation, registerFamilyMember, createCaregiverProfile, updateCaregiverProfile, fetchResponsibleCaregiver
+        findValidInvitation, registerFamilyMember, createCaregiverProfile, updateCaregiverProfile, updateFamilyMemberProfile, fetchResponsibleCaregiver
     };
 });
 

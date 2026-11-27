@@ -30,7 +30,7 @@ export class ProfilesApi extends BaseApi {
     getCaregiverProfileByUserId(userId) { return this.#caregiverProfilesEndpoint.getAll({userId}); }
     getCaregiverProfileById(id) { return this.#caregiverProfilesEndpoint.getById(id); }
     createCaregiverProfile(resource) { return this.#caregiverProfilesEndpoint.create(resource); }
-    updateCaregiverProfile(resource) { return this.#caregiverProfilesEndpoint.update(resource.id, resource); }
+    updateCaregiverProfile(id, resource) { return this.#caregiverProfilesEndpoint.update(id, resource); }
 
     // Family member profiles
     getFamilyMemberProfileByUserId(userId) { return this.#familyMemberProfilesEndpoint.getAll({userId}); }
@@ -38,6 +38,7 @@ export class ProfilesApi extends BaseApi {
         return this.#familyMemberProfilesEndpoint.getAll(new URLSearchParams(ids.map(id => ['id', String(id)])));
     }
     createFamilyMemberProfile(resource) { return this.#familyMemberProfilesEndpoint.create(resource); }
+    updateFamilyMemberProfile(id, resource) { return this.#familyMemberProfilesEndpoint.update(id, resource); }
 
     // Older adults
     getOlderAdultsByCaregiverId(caregiverId) { return this.#olderAdultsEndpoint.getAll({caregiverId}); }

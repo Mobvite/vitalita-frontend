@@ -211,7 +211,13 @@
       "plan-limit": "Tu plan no permite más adultos mayores. Mejora tu plan para registrar otro.",
       "family-limit": "Tu plan no permite más familiares para este adulto mayor.",
       "already-invited": "Este correo ya tiene una invitación.",
-      "required-data": "Completa los campos obligatorios."
+      "required-data": "Completa los campos obligatorios.",
+      "forbidden": "No tienes permiso para esta acción o esta información.",
+      "invalid-data": "Hay datos no válidos. Revisa el teléfono, las fechas y los demás campos."
+    },
+    "family-member": {
+      "edit": "Mis datos",
+      "saved": "Tus datos se actualizaron."
     }
   },
   "monitoring": {
