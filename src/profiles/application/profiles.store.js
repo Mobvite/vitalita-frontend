@@ -1,6 +1,7 @@
 import {defineStore} from "pinia";
 import {computed, ref} from "vue";
 import {ProfilesApi} from "../infrastructure/profiles-api.js";
+import {CaregiverProfile} from "../domain/model/caregiver-profile.entity.js";
 import {ProfilesAssembler} from "../infrastructure/profiles.assembler.js";
 import {FamilyAccess} from "../domain/model/family-access.entity.js";
 import useCareContextStore from "../../shared/application/care-context.store.js";
@@ -269,19 +270,28 @@ const useProfilesStore = defineStore('profiles', () => {
     }
 
     /**
-     * Creates the caregiver profile right after the account is created.
-     * In the Vitalita API this will be a policy that reacts to CaregiverAccountRegistered.
-     * @param {{userId: number, firstName: string, lastName: string}} data - Profile data.
-     * @returns {Promise<boolean>} True when the profile was created.
+     * Creates the caregiver profile of the signed-in user: right after the sign-up,
+     * or later when that step failed. If the API says the profile already exists (409),
+     * the existing one is loaded, so a retry never fails or duplicates it.
+     * @param {import('../domain/model/caregiver-profile.entity.js').CaregiverProfile|Object} profile - Profile data with userId.
+     * @returns {Promise<boolean>} True when the user has a profile.
      */
-    async function createCaregiverProfile({userId, firstName, lastName}) {
+    async function createCaregiverProfile(profile) {
+        errors.value = [];
         try {
-            await profilesApi.createCaregiverProfile({
-                userId, firstName, lastName, phoneNumber: '', professionalTitle: '', bio: '', photoUrl: '', certifications: []
-            });
+            const resource = ProfilesAssembler.toResourceFromCaregiverProfile(new CaregiverProfile({...profile}));
+            const response = await profilesApi.createCaregiverProfile(resource);
+            caregiverProfile.value = ProfilesAssembler.toCaregiverProfileFromResource(response.data);
             return true;
         } catch (error) {
             console.error(error);
+            if (error.status === 409) {
+                const profiles = ProfilesAssembler.toCaregiverProfilesFromResponse(
+                    await profilesApi.getCaregiverProfileByUserId(profile.userId).catch(() => ({status: 500})));
+                caregiverProfile.value = profiles[0] ?? null;
+                if (caregiverProfile.value) return true;
+            }
+            errors.value.push(error.status === 400 ? 'profiles.errors.required-data' : 'profiles.errors.save');
             return false;
         }
     }

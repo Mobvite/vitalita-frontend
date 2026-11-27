@@ -83,13 +83,15 @@
       "accept": "I accept the",
       "submit": "Create account",
       "has-account": "Already have an account?",
-      "success": "Account created. You can sign in now."
+      "success": "Account created. Welcome to Vitalita.",
+      "profile-pending": "Your account was created, but we could not save your profile. Complete it here; you can also do it the next time you sign in."
     },
     "errors": {
       "invalid-credentials": "The email or password is not correct.",
       "role-mismatch": "This account does not belong to the selected profile.",
       "email-in-use": "There is already an account with this email.",
-      "server": "We could not connect with the server. Try again in a few minutes."
+      "server": "We could not connect with the server. Try again in a few minutes.",
+      "invalid-data": "Check the data and try again."
     },
     "family-sign-up": {
       "title": "Join as a family member",
@@ -199,7 +201,8 @@
       "title": "Professional profile",
       "edit": "Edit my profile",
       "no-title": "Professional title not registered",
-      "saved": "Profile updated."
+      "saved": "Profile updated.",
+      "complete-profile": "Your profile is not complete yet. Save your data to start registering older adults."
     },
     "errors": {
       "load": "We could not load the profiles.",

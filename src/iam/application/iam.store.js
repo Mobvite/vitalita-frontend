@@ -4,10 +4,21 @@ import {IamApi} from "../infrastructure/iam-api.js";
 import {SignInAssembler} from "../infrastructure/sign-in.assembler.js";
 import {UserAssembler} from "../infrastructure/user.assembler.js";
 import {User} from "../domain/model/user.entity.js";
-import {Email} from "../../shared/domain/model/email.js";
+import {SignInCommand} from "../domain/model/sign-in.command.js";
 import {readSession, saveSession, SESSION_STORAGE_KEY} from './session-storage.js';
 
 const iamApi = new IamApi();
+
+/**
+ * Chooses the i18n key for a failed sign-up.
+ * @param {{status?: number}} error - Error of the API client.
+ * @returns {string} i18n key.
+ */
+function signUpErrorKey(error) {
+    if (error.status === 409) return 'iam.errors.email-in-use';
+    if (error.status === 400) return 'iam.errors.invalid-data';
+    return 'iam.errors.server';
+}
 
 /**
  * Reads the saved session, so a page refresh does not sign the user out.
@@ -48,6 +59,17 @@ const useIamStore = defineStore('iam', () => {
     const isFamilyMember = computed(() => currentUser.value?.isFamilyMember() ?? false);
 
     /**
+     * Saves the authenticated user and token as the current session.
+     * @param {import('../infrastructure/sign-in.resource.js').SignInResource} resource - Sign-in response.
+     */
+    function startSession(resource) {
+        currentUser.value = UserAssembler.toEntityFromResource(resource);
+        token.value = resource.token;
+        lastActivityAt.value = saveSession(currentUser.value, token.value);
+        sessionVerified = true;
+    }
+
+    /**
      * Signs in the user. The role chosen in the form must match the account role.
      * @param {import('../domain/model/sign-in.command.js').SignInCommand} signInCommand - Sign-in command.
      * @param {import('vue-router').Router} router - Router used to go to the next page.
@@ -68,10 +90,7 @@ const useIamStore = defineStore('iam', () => {
                 errors.value.push('iam.errors.role-mismatch');
                 return;
             }
-            currentUser.value = UserAssembler.toEntityFromResource(resource);
-            token.value = resource.token;
-            lastActivityAt.value = saveSession(currentUser.value, token.value);
-            sessionVerified = true;
+            startSession(resource);
             await router.push(redirect);
         } catch (error) {
             console.error(error);
@@ -106,25 +125,45 @@ const useIamStore = defineStore('iam', () => {
     }
 
     /**
-     * Registers an account. Duplicated emails are rejected (US05, US31).
+     * Creates an account with POST /authentication/sign-up and signs in with it,
+     * so the profile can be created with the new token (US05, US31).
+     * With resumeExisting, an email that is already registered is signed in with the
+     * same password instead of failing: it lets a person finish a registration that
+     * stopped after the account was created, without a second account.
      * @param {import('../domain/model/sign-up.command.js').SignUpCommand} signUpCommand - Sign-up command.
-     * @returns {Promise<number|null>} Identifier of the new user, or null when it failed.
+     * @param {{resumeExisting?: boolean}} [options] - Registration options.
+     * @returns {Promise<User|null>} The signed-in user, or null when it failed.
      */
-    async function signUp(signUpCommand) {
+    async function signUpAndSignIn(signUpCommand, {resumeExisting = false} = {}) {
         errors.value = [];
         isLoading.value = true;
+        const resource = UserAssembler.toResourceFromSignUpCommand(signUpCommand);
+        let accountExisted = false;
         try {
-            const email = new Email(signUpCommand.email).value;
-            const existing = await iamApi.findUsersByEmail(email);
-            if (existing.data.length > 0) {
-                errors.value.push('iam.errors.email-in-use');
-                return null;
-            }
-            const response = await iamApi.createUser(UserAssembler.toResourceFromSignUpCommand({...signUpCommand, email}));
-            return response.data.id;
+            await iamApi.signUp(resource);
         } catch (error) {
             console.error(error);
-            errors.value.push('iam.errors.server');
+            accountExisted = error.status === 409;
+            if (!accountExisted || !resumeExisting) {
+                errors.value.push(signUpErrorKey(error));
+                isLoading.value = false;
+                return null;
+            }
+        }
+        try {
+            const response = await iamApi.signIn(new SignInCommand(resource));
+            const authenticated = SignInAssembler.toResourceFromResponse(response);
+            if (!authenticated) throw new Error('The sign-in did not return a token.');
+            if (authenticated.role !== resource.role) {
+                errors.value.push(accountExisted ? 'iam.errors.email-in-use' : 'iam.errors.role-mismatch');
+                return null;
+            }
+            startSession(authenticated);
+            return currentUser.value;
+        } catch (error) {
+            console.error(error);
+            // The account exists but the password is not the one used in the first attempt.
+            errors.value.push(accountExisted && error.status === 401 ? 'iam.errors.email-in-use' : 'iam.errors.server');
             return null;
         } finally {
             isLoading.value = false;
@@ -188,7 +227,7 @@ const useIamStore = defineStore('iam', () => {
     return {
         currentUser, token, lastActivityAt, errors, isLoading,
         isSignedIn, currentUserId, currentRole, isCaregiver, isFamilyMember,
-        signIn, restoreSession, signUp, signOut, validateSession, recordActivity, applyRefreshedToken, expireSession
+        signIn, restoreSession, signUpAndSignIn, signOut, validateSession, recordActivity, applyRefreshedToken, expireSession
     };
 });
 

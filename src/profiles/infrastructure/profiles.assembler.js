@@ -53,6 +53,24 @@ export class ProfilesAssembler {
         };
     }
 
+    /**
+     * Builds the SaveCaregiverProfileResource of the API (POST and PUT).
+     * @param {CaregiverProfile} profile - Caregiver profile.
+     * @returns {Object} Request body.
+     */
+    static toResourceFromCaregiverProfile(profile) {
+        return {
+            userId: profile.userId,
+            firstName: profile.firstName.trim(),
+            lastName: profile.lastName.trim(),
+            phoneNumber: profile.phoneNumber?.trim() ?? '',
+            professionalTitle: profile.professionalTitle?.trim() ?? '',
+            bio: profile.bio?.trim() ?? '',
+            photoUrl: profile.photoUrl?.trim() ?? '',
+            certifications: [...(profile.certifications ?? [])]
+        };
+    }
+
     static toCaregiverProfileFromResource(resource) {
         return new CaregiverProfile({...resource});
     }
