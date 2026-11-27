@@ -7,6 +7,7 @@ import dashboardRoutes from "./dashboard/presentation/dashboard-routes.js";
 import planningRoutes from "./planning/presentation/planning-routes.js";
 import subscriptionsRoutes from "./subscriptions/presentation/subscriptions-routes.js";
 import useIamStore from "./iam/application/iam.store.js";
+import useProfilesStore from "./profiles/application/profiles.store.js";
 import {authenticationGuard} from "./iam/infrastructure/authentication.guard.js";
 import i18n from "./i18n.js";
 
@@ -16,12 +17,17 @@ const pageNotFound = () => import('./shared/presentation/views/page-not-found.vu
 
 /**
  * Sends each role to its own home page: the caregiver to the health summary
- * and the family member to the family dashboard.
- * @returns {{name: string}} Route to open.
+ * and the family member to the family dashboard. A caregiver whose sign-up
+ * stopped before the profile was saved goes to the profile page to complete it.
+ * @returns {Promise<{name: string}>} Route to open.
  */
-function redirectToRoleHome() {
+async function redirectToRoleHome() {
     const iamStore = useIamStore();
-    return iamStore.isCaregiver ? {name: 'monitoring-summary'} : {name: 'dashboard-home'};
+    if (!iamStore.isCaregiver) return {name: 'dashboard-home'};
+    const profilesStore = useProfilesStore();
+    await profilesStore.initialize(iamStore.currentUserId, true);
+    const profileMissing = profilesStore.errors.length === 0 && !profilesStore.caregiverProfile;
+    return profileMissing ? {name: 'profiles-caregiver-profile'} : {name: 'monitoring-summary'};
 }
 
 /**

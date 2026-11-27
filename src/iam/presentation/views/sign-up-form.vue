@@ -30,12 +30,19 @@ const invalid = computed(() => ({
 async function performSignUp() {
   form.submitted = true;
   if (Object.values(invalid.value).some(Boolean)) return;
-  const userId = await store.signUp(new SignUpCommand(form));
-  if (userId) {
-    await profilesStore.createCaregiverProfile({userId, firstName: form.firstName.trim(), lastName: form.lastName.trim()});
+  const user = await store.signUpAndSignIn(new SignUpCommand(form));
+  if (!user) return;
+  const profileCreated = await profilesStore.createCaregiverProfile({
+    userId: user.id, firstName: form.firstName, lastName: form.lastName
+  });
+  if (profileCreated) {
     toast.add({severity: 'success', summary: t('iam.sign-up.success'), life: 4000});
-    await router.push({name: 'iam-sign-in'});
+    await router.push({name: 'home'});
+    return;
   }
+  // The account exists and the session is open: the profile is completed from the profile page.
+  toast.add({severity: 'warn', summary: t('iam.sign-up.profile-pending'), life: 8000});
+  await router.push({name: 'profiles-caregiver-profile'});
 }
 </script>
 

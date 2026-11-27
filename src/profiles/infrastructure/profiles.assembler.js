@@ -53,12 +53,44 @@ export class ProfilesAssembler {
         };
     }
 
+    /**
+     * Builds the SaveCaregiverProfileResource of the API (POST and PUT).
+     * @param {CaregiverProfile} profile - Caregiver profile.
+     * @returns {Object} Request body.
+     */
+    static toResourceFromCaregiverProfile(profile) {
+        return {
+            userId: profile.userId,
+            firstName: profile.firstName.trim(),
+            lastName: profile.lastName.trim(),
+            phoneNumber: profile.phoneNumber?.trim() ?? '',
+            professionalTitle: profile.professionalTitle?.trim() ?? '',
+            bio: profile.bio?.trim() ?? '',
+            photoUrl: profile.photoUrl?.trim() ?? '',
+            certifications: [...(profile.certifications ?? [])]
+        };
+    }
+
     static toCaregiverProfileFromResource(resource) {
         return new CaregiverProfile({...resource});
     }
 
     static toCaregiverProfilesFromResponse(response) {
         return readResources(response, 'caregiverProfiles').map(resource => this.toCaregiverProfileFromResource(resource));
+    }
+
+    /**
+     * Builds the SaveFamilyMemberProfileResource of the API (POST and PUT).
+     * @param {FamilyMemberProfile} profile - Family member profile.
+     * @returns {{userId: number, firstName: string, lastName: string, phoneNumber: string}} Request body.
+     */
+    static toResourceFromFamilyMemberProfile(profile) {
+        return {
+            userId: profile.userId,
+            firstName: profile.firstName.trim(),
+            lastName: profile.lastName.trim(),
+            phoneNumber: profile.phoneNumber?.trim() ?? ''
+        };
     }
 
     static toFamilyMemberProfileFromResource(resource) {
@@ -81,6 +113,18 @@ export class ProfilesAssembler {
      * @param {FamilyAccess} familyAccess - Entity to send.
      * @returns {Object} Plain resource.
      */
+    /**
+     * Builds the UpdateFamilyAccessResource of the API. The API only reads status,
+     * familyMemberId and relationship; accepting needs status Active and familyMemberId.
+     * @param {FamilyAccess} familyAccess - Family access with the new status.
+     * @returns {{status: string, familyMemberId?: number}} Request body.
+     */
+    static toUpdateResourceFromFamilyAccess(familyAccess) {
+        const resource = {status: familyAccess.status};
+        if (familyAccess.familyMemberId !== null) resource.familyMemberId = familyAccess.familyMemberId;
+        return resource;
+    }
+
     static toResourceFromFamilyAccess(familyAccess) {
         return {...familyAccess, id: familyAccess.id ?? undefined};
     }

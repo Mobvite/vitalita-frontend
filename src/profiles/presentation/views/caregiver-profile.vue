@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, reactive, watch} from "vue";
+import {computed, onMounted, reactive, ref, watch} from "vue";
 import {useI18n} from "vue-i18n";
 import {useToast} from "primevue";
 import useIamStore from "../../../iam/application/iam.store.js";
@@ -25,13 +25,20 @@ function fillForm() {
 
 async function load() {
   await store.initialize(iamStore.currentUserId, iamStore.isCaregiver);
+  profileLoaded.value = store.errors.length === 0;
   if (iamStore.isCaregiver) fillForm();
   else await store.fetchResponsibleCaregiver();
 }
 
+/** True when the account was created but the profile step did not finish. */
+const profileLoaded = ref(false);
+const isProfileMissing = computed(() => profileLoaded.value && iamStore.isCaregiver && !store.caregiverProfile);
+
 async function save() {
-  const updated = new CaregiverProfile({...store.caregiverProfile, ...form});
-  if (await store.updateCaregiverProfile(updated)) {
+  const saved = isProfileMissing.value
+    ? await store.createCaregiverProfile({...form, userId: iamStore.currentUserId})
+    : await store.updateCaregiverProfile(new CaregiverProfile({...store.caregiverProfile, ...form}));
+  if (saved) {
     toast.add({severity: 'success', summary: t('profiles.caregiver.saved'), life: 3000});
   }
 }
@@ -58,6 +65,7 @@ watch(() => careContext.selectedOlderAdultId, () => { if (iamStore.isFamilyMembe
     <div v-if="iamStore.isCaregiver" class="col-12 lg:col-8">
       <form class="vt-card" novalidate @submit.prevent="save">
         <h3 class="text-lg mb-3">{{ $t('profiles.caregiver.edit') }}</h3>
+        <pv-message v-if="isProfileMissing" severity="warn" class="mb-3">{{ $t('profiles.caregiver.complete-profile') }}</pv-message>
         <div class="grid">
           <div class="col-12 md:col-6 flex flex-column gap-2">
             <label for="caregiver-first-name">{{ $t('iam.fields.first-name') }} *</label>

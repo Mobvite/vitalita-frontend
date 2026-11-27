@@ -29,18 +29,15 @@ export class UserAssembler {
     }
 
     /**
-     * Builds the resource sent to create an account.
+     * Builds the SignUpResource of the API. Names are saved later in the profile.
      * @param {import('../domain/model/sign-up.command.js').SignUpCommand} command - Sign-up command.
-     * @returns {Object} User resource.
+     * @returns {{email: string, password: string, role: string}} Request body.
      */
     static toResourceFromSignUpCommand(command) {
         return {
-            email: command.email,
+            email: command.email.trim().toLowerCase(),
             password: command.password,
-            role: command.role,
-            status: 'Active',
-            createdAt: new Date().toISOString(),
-            lastLoginAt: null
+            role: command.role
         };
     }
 }

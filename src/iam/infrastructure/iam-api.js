@@ -1,27 +1,25 @@
 import {BaseApi} from "../../shared/infrastructure/base-api.js";
-import {BaseEndpoint} from "../../shared/infrastructure/base-endpoint.js";
 import {SignInAssembler} from "./sign-in.assembler.js";
 
-const usersEndpointPath = import.meta.env.VITE_USERS_ENDPOINT_PATH;
+const signUpPath = '/authentication/sign-up';
 const signInPath = '/authentication/sign-in';
 const currentUserPath = '/authentication/me';
 
 /**
  * Infrastructure gateway for the IAM bounded context.
- * Sign-in and the current user use the authentication endpoints of the Vitalita API.
- * Sign-up still uses the users resource until it is migrated.
+ * Sign-up, sign-in and the current user use the authentication endpoints of the Vitalita API.
  *
  * @class IamApi
  * @extends BaseApi
  */
 export class IamApi extends BaseApi {
-    /** @type {BaseEndpoint} */
-    #usersEndpoint;
-
-    /** Creates the endpoint client for users. */
-    constructor() {
-        super();
-        this.#usersEndpoint = new BaseEndpoint(this, usersEndpointPath);
+    /**
+     * Creates an account with POST /authentication/sign-up.
+     * @param {{email: string, password: string, role: string}} signUpResource - SignUpResource of the API.
+     * @returns {Promise<import('axios').AxiosResponse>} Response with the created UserResource (201).
+     */
+    signUp(signUpResource) {
+        return this.http.post(signUpPath, signUpResource, {skipAuthRefresh: true});
     }
 
     /**
@@ -40,23 +38,5 @@ export class IamApi extends BaseApi {
      */
     getCurrentUser() {
         return this.http.get(currentUserPath);
-    }
-
-    /**
-     * Finds users with a given email. Used to avoid duplicated accounts.
-     * @param {string} email - Email to look for.
-     * @returns {Promise<import('axios').AxiosResponse>} HTTP response with the matching users.
-     */
-    findUsersByEmail(email) {
-        return this.#usersEndpoint.getAll({email});
-    }
-
-    /**
-     * Creates a user account.
-     * @param {Object} userResource - User resource.
-     * @returns {Promise<import('axios').AxiosResponse>} HTTP response with the created user.
-     */
-    createUser(userResource) {
-        return this.#usersEndpoint.create(userResource);
     }
 }

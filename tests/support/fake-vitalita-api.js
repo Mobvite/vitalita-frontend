@@ -17,14 +17,19 @@ export function fakeToken(expiresAt, id = Math.random().toString(36).slice(2)) {
 
 /**
  * Starts an HTTP server that follows the authentication contract of the Vitalita API:
- * sign-in, me and refresh, with RFC 7807 ProblemDetails errors. Every request is recorded.
+ * sign-up, sign-in, me and refresh, with RFC 7807 ProblemDetails errors. Every request is recorded.
+ * It starts with fakeAccount; sign-up adds accounts and every token belongs to one of them.
  * @param {Object} [options] - Behaviour of the fake API.
- * @param {(request: Object) => Object|undefined} [options.handle] - Optional handler for other paths.
+ * @param {(request: Object) => Object|undefined} [options.handle] - Optional handler for other paths. It receives
+ * the request with "authorized" and the "userId" of the token.
  * Tokens in rejectedByResources get a 401 from the other paths but can still be refreshed.
  * @returns {Promise<{url: string, requests: Object[], validTokens: Set<string>, rejectedByResources: Set<string>, refreshShouldFail: boolean, close: () => Promise<void>}>} Running API.
  */
 export async function startFakeVitalitaApi({handle} = {}) {
-    const api = {requests: [], validTokens: new Set(), rejectedByResources: new Set(), refreshShouldFail: false};
+    const api = {
+        requests: [], validTokens: new Set(), rejectedByResources: new Set(), refreshShouldFail: false,
+        accounts: [{...fakeAccount}], tokenOwners: new Map()
+    };
     const server = createServer(async (req, res) => {
         let body = '';
         for await (const chunk of req) body += chunk;
@@ -39,17 +44,31 @@ export async function startFakeVitalitaApi({handle} = {}) {
         const problem = (status, title, extra = {}) =>
             send(status, {type: 'https://tools.ietf.org/html/rfc9110', title, status, message: title, ...extra},
                 'application/problem+json');
-        const user = {id: fakeAccount.id, email: fakeAccount.email, role: fakeAccount.role, status: fakeAccount.status};
-        const issueToken = () => {
+        // Tokens added by a test without an owner belong to fakeAccount.
+        const owner = api.tokenOwners.get(token) ?? api.accounts[0];
+        const toUser = ({id, email, role, status}) => ({id, email, role, status});
+        const user = toUser(owner);
+        const issueToken = account => {
             const issued = fakeToken(Date.now() + 15 * 60 * 1000);
             api.validTokens.add(issued);
+            api.tokenOwners.set(issued, account);
             return issued;
         };
 
-        if (req.method === 'POST' && req.url === '/api/v1/authentication/sign-in') {
-            if (request.body?.email === fakeAccount.email && request.body?.password === fakeAccount.password) {
-                return send(200, {...user, token: issueToken()});
+        if (req.method === 'POST' && req.url === '/api/v1/authentication/sign-up') {
+            const {email, password, role = 'Caregiver'} = request.body ?? {};
+            if (!email || !password || password.length < 8) {
+                return problem(400, 'Bad request', {errors: {Password: ['Use between 8 and 72 characters.']}});
             }
+            if (api.accounts.some(account => account.email === email)) return problem(409, 'Email already in use.');
+            const account = {id: 100 + api.accounts.length, email, password, role, status: 'Active'};
+            api.accounts.push(account);
+            return send(201, {...toUser(account), createdAt: new Date().toISOString(), lastLoginAt: null});
+        }
+        if (req.method === 'POST' && req.url === '/api/v1/authentication/sign-in') {
+            const account = api.accounts.find(candidate =>
+                candidate.email === request.body?.email && candidate.password === request.body?.password);
+            if (account) return send(200, {...toUser(account), token: issueToken(account)});
             return problem(401, req.headers['accept-language'] === 'es' ? 'Credenciales inválidas.' : 'Invalid credentials.');
         }
         if (req.method === 'GET' && req.url === '/api/v1/authentication/me') {
@@ -60,9 +79,11 @@ export async function startFakeVitalitaApi({handle} = {}) {
             await new Promise(resolve => setTimeout(resolve, 20));
             if (!authorized || api.refreshShouldFail) return problem(401, 'Unauthorized');
             api.validTokens.delete(token);
-            return send(200, {...user, token: issueToken()});
+            return send(200, {...user, token: issueToken(owner)});
         }
-        const custom = handle?.({...request, authorized: authorized && !api.rejectedByResources.has(token)});
+        const custom = await handle?.({
+            ...request, authorized: Boolean(authorized && !api.rejectedByResources.has(token)), userId: owner.id
+        });
         if (custom) return send(custom.status, custom.body, custom.type);
         return problem(404, 'Not found');
     });
