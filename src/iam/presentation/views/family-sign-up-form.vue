@@ -20,11 +20,15 @@ const invitationCode = ref(route.query.code ?? '');
 const invitation = ref(null);
 const invitationError = ref('');
 const isChecking = ref(false);
-const form = reactive({firstName: '', lastName: '', phoneNumber: '', password: '', confirmPassword: '', submitted: false});
+const isRegistering = ref(false);
+const signUpErrors = computed(() => [...iamStore.errors, ...profilesStore.errors]);
+const form = reactive({firstName: '', lastName: '', email: '', phoneNumber: '', password: '', confirmPassword: '', submitted: false});
 
 const invalid = computed(() => ({
   firstName: form.submitted && !form.firstName.trim(),
   lastName: form.submitted && !form.lastName.trim(),
+  // The account must use the email the caregiver invited.
+  email: form.submitted && form.email.trim().toLowerCase() !== invitation.value?.invitedEmail.toLowerCase(),
   password: form.submitted && form.password.length < 8,
   confirmPassword: form.submitted && form.password !== form.confirmPassword
 }));
@@ -41,18 +45,21 @@ async function checkInvitation() {
 async function performSignUp() {
   form.submitted = true;
   if (Object.values(invalid.value).some(Boolean)) return;
-  const userId = await iamStore.signUp(new SignUpCommand({
+  // resumeExisting: a person whose first attempt stopped after the account was created can finish it.
+  const user = await iamStore.signUpAndSignIn(new SignUpCommand({
     firstName: form.firstName, lastName: form.lastName, email: invitation.value.invitedEmail,
     password: form.password, role: UserRole.FAMILY_MEMBER
-  }));
-  if (!userId) return;
+  }), {resumeExisting: true});
+  if (!user) return;
+  isRegistering.value = true;
   const registered = await profilesStore.registerFamilyMember({
-    userId, firstName: form.firstName.trim(), lastName: form.lastName.trim(),
-    phoneNumber: form.phoneNumber.trim(), invitation: invitation.value
+    userId: user.id, firstName: form.firstName, lastName: form.lastName,
+    phoneNumber: form.phoneNumber, invitation: invitation.value
   });
+  isRegistering.value = false;
   if (registered) {
     toast.add({severity: 'success', summary: t('iam.sign-up.success'), life: 4000});
-    await router.push({name: 'iam-sign-in', query: {role: 'family'}});
+    await router.push({name: 'home'});
   }
 }
 
@@ -79,7 +86,7 @@ onMounted(checkInvitation);
 
         <form v-else novalidate @submit.prevent="performSignUp">
           <pv-message severity="success" class="mb-3">
-            {{ $t('iam.family-sign-up.valid-invitation', {email: invitation.invitedEmail}) }}
+            {{ $t('iam.family-sign-up.valid-invitation') }}
           </pv-message>
           <div class="grid">
             <div class="col-12 md:col-6 flex flex-column gap-2">
@@ -92,6 +99,12 @@ onMounted(checkInvitation);
               <pv-input-text id="family-last-name" v-model="form.lastName" autocomplete="family-name" :invalid="invalid.lastName" aria-required="true"/>
               <small v-if="invalid.lastName" class="p-error">{{ $t('iam.validation.required') }}</small>
             </div>
+          </div>
+          <div class="flex flex-column gap-2 mt-3">
+            <label for="family-email" class="font-medium text-sm">{{ $t('iam.fields.email') }}</label>
+            <pv-input-text id="family-email" v-model="form.email" type="email" autocomplete="email" :invalid="invalid.email"
+                           aria-required="true" :aria-invalid="invalid.email" aria-describedby="family-email-error"/>
+            <small v-if="invalid.email" id="family-email-error" class="p-error">{{ $t('iam.family-sign-up.email-mismatch') }}</small>
           </div>
           <div class="flex flex-column gap-2 my-3">
             <label for="family-phone" class="font-medium text-sm">{{ $t('profiles.fields.phone') }}</label>
@@ -109,9 +122,9 @@ onMounted(checkInvitation);
             <small v-if="invalid.confirmPassword" class="p-error">{{ $t('iam.validation.password-match') }}</small>
           </div>
           <div aria-live="polite">
-            <pv-message v-for="error in iamStore.errors" :key="error" severity="error" class="mb-3">{{ $t(error) }}</pv-message>
+            <pv-message v-for="error in signUpErrors" :key="error" severity="error" class="mb-3">{{ $t(error) }}</pv-message>
           </div>
-          <pv-button type="submit" :label="$t('iam.sign-up.submit')" :loading="iamStore.isLoading" class="w-full"/>
+          <pv-button type="submit" :label="$t('iam.sign-up.submit')" :loading="iamStore.isLoading || isRegistering" class="w-full"/>
         </form>
 
         <p class="text-center text-sm mt-4">

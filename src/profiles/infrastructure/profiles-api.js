@@ -50,7 +50,18 @@ export class ProfilesApi extends BaseApi {
     // Family access
     getFamilyAccessesByOlderAdultId(olderAdultId) { return this.#familyAccessEndpoint.getAll({olderAdultId}); }
     getActiveAccessesByFamilyMemberId(familyMemberId) { return this.#familyAccessEndpoint.getAll({familyMemberId, status: 'Active'}); }
+    /**
+     * Looks up a pending invitation. Public endpoint: it returns [] when the code is not valid, expired or revoked.
+     * @param {string} invitationCode - Invitation code.
+     * @returns {Promise<import('axios').AxiosResponse>} Response with zero or one InvitationResource.
+     */
     getFamilyAccessByCode(invitationCode) { return this.#familyAccessEndpoint.getAll({invitationCode}); }
     createFamilyAccess(resource) { return this.#familyAccessEndpoint.create(resource); }
-    updateFamilyAccess(resource) { return this.#familyAccessEndpoint.update(resource.id, resource); }
+    /**
+     * Changes a family access with PUT /family-access/{id}. There is no DELETE: revoking is a PUT with Status Revoked.
+     * @param {number} id - Family access identifier.
+     * @param {{status: string, familyMemberId?: number, relationship?: string}} resource - UpdateFamilyAccessResource.
+     * @returns {Promise<import('axios').AxiosResponse>} Response with the updated FamilyAccessResource.
+     */
+    updateFamilyAccess(id, resource) { return this.#familyAccessEndpoint.update(id, resource); }
 }

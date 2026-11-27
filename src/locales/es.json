@@ -98,7 +98,8 @@
       "subtitle": "Ingresa el código que recibiste de la cuidadora.",
       "validate": "Validar",
       "invalid-invitation": "La invitación venció, fue revocada o no existe.",
-      "valid-invitation": "Invitación válida para {email}. Completa tus datos para crear tu cuenta."
+      "valid-invitation": "Invitación válida. Completa tus datos con el correo que la recibió para crear tu cuenta.",
+      "email-mismatch": "Usa el correo al que se envió la invitación."
     }
   },
   "common": {

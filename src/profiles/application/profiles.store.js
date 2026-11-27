@@ -217,7 +217,7 @@ const useProfilesStore = defineStore('profiles', () => {
         try {
             const updated = ProfilesAssembler.toFamilyAccessFromResource({...familyAccess});
             updated.revoke();
-            await profilesApi.updateFamilyAccess(ProfilesAssembler.toResourceFromFamilyAccess(updated));
+            await profilesApi.updateFamilyAccess(updated.id, ProfilesAssembler.toUpdateResourceFromFamilyAccess(updated));
             const index = familyAccesses.value.findIndex(access => access.id === updated.id);
             if (index !== -1) familyAccesses.value[index] = updated;
             return true;
@@ -246,9 +246,10 @@ const useProfilesStore = defineStore('profiles', () => {
     }
 
     /**
-     * Creates the family member profile and accepts the invitation (US31).
+     * Creates the family member profile of the signed-in user and accepts the invitation (US31).
+     * If the profile already exists (409, a retry after a failed attempt), the existing one is used.
      * @param {Object} params - Registration data.
-     * @param {number} params.userId - New IAM user.
+     * @param {number} params.userId - Signed-in IAM user.
      * @param {string} params.firstName - First name.
      * @param {string} params.lastName - Last name.
      * @param {string} params.phoneNumber - Phone number.
@@ -256,16 +257,41 @@ const useProfilesStore = defineStore('profiles', () => {
      * @returns {Promise<boolean>} True when the access is active.
      */
     async function registerFamilyMember({userId, firstName, lastName, phoneNumber, invitation}) {
+        errors.value = [];
         try {
-            const response = await profilesApi.createFamilyMemberProfile({userId, firstName, lastName, phoneNumber});
+            const profile = await createOrFindFamilyMemberProfile({userId, firstName, lastName, phoneNumber});
             const accepted = ProfilesAssembler.toFamilyAccessFromResource({...invitation});
-            accepted.accept(response.data.id);
-            await profilesApi.updateFamilyAccess(ProfilesAssembler.toResourceFromFamilyAccess(accepted));
+            accepted.accept(profile.id);
+            await profilesApi.updateFamilyAccess(accepted.id, ProfilesAssembler.toUpdateResourceFromFamilyAccess(accepted));
+            familyMemberProfile.value = profile;
+            loadedForUserId.value = null;
             return true;
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.save');
+            // 403/409: the invitation is no longer pending, expired, or was sent to another email.
+            const invalidInvitation = 'iam.family-sign-up.invalid-invitation';
+            const key = {403: invalidInvitation, 409: invalidInvitation, 400: 'profiles.errors.required-data'}[error.status];
+            errors.value.push(key ?? 'profiles.errors.save');
             return false;
+        }
+    }
+
+    /**
+     * Creates the family member profile, or loads it when it already exists.
+     * @param {Object} data - Profile data with userId.
+     * @returns {Promise<import('../domain/model/family-member-profile.entity.js').FamilyMemberProfile>} Profile.
+     */
+    async function createOrFindFamilyMemberProfile(data) {
+        try {
+            const resource = ProfilesAssembler.toResourceFromFamilyMemberProfile(data);
+            const response = await profilesApi.createFamilyMemberProfile(resource);
+            return ProfilesAssembler.toFamilyMemberProfileFromResource(response.data);
+        } catch (error) {
+            if (error.status !== 409) throw error;
+            const profiles = ProfilesAssembler.toFamilyMemberProfilesFromResponse(
+                await profilesApi.getFamilyMemberProfileByUserId(data.userId));
+            if (!profiles[0]) throw error;
+            return profiles[0];
         }
     }
 

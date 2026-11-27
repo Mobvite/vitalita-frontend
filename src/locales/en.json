@@ -98,7 +98,8 @@
       "subtitle": "Enter the code you received from the caregiver.",
       "validate": "Validate",
       "invalid-invitation": "The invitation is expired, revoked or does not exist.",
-      "valid-invitation": "Valid invitation for {email}. Complete your data to create your account."
+      "valid-invitation": "Valid invitation. Complete your data with the email that received it to create your account.",
+      "email-mismatch": "Use the email address the invitation was sent to."
     }
   },
   "common": {
