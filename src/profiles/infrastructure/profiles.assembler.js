@@ -132,10 +132,6 @@ export class ProfilesAssembler {
     }
 
     /**
-     * @param {FamilyAccess} familyAccess - Entity to send.
-     * @returns {Object} Plain resource.
-     */
-    /**
      * Builds the UpdateFamilyAccessResource of the API. The API only reads status,
      * familyMemberId and relationship; accepting needs status Active and familyMemberId.
      * @param {FamilyAccess} familyAccess - Family access with the new status.
@@ -147,7 +143,13 @@ export class ProfilesAssembler {
         return resource;
     }
 
-    static toResourceFromFamilyAccess(familyAccess) {
-        return {...familyAccess, id: familyAccess.id ?? undefined};
+    /**
+     * Builds the CreateFamilyAccessResource of the API. The server ignores and generates
+     * the code, status and dates, so only these three fields are sent.
+     * @param {{olderAdultId: number, invitedEmail: string, relationship: string}} invitation - Invitation data.
+     * @returns {{olderAdultId: number, invitedEmail: string, relationship: string}} Request body.
+     */
+    static toCreateResourceFromInvitation({olderAdultId, invitedEmail, relationship}) {
+        return {olderAdultId, invitedEmail: invitedEmail.trim().toLowerCase(), relationship};
     }
 }

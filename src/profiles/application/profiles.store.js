@@ -3,7 +3,6 @@ import {computed, ref} from "vue";
 import {ProfilesApi} from "../infrastructure/profiles-api.js";
 import {CaregiverProfile} from "../domain/model/caregiver-profile.entity.js";
 import {ProfilesAssembler} from "../infrastructure/profiles.assembler.js";
-import {FamilyAccess} from "../domain/model/family-access.entity.js";
 import useCareContextStore from "../../shared/application/care-context.store.js";
 import useSubscriptionsStore from "../../subscriptions/application/subscriptions.store.js";
 
@@ -203,7 +202,7 @@ const useProfilesStore = defineStore('profiles', () => {
                 : [];
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.load');
+            errors.value.push(errorKeyFor(error, 'profiles.errors.load'));
         }
     }
 
@@ -218,7 +217,7 @@ const useProfilesStore = defineStore('profiles', () => {
     /**
      * Creates an invitation for a family member (US11).
      * @param {{invitedEmail: string, relationship: string}} data - Invitation data.
-     * @returns {Promise<FamilyAccess|null>} The invitation, or null when it failed.
+     * @returns {Promise<import('../domain/model/family-access.entity.js').FamilyAccess|null>} The invitation, or null when it failed.
      */
     async function inviteFamilyMember({invitedEmail, relationship}) {
         errors.value = [];
@@ -235,21 +234,23 @@ const useProfilesStore = defineStore('profiles', () => {
             return null;
         }
         try {
-            const invitation = FamilyAccess.createInvitation({olderAdultId, invitedEmail, relationship});
-            const response = await profilesApi.createFamilyAccess(ProfilesAssembler.toResourceFromFamilyAccess(invitation));
+            // The API generates the code, the status and the dates of the invitation.
+            const resource = ProfilesAssembler.toCreateResourceFromInvitation({olderAdultId, invitedEmail, relationship});
+            const response = await profilesApi.createFamilyAccess(resource);
             const created = ProfilesAssembler.toFamilyAccessFromResource(response.data);
             familyAccesses.value.push(created);
             return created;
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.save');
+            // 409: the older adult already has a pending or active access for that email.
+            errors.value.push(error.status === 409 ? 'profiles.errors.already-invited' : errorKeyFor(error));
             return null;
         }
     }
 
     /**
      * Revokes a family access (US32).
-     * @param {FamilyAccess} familyAccess - Access to revoke.
+     * @param {import('../domain/model/family-access.entity.js').FamilyAccess} familyAccess - Access to revoke.
      * @returns {Promise<boolean>} True when it was revoked.
      */
     async function revokeFamilyAccess(familyAccess) {
@@ -263,7 +264,7 @@ const useProfilesStore = defineStore('profiles', () => {
             return true;
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.save');
+            errors.value.push(errorKeyFor(error));
             return false;
         }
     }
@@ -271,7 +272,7 @@ const useProfilesStore = defineStore('profiles', () => {
     /**
      * Finds an invitation that can still be accepted (US31).
      * @param {string} invitationCode - Code received by the family member.
-     * @returns {Promise<FamilyAccess|null>} Valid invitation or null.
+     * @returns {Promise<import('../domain/model/family-access.entity.js').FamilyAccess|null>} Valid invitation or null.
      */
     async function findValidInvitation(invitationCode) {
         try {
@@ -293,7 +294,7 @@ const useProfilesStore = defineStore('profiles', () => {
      * @param {string} params.firstName - First name.
      * @param {string} params.lastName - Last name.
      * @param {string} params.phoneNumber - Phone number.
-     * @param {FamilyAccess} params.invitation - Invitation to accept.
+     * @param {import('../domain/model/family-access.entity.js').FamilyAccess} params.invitation - Invitation to accept.
      * @returns {Promise<boolean>} True when the access is active.
      */
     async function registerFamilyMember({userId, firstName, lastName, phoneNumber, invitation}) {

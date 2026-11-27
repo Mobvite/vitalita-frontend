@@ -1,8 +1,5 @@
 import {AccessStatus} from "./access-status.js";
 
-const INVITATION_DAYS = 7;
-const CODE_CHARACTERS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-
 /**
  * Entity that gives a family member read-only access to an older adult.
  * The invitation exists before the family member has an account,
@@ -73,31 +70,5 @@ export class FamilyAccess {
     /** Removes the access of the family member (US32). */
     revoke() {
         this.status = AccessStatus.REVOKED;
-    }
-
-    /**
-     * Builds a new invitation with a random code that expires in 7 days.
-     * @param {Object} params - Invitation data.
-     * @param {number} params.olderAdultId - Older adult to share.
-     * @param {string} params.invitedEmail - Email of the invited person.
-     * @param {string} params.relationship - Relationship with the older adult.
-     * @returns {FamilyAccess} Pending access.
-     */
-    static createInvitation({olderAdultId, invitedEmail, relationship}) {
-        const now = new Date();
-        const expiresAt = new Date(now.getTime() + INVITATION_DAYS * 24 * 60 * 60 * 1000);
-        let code = 'VITA-';
-        for (let i = 0; i < 4; i++) {
-            code += CODE_CHARACTERS.charAt(Math.floor(Math.random() * CODE_CHARACTERS.length));
-        }
-        return new FamilyAccess({
-            olderAdultId,
-            invitedEmail: invitedEmail.trim().toLowerCase(),
-            invitationCode: code,
-            relationship,
-            status: AccessStatus.PENDING,
-            invitedAt: now.toISOString(),
-            expiresAt: expiresAt.toISOString()
-        });
     }
 }
