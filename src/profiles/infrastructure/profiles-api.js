@@ -46,7 +46,13 @@ export class ProfilesApi extends BaseApi {
         return this.#olderAdultsEndpoint.getAll(new URLSearchParams(ids.map(id => ['id', String(id)])));
     }
     createOlderAdult(resource) { return this.#olderAdultsEndpoint.create(resource); }
-    updateOlderAdult(resource) { return this.#olderAdultsEndpoint.update(resource.id, resource); }
+    /**
+     * Replaces an older adult with PUT /older-adults/{id}. There is no DELETE: archiving is a PUT with Status Archived.
+     * @param {number} id - Older adult identifier.
+     * @param {Object} resource - SaveOlderAdultResource.
+     * @returns {Promise<import('axios').AxiosResponse>} Response with the updated OlderAdultResource.
+     */
+    updateOlderAdult(id, resource) { return this.#olderAdultsEndpoint.update(id, resource); }
 
     // Family access
     getFamilyAccessesByOlderAdultId(olderAdultId) { return this.#familyAccessEndpoint.getAll({olderAdultId}); }

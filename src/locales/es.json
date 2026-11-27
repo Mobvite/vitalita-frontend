@@ -128,7 +128,12 @@
       "empty": "Aún no registras adultos mayores.",
       "age": "{age} años",
       "active": "Activo",
-      "select": "Marcar como activo"
+      "select": "Marcar como activo",
+      "archive": "Archivar",
+      "archive-for": "Archivar a {name}",
+      "archive-header": "Archivar adulto mayor",
+      "archive-message": "{name} saldrá de tu lista y el seguimiento termina. Los registros se conservan. ¿Quieres continuar?",
+      "archived": "Se archivó a {name}."
     },
     "older-adult-form": {
       "new-title": "Registrar adulto mayor",

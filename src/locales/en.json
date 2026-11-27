@@ -128,7 +128,12 @@
       "empty": "You have not registered older adults yet.",
       "age": "{age} years",
       "active": "Active",
-      "select": "Set as active"
+      "select": "Set as active",
+      "archive": "Archive",
+      "archive-for": "Archive {name}",
+      "archive-header": "Archive older adult",
+      "archive-message": "{name} will leave your list and the follow-up ends. The records are kept. Do you want to continue?",
+      "archived": "{name} was archived."
     },
     "older-adult-form": {
       "new-title": "Register older adult",

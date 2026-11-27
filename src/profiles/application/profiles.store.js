@@ -66,8 +66,10 @@ const useProfilesStore = defineStore('profiles', () => {
                 const profiles = ProfilesAssembler.toCaregiverProfilesFromResponse(await profilesApi.getCaregiverProfileByUserId(userId));
                 caregiverProfile.value = profiles[0] ?? null;
                 familyMemberProfile.value = null;
+                // Archived older adults keep their history in the API but leave the follow-up.
                 olderAdults.value = caregiverProfile.value
                     ? ProfilesAssembler.toOlderAdultsFromResponse(await profilesApi.getOlderAdultsByCaregiverId(caregiverProfile.value.id))
+                        .filter(olderAdult => !olderAdult.isArchived())
                     : [];
             } else {
                 const profiles = ProfilesAssembler.toFamilyMemberProfilesFromResponse(await profilesApi.getFamilyMemberProfileByUserId(userId));
@@ -79,7 +81,8 @@ const useProfilesStore = defineStore('profiles', () => {
                         await profilesApi.getActiveAccessesByFamilyMemberId(familyMemberProfile.value.id));
                     const ids = accesses.map(access => access.olderAdultId);
                     if (ids.length > 0) {
-                        olderAdults.value = ProfilesAssembler.toOlderAdultsFromResponse(await profilesApi.getOlderAdultsByIds(ids));
+                        olderAdults.value = ProfilesAssembler.toOlderAdultsFromResponse(await profilesApi.getOlderAdultsByIds(ids))
+                            .filter(olderAdult => !olderAdult.isArchived());
                     }
                 }
             }
@@ -125,7 +128,7 @@ const useProfilesStore = defineStore('profiles', () => {
             return true;
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.save');
+            errors.value.push(errorKeyFor(error));
             return false;
         }
     }
@@ -143,14 +146,36 @@ const useProfilesStore = defineStore('profiles', () => {
             return false;
         }
         try {
-            const response = await profilesApi.updateOlderAdult(ProfilesAssembler.toResourceFromOlderAdult(olderAdult));
+            const response = await profilesApi.updateOlderAdult(olderAdult.id, ProfilesAssembler.toResourceFromOlderAdult(olderAdult));
             const updated = ProfilesAssembler.toOlderAdultFromResource(response.data);
             const index = olderAdults.value.findIndex(item => item.id === updated.id);
             if (index !== -1) olderAdults.value[index] = updated;
             return true;
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.save');
+            errors.value.push(errorKeyFor(error));
+            return false;
+        }
+    }
+
+    /**
+     * Archives an older adult: PUT with Status "Archived", because the API has no DELETE.
+     * The older adult leaves the list and the selection moves to another one.
+     * @param {import('../domain/model/older-adult.entity.js').OlderAdult} olderAdult - Older adult to archive.
+     * @returns {Promise<boolean>} True when it was archived.
+     */
+    async function archiveOlderAdult(olderAdult) {
+        errors.value = [];
+        try {
+            const archived = ProfilesAssembler.toOlderAdultFromResource({...olderAdult});
+            archived.archive();
+            await profilesApi.updateOlderAdult(archived.id, ProfilesAssembler.toResourceFromOlderAdult(archived));
+            olderAdults.value = olderAdults.value.filter(item => item.id !== archived.id);
+            keepValidSelection();
+            return true;
+        } catch (error) {
+            console.error(error);
+            errors.value.push(errorKeyFor(error));
             return false;
         }
     }
@@ -416,7 +441,7 @@ const useProfilesStore = defineStore('profiles', () => {
         getActiveFamilyUserIds,
         olderAdults, caregiverProfile, familyMemberProfile, familyAccesses, familyMemberProfiles, responsibleCaregiver,
         errors, isLoading, olderAdultsLoaded, selectedOlderAdult, olderAdultsCount,
-        initialize, addOlderAdult, updateOlderAdult, getOlderAdultById,
+        initialize, addOlderAdult, updateOlderAdult, archiveOlderAdult, getOlderAdultById,
         fetchFamilyAccesses, getFamilyMemberName, inviteFamilyMember, revokeFamilyAccess,
         findValidInvitation, registerFamilyMember, createCaregiverProfile, updateCaregiverProfile, updateFamilyMemberProfile, fetchResponsibleCaregiver
     };

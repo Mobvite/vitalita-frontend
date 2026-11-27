@@ -24,8 +24,24 @@ function readResources(response, key) {
  * @class ProfilesAssembler
  */
 export class ProfilesAssembler {
+    /**
+     * Maps an OlderAdultResource. Text fields the API may send as null become empty strings.
+     * @param {Object} resource - OlderAdultResource.
+     * @returns {OlderAdult} Entity.
+     */
     static toOlderAdultFromResource(resource) {
-        return new OlderAdult({...resource});
+        const contact = resource.emergencyContact ?? {};
+        return new OlderAdult({
+            ...resource,
+            documentNumber: resource.documentNumber ?? '',
+            bloodType: resource.bloodType ?? '',
+            allergies: resource.allergies ?? [],
+            chronicConditions: resource.chronicConditions ?? [],
+            observations: resource.observations ?? '',
+            emergencyContact: {
+                name: contact.name ?? '', phoneNumber: contact.phoneNumber ?? '', relationship: contact.relationship ?? ''
+            }
+        });
     }
 
     static toOlderAdultsFromResponse(response) {
@@ -33,22 +49,28 @@ export class ProfilesAssembler {
     }
 
     /**
-     * @param {OlderAdult} olderAdult - Entity to send.
-     * @returns {Object} Plain resource without getters.
+     * Builds the SaveOlderAdultResource of the API (POST and PUT). BirthDate is a DateOnly ("YYYY-MM-DD")
+     * and status is required by PUT: "Archived" ends the follow-up, because there is no DELETE.
+     * @param {OlderAdult} olderAdult - Older adult.
+     * @returns {Object} Request body.
      */
     static toResourceFromOlderAdult(olderAdult) {
+        const contact = olderAdult.emergencyContact;
         return {
-            id: olderAdult.id ?? undefined,
             caregiverId: olderAdult.caregiverId,
             firstName: olderAdult.firstName.trim(),
             lastName: olderAdult.lastName.trim(),
-            birthDate: olderAdult.birthDate,
-            documentNumber: olderAdult.documentNumber,
-            bloodType: olderAdult.bloodType,
-            allergies: olderAdult.allergies,
-            chronicConditions: olderAdult.chronicConditions,
-            emergencyContact: {...olderAdult.emergencyContact},
-            observations: olderAdult.observations,
+            birthDate: olderAdult.birthDate ? String(olderAdult.birthDate).slice(0, 10) : null,
+            documentNumber: olderAdult.documentNumber?.trim() ?? '',
+            bloodType: olderAdult.bloodType ?? '',
+            allergies: [...olderAdult.allergies],
+            chronicConditions: [...olderAdult.chronicConditions],
+            emergencyContact: {
+                name: contact.name?.trim() ?? '',
+                phoneNumber: contact.phoneNumber?.trim() ?? '',
+                relationship: contact.relationship ?? ''
+            },
+            observations: olderAdult.observations?.trim() ?? '',
             status: olderAdult.status
         };
     }

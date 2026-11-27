@@ -69,4 +69,14 @@ export class OlderAdult {
     isActive() {
         return this.status === 'Active';
     }
+
+    /** @returns {boolean} True when the follow-up ended. Archived older adults are not shown. */
+    isArchived() {
+        return this.status === 'Archived';
+    }
+
+    /** Ends the follow-up. The API keeps the record; there is no delete. */
+    archive() {
+        this.status = 'Archived';
+    }
 }
