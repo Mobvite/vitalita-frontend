@@ -16,6 +16,8 @@ const selectedId = computed({
 });
 
 onMounted(async () => {
+  // The layout can render for a moment while an expired session goes back to sign-in.
+  if (!iamStore.isSignedIn) return;
   await profilesStore.initialize(iamStore.currentUserId, iamStore.isCaregiver);
   if (iamStore.isCaregiver) await subscriptionsStore.fetchCurrentSubscription(iamStore.currentUserId);
 });

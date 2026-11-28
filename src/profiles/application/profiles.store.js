@@ -3,11 +3,23 @@ import {computed, ref} from "vue";
 import {ProfilesApi} from "../infrastructure/profiles-api.js";
 import {CaregiverProfile} from "../domain/model/caregiver-profile.entity.js";
 import {ProfilesAssembler} from "../infrastructure/profiles.assembler.js";
-import {FamilyAccess} from "../domain/model/family-access.entity.js";
 import useCareContextStore from "../../shared/application/care-context.store.js";
 import useSubscriptionsStore from "../../subscriptions/application/subscriptions.store.js";
 
 const profilesApi = new ProfilesApi();
+
+/**
+ * Chooses the i18n key for a failed request. The API enforces ownership, so a 403
+ * gets its own message instead of breaking the screen.
+ * @param {{status?: number}} error - Error of the API client.
+ * @param {string} [fallback='profiles.errors.save'] - Key for any other error.
+ * @returns {string} i18n key.
+ */
+function errorKeyFor(error, fallback = 'profiles.errors.save') {
+    if (error.status === 403) return 'profiles.errors.forbidden';
+    if (error.status === 400) return 'profiles.errors.invalid-data';
+    return fallback;
+}
 
 /**
  * Application store for the Profiles Management context.
@@ -34,6 +46,9 @@ const useProfilesStore = defineStore('profiles', () => {
     /** Family accesses that count for the plan limit (pending or active). */
     const openFamilyAccessesCount = computed(() => familyAccesses.value.filter(access => access.status !== 'Revoked').length);
 
+    /** @type {{key: string, promise: Promise<void>}|null} Profile load that has not finished yet. */
+    let loadInProgress = null;
+
     /**
      * Loads the profile and the older adults of the signed-in user.
      * A caregiver sees the older adults in her charge; a family member sees
@@ -43,7 +58,24 @@ const useProfilesStore = defineStore('profiles', () => {
      * @param {boolean} [force=false] - Reload even if the data is already there.
      */
     async function initialize(userId, isCaregiver, force = false) {
+        // Without a session there is nothing to load, and the API would answer 401.
+        if (!userId) return;
         if (!force && loadedForUserId.value === userId && olderAdultsLoaded.value) return;
+        // The layout, the page and other stores ask at the same time: they share one load.
+        const key = `${userId}:${isCaregiver}`;
+        if (!force && loadInProgress?.key === key) return loadInProgress.promise;
+        const promise = loadProfiles(userId, isCaregiver)
+            .finally(() => { if (loadInProgress?.promise === promise) loadInProgress = null; });
+        loadInProgress = {key, promise};
+        return promise;
+    }
+
+    /**
+     * Requests the profile and the older adults of a user.
+     * @param {number} userId - Signed-in user.
+     * @param {boolean} isCaregiver - True for caregivers, false for family members.
+     */
+    async function loadProfiles(userId, isCaregiver) {
         isLoading.value = true;
         errors.value = [];
         try {
@@ -51,8 +83,10 @@ const useProfilesStore = defineStore('profiles', () => {
                 const profiles = ProfilesAssembler.toCaregiverProfilesFromResponse(await profilesApi.getCaregiverProfileByUserId(userId));
                 caregiverProfile.value = profiles[0] ?? null;
                 familyMemberProfile.value = null;
+                // Archived older adults keep their history in the API but leave the follow-up.
                 olderAdults.value = caregiverProfile.value
                     ? ProfilesAssembler.toOlderAdultsFromResponse(await profilesApi.getOlderAdultsByCaregiverId(caregiverProfile.value.id))
+                        .filter(olderAdult => !olderAdult.isArchived())
                     : [];
             } else {
                 const profiles = ProfilesAssembler.toFamilyMemberProfilesFromResponse(await profilesApi.getFamilyMemberProfileByUserId(userId));
@@ -64,7 +98,8 @@ const useProfilesStore = defineStore('profiles', () => {
                         await profilesApi.getActiveAccessesByFamilyMemberId(familyMemberProfile.value.id));
                     const ids = accesses.map(access => access.olderAdultId);
                     if (ids.length > 0) {
-                        olderAdults.value = ProfilesAssembler.toOlderAdultsFromResponse(await profilesApi.getOlderAdultsByIds(ids));
+                        olderAdults.value = ProfilesAssembler.toOlderAdultsFromResponse(await profilesApi.getOlderAdultsByIds(ids))
+                            .filter(olderAdult => !olderAdult.isArchived());
                     }
                 }
             }
@@ -73,7 +108,7 @@ const useProfilesStore = defineStore('profiles', () => {
             olderAdultsLoaded.value = true;
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.load');
+            errors.value.push(errorKeyFor(error, 'profiles.errors.load'));
         } finally {
             isLoading.value = false;
         }
@@ -110,7 +145,7 @@ const useProfilesStore = defineStore('profiles', () => {
             return true;
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.save');
+            errors.value.push(errorKeyFor(error));
             return false;
         }
     }
@@ -128,14 +163,36 @@ const useProfilesStore = defineStore('profiles', () => {
             return false;
         }
         try {
-            const response = await profilesApi.updateOlderAdult(ProfilesAssembler.toResourceFromOlderAdult(olderAdult));
+            const response = await profilesApi.updateOlderAdult(olderAdult.id, ProfilesAssembler.toResourceFromOlderAdult(olderAdult));
             const updated = ProfilesAssembler.toOlderAdultFromResource(response.data);
             const index = olderAdults.value.findIndex(item => item.id === updated.id);
             if (index !== -1) olderAdults.value[index] = updated;
             return true;
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.save');
+            errors.value.push(errorKeyFor(error));
+            return false;
+        }
+    }
+
+    /**
+     * Archives an older adult: PUT with Status "Archived", because the API has no DELETE.
+     * The older adult leaves the list and the selection moves to another one.
+     * @param {import('../domain/model/older-adult.entity.js').OlderAdult} olderAdult - Older adult to archive.
+     * @returns {Promise<boolean>} True when it was archived.
+     */
+    async function archiveOlderAdult(olderAdult) {
+        errors.value = [];
+        try {
+            const archived = ProfilesAssembler.toOlderAdultFromResource({...olderAdult});
+            archived.archive();
+            await profilesApi.updateOlderAdult(archived.id, ProfilesAssembler.toResourceFromOlderAdult(archived));
+            olderAdults.value = olderAdults.value.filter(item => item.id !== archived.id);
+            keepValidSelection();
+            return true;
+        } catch (error) {
+            console.error(error);
+            errors.value.push(errorKeyFor(error));
             return false;
         }
     }
@@ -163,7 +220,7 @@ const useProfilesStore = defineStore('profiles', () => {
                 : [];
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.load');
+            errors.value.push(errorKeyFor(error, 'profiles.errors.load'));
         }
     }
 
@@ -178,7 +235,7 @@ const useProfilesStore = defineStore('profiles', () => {
     /**
      * Creates an invitation for a family member (US11).
      * @param {{invitedEmail: string, relationship: string}} data - Invitation data.
-     * @returns {Promise<FamilyAccess|null>} The invitation, or null when it failed.
+     * @returns {Promise<import('../domain/model/family-access.entity.js').FamilyAccess|null>} The invitation, or null when it failed.
      */
     async function inviteFamilyMember({invitedEmail, relationship}) {
         errors.value = [];
@@ -195,21 +252,23 @@ const useProfilesStore = defineStore('profiles', () => {
             return null;
         }
         try {
-            const invitation = FamilyAccess.createInvitation({olderAdultId, invitedEmail, relationship});
-            const response = await profilesApi.createFamilyAccess(ProfilesAssembler.toResourceFromFamilyAccess(invitation));
+            // The API generates the code, the status and the dates of the invitation.
+            const resource = ProfilesAssembler.toCreateResourceFromInvitation({olderAdultId, invitedEmail, relationship});
+            const response = await profilesApi.createFamilyAccess(resource);
             const created = ProfilesAssembler.toFamilyAccessFromResource(response.data);
             familyAccesses.value.push(created);
             return created;
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.save');
+            // 409: the older adult already has a pending or active access for that email.
+            errors.value.push(error.status === 409 ? 'profiles.errors.already-invited' : errorKeyFor(error));
             return null;
         }
     }
 
     /**
      * Revokes a family access (US32).
-     * @param {FamilyAccess} familyAccess - Access to revoke.
+     * @param {import('../domain/model/family-access.entity.js').FamilyAccess} familyAccess - Access to revoke.
      * @returns {Promise<boolean>} True when it was revoked.
      */
     async function revokeFamilyAccess(familyAccess) {
@@ -223,7 +282,7 @@ const useProfilesStore = defineStore('profiles', () => {
             return true;
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.save');
+            errors.value.push(errorKeyFor(error));
             return false;
         }
     }
@@ -231,7 +290,7 @@ const useProfilesStore = defineStore('profiles', () => {
     /**
      * Finds an invitation that can still be accepted (US31).
      * @param {string} invitationCode - Code received by the family member.
-     * @returns {Promise<FamilyAccess|null>} Valid invitation or null.
+     * @returns {Promise<import('../domain/model/family-access.entity.js').FamilyAccess|null>} Valid invitation or null.
      */
     async function findValidInvitation(invitationCode) {
         try {
@@ -253,7 +312,7 @@ const useProfilesStore = defineStore('profiles', () => {
      * @param {string} params.firstName - First name.
      * @param {string} params.lastName - Last name.
      * @param {string} params.phoneNumber - Phone number.
-     * @param {FamilyAccess} params.invitation - Invitation to accept.
+     * @param {import('../domain/model/family-access.entity.js').FamilyAccess} params.invitation - Invitation to accept.
      * @returns {Promise<boolean>} True when the access is active.
      */
     async function registerFamilyMember({userId, firstName, lastName, phoneNumber, invitation}) {
@@ -317,7 +376,7 @@ const useProfilesStore = defineStore('profiles', () => {
                 caregiverProfile.value = profiles[0] ?? null;
                 if (caregiverProfile.value) return true;
             }
-            errors.value.push(error.status === 400 ? 'profiles.errors.required-data' : 'profiles.errors.save');
+            errors.value.push(errorKeyFor(error));
             return false;
         }
     }
@@ -334,12 +393,36 @@ const useProfilesStore = defineStore('profiles', () => {
             return false;
         }
         try {
-            const response = await profilesApi.updateCaregiverProfile({...profile});
+            const response = await profilesApi.updateCaregiverProfile(profile.id,
+                ProfilesAssembler.toResourceFromCaregiverProfile(profile));
             caregiverProfile.value = ProfilesAssembler.toCaregiverProfileFromResource(response.data);
             return true;
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.save');
+            errors.value.push(errorKeyFor(error));
+            return false;
+        }
+    }
+
+    /**
+     * Updates the data of the signed-in family member.
+     * @param {import('../domain/model/family-member-profile.entity.js').FamilyMemberProfile} profile - Profile with changes.
+     * @returns {Promise<boolean>} True when it was updated.
+     */
+    async function updateFamilyMemberProfile(profile) {
+        errors.value = [];
+        if (!profile.firstName.trim() || !profile.lastName.trim()) {
+            errors.value.push('profiles.errors.required-data');
+            return false;
+        }
+        try {
+            const response = await profilesApi.updateFamilyMemberProfile(profile.id,
+                ProfilesAssembler.toResourceFromFamilyMemberProfile(profile));
+            familyMemberProfile.value = ProfilesAssembler.toFamilyMemberProfileFromResource(response.data);
+            return true;
+        } catch (error) {
+            console.error(error);
+            errors.value.push(errorKeyFor(error));
             return false;
         }
     }
@@ -355,7 +438,7 @@ const useProfilesStore = defineStore('profiles', () => {
             responsibleCaregiver.value = ProfilesAssembler.toCaregiverProfileFromResource(response.data);
         } catch (error) {
             console.error(error);
-            errors.value.push('profiles.errors.load');
+            errors.value.push(errorKeyFor(error, 'profiles.errors.load'));
         }
     }
 
@@ -377,9 +460,9 @@ const useProfilesStore = defineStore('profiles', () => {
         getActiveFamilyUserIds,
         olderAdults, caregiverProfile, familyMemberProfile, familyAccesses, familyMemberProfiles, responsibleCaregiver,
         errors, isLoading, olderAdultsLoaded, selectedOlderAdult, olderAdultsCount,
-        initialize, addOlderAdult, updateOlderAdult, getOlderAdultById,
+        initialize, addOlderAdult, updateOlderAdult, archiveOlderAdult, getOlderAdultById,
         fetchFamilyAccesses, getFamilyMemberName, inviteFamilyMember, revokeFamilyAccess,
-        findValidInvitation, registerFamilyMember, createCaregiverProfile, updateCaregiverProfile, fetchResponsibleCaregiver
+        findValidInvitation, registerFamilyMember, createCaregiverProfile, updateCaregiverProfile, updateFamilyMemberProfile, fetchResponsibleCaregiver
     };
 });
 

@@ -51,8 +51,16 @@ onMounted(async () => {
   });
 });
 
+/**
+ * Formats the picked day as a DateOnly ("YYYY-MM-DD") with the local calendar,
+ * so the day never moves because of the time zone.
+ * @param {Date|null} date - Picked date.
+ * @returns {string|null} Date or null.
+ */
 function toIsoDate(date) {
-  return date ? date.toISOString().slice(0, 10) : null;
+  if (!date) return null;
+  const pad = value => String(value).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 }
 
 async function save() {

@@ -1,18 +1,44 @@
 <script setup>
 import {computed, onMounted} from "vue";
 import {useRouter} from "vue-router";
+import {useI18n} from "vue-i18n";
+import {useConfirm, useToast} from "primevue";
 import useIamStore from "../../../iam/application/iam.store.js";
 import useProfilesStore from "../../application/profiles.store.js";
 import useSubscriptionsStore from "../../../subscriptions/application/subscriptions.store.js";
 import useCareContextStore from "../../../shared/application/care-context.store.js";
 
 const router = useRouter();
+const {t} = useI18n();
+const confirm = useConfirm();
+const toast = useToast();
 const iamStore = useIamStore();
 const store = useProfilesStore();
 const subscriptionsStore = useSubscriptionsStore();
 const careContext = useCareContextStore();
 
 const canAddOlderAdult = computed(() => subscriptionsStore.canManageAnotherOlderAdult(store.olderAdultsCount));
+
+/**
+ * Asks before archiving. The API has no delete: the record is kept with Status Archived.
+ * @param {import('../../domain/model/older-adult.entity.js').OlderAdult} olderAdult - Older adult to archive.
+ */
+function confirmArchive(olderAdult) {
+  confirm.require({
+    header: t('profiles.older-adults.archive-header'),
+    message: t('profiles.older-adults.archive-message', {name: olderAdult.fullName}),
+    icon: 'pi pi-exclamation-triangle',
+    rejectProps: {label: t('common.cancel'), severity: 'secondary', text: true},
+    acceptProps: {label: t('profiles.older-adults.archive'), severity: 'danger'},
+    accept: async () => {
+      if (await store.archiveOlderAdult(olderAdult)) {
+        toast.add({severity: 'success', summary: t('profiles.older-adults.archived', {name: olderAdult.fullName}), life: 3000});
+      } else {
+        toast.add({severity: 'error', summary: t(store.errors[0] ?? 'profiles.errors.save'), life: 4000});
+      }
+    }
+  });
+}
 
 onMounted(() => store.initialize(iamStore.currentUserId, iamStore.isCaregiver));
 </script>
@@ -69,6 +95,9 @@ onMounted(() => store.initialize(iamStore.currentUserId, iamStore.isCaregiver));
                        @click="careContext.selectOlderAdult(olderAdult.id)"/>
             <pv-button :label="$t('common.edit')" icon="pi pi-pencil" size="small" text
                        @click="router.push({name: 'profiles-older-adult-edit', params: {id: olderAdult.id}})"/>
+            <pv-button :label="$t('profiles.older-adults.archive')" icon="pi pi-inbox" size="small" text severity="danger"
+                       :aria-label="$t('profiles.older-adults.archive-for', {name: olderAdult.fullName})"
+                       @click="confirmArchive(olderAdult)"/>
           </div>
         </article>
       </li>

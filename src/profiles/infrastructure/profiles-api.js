@@ -30,7 +30,7 @@ export class ProfilesApi extends BaseApi {
     getCaregiverProfileByUserId(userId) { return this.#caregiverProfilesEndpoint.getAll({userId}); }
     getCaregiverProfileById(id) { return this.#caregiverProfilesEndpoint.getById(id); }
     createCaregiverProfile(resource) { return this.#caregiverProfilesEndpoint.create(resource); }
-    updateCaregiverProfile(resource) { return this.#caregiverProfilesEndpoint.update(resource.id, resource); }
+    updateCaregiverProfile(id, resource) { return this.#caregiverProfilesEndpoint.update(id, resource); }
 
     // Family member profiles
     getFamilyMemberProfileByUserId(userId) { return this.#familyMemberProfilesEndpoint.getAll({userId}); }
@@ -38,6 +38,7 @@ export class ProfilesApi extends BaseApi {
         return this.#familyMemberProfilesEndpoint.getAll(new URLSearchParams(ids.map(id => ['id', String(id)])));
     }
     createFamilyMemberProfile(resource) { return this.#familyMemberProfilesEndpoint.create(resource); }
+    updateFamilyMemberProfile(id, resource) { return this.#familyMemberProfilesEndpoint.update(id, resource); }
 
     // Older adults
     getOlderAdultsByCaregiverId(caregiverId) { return this.#olderAdultsEndpoint.getAll({caregiverId}); }
@@ -45,7 +46,13 @@ export class ProfilesApi extends BaseApi {
         return this.#olderAdultsEndpoint.getAll(new URLSearchParams(ids.map(id => ['id', String(id)])));
     }
     createOlderAdult(resource) { return this.#olderAdultsEndpoint.create(resource); }
-    updateOlderAdult(resource) { return this.#olderAdultsEndpoint.update(resource.id, resource); }
+    /**
+     * Replaces an older adult with PUT /older-adults/{id}. There is no DELETE: archiving is a PUT with Status Archived.
+     * @param {number} id - Older adult identifier.
+     * @param {Object} resource - SaveOlderAdultResource.
+     * @returns {Promise<import('axios').AxiosResponse>} Response with the updated OlderAdultResource.
+     */
+    updateOlderAdult(id, resource) { return this.#olderAdultsEndpoint.update(id, resource); }
 
     // Family access
     getFamilyAccessesByOlderAdultId(olderAdultId) { return this.#familyAccessEndpoint.getAll({olderAdultId}); }

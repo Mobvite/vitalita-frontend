@@ -6,6 +6,7 @@ import useIamStore from "../../../iam/application/iam.store.js";
 import useProfilesStore from "../../application/profiles.store.js";
 import useCareContextStore from "../../../shared/application/care-context.store.js";
 import {CaregiverProfile} from "../../domain/model/caregiver-profile.entity.js";
+import {FamilyMemberProfile} from "../../domain/model/family-member-profile.entity.js";
 import TagListInput from "../components/tag-list-input.vue";
 
 const {t} = useI18n();
@@ -15,6 +16,8 @@ const store = useProfilesStore();
 const careContext = useCareContextStore();
 
 const form = reactive({firstName: '', lastName: '', phoneNumber: '', professionalTitle: '', bio: '', certifications: []});
+/** Own data of a family member, shown next to the profile of the caregiver in charge. */
+const familyForm = reactive({firstName: '', lastName: '', phoneNumber: ''});
 const shownProfile = computed(() => iamStore.isCaregiver ? store.caregiverProfile : store.responsibleCaregiver);
 
 function fillForm() {
@@ -27,7 +30,23 @@ async function load() {
   await store.initialize(iamStore.currentUserId, iamStore.isCaregiver);
   profileLoaded.value = store.errors.length === 0;
   if (iamStore.isCaregiver) fillForm();
-  else await store.fetchResponsibleCaregiver();
+  else {
+    fillFamilyForm();
+    await store.fetchResponsibleCaregiver();
+  }
+}
+
+function fillFamilyForm() {
+  if (!store.familyMemberProfile) return;
+  const {firstName, lastName, phoneNumber} = store.familyMemberProfile;
+  Object.assign(familyForm, {firstName, lastName, phoneNumber});
+}
+
+async function saveFamilyMember() {
+  const updated = new FamilyMemberProfile({...store.familyMemberProfile, ...familyForm});
+  if (await store.updateFamilyMemberProfile(updated)) {
+    toast.add({severity: 'success', summary: t('profiles.family-member.saved'), life: 3000});
+  }
 }
 
 /** True when the account was created but the profile step did not finish. */
@@ -90,6 +109,32 @@ watch(() => careContext.selectedOlderAdultId, () => { if (iamStore.isFamilyMembe
           <div class="col-12 flex flex-column gap-2">
             <label for="certifications">{{ $t('profiles.fields.certifications') }}</label>
             <tag-list-input v-model="form.certifications" input-id="certifications" :placeholder="$t('profiles.fields.certifications-placeholder')"/>
+          </div>
+        </div>
+        <div aria-live="polite">
+          <pv-message v-for="error in store.errors" :key="error" severity="error" class="mb-3">{{ $t(error) }}</pv-message>
+        </div>
+        <div class="flex justify-content-end">
+          <pv-button type="submit" :label="$t('common.save')" icon="pi pi-check"/>
+        </div>
+      </form>
+    </div>
+
+    <div v-else-if="store.familyMemberProfile" class="col-12 lg:col-8">
+      <form class="vt-card" novalidate aria-labelledby="family-member-title" @submit.prevent="saveFamilyMember">
+        <h3 id="family-member-title" class="text-lg mb-3">{{ $t('profiles.family-member.edit') }}</h3>
+        <div class="grid">
+          <div class="col-12 md:col-6 flex flex-column gap-2">
+            <label for="family-member-first-name">{{ $t('iam.fields.first-name') }} *</label>
+            <pv-input-text id="family-member-first-name" v-model="familyForm.firstName" autocomplete="given-name" aria-required="true"/>
+          </div>
+          <div class="col-12 md:col-6 flex flex-column gap-2">
+            <label for="family-member-last-name">{{ $t('iam.fields.last-name') }} *</label>
+            <pv-input-text id="family-member-last-name" v-model="familyForm.lastName" autocomplete="family-name" aria-required="true"/>
+          </div>
+          <div class="col-12 md:col-6 flex flex-column gap-2">
+            <label for="family-member-phone">{{ $t('profiles.fields.phone') }}</label>
+            <pv-input-text id="family-member-phone" v-model="familyForm.phoneNumber" inputmode="tel" autocomplete="tel"/>
           </div>
         </div>
         <div aria-live="polite">

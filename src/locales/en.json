@@ -128,7 +128,12 @@
       "empty": "You have not registered older adults yet.",
       "age": "{age} years",
       "active": "Active",
-      "select": "Set as active"
+      "select": "Set as active",
+      "archive": "Archive",
+      "archive-for": "Archive {name}",
+      "archive-header": "Archive older adult",
+      "archive-message": "{name} will leave your list and the follow-up ends. The records are kept. Do you want to continue?",
+      "archived": "{name} was archived."
     },
     "older-adult-form": {
       "new-title": "Register older adult",
@@ -211,7 +216,13 @@
       "plan-limit": "Your plan does not allow more older adults. Upgrade your plan to register another one.",
       "family-limit": "Your plan does not allow more family members for this older adult.",
       "already-invited": "This email already has an invitation.",
-      "required-data": "Complete the required fields."
+      "required-data": "Complete the required fields.",
+      "forbidden": "You do not have permission for this action or this information.",
+      "invalid-data": "Some data is not valid. Check the phone number, dates and the other fields."
+    },
+    "family-member": {
+      "edit": "My data",
+      "saved": "Your data was updated."
     }
   },
   "monitoring": {
@@ -301,7 +312,15 @@
       "frequency": "Frequency",
       "times": "Schedule",
       "times-help": "Hours in 24-hour format separated by commas.",
-      "instructions": "Instructions"
+      "instructions": "Instructions",
+      "manage": "Manage medications",
+      "edit": "Edit medication",
+      "edit-for": "Edit {name}",
+      "deactivate": "Deactivate",
+      "deactivate-for": "Deactivate {name}",
+      "deactivate-header": "Deactivate medication",
+      "deactivate-message": "{name} will leave the daily schedule. Its history is kept. Do you want to continue?",
+      "deactivated": "{name} was deactivated."
     },
     "records": {
       "title": "Exams and results",
@@ -360,7 +379,9 @@
       "invalid-medication": "Complete name, dose and schedule in HH:mm format.",
       "duplicated-dose": "This dose was already registered today.",
       "invalid-appointment": "Complete the specialty and the date.",
-      "invalid-exam": "Write the name of the exam."
+      "invalid-exam": "Write the name of the exam.",
+      "forbidden": "You do not have permission to see or change the records of this older adult.",
+      "invalid-data": "Some data is not valid. Check the values and the date, which cannot be in the future."
     }
   },
   "asset-management": {

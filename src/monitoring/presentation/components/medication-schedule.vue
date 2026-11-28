@@ -1,7 +1,7 @@
 <script setup>
 import {reactive, ref} from "vue";
 import {useI18n} from "vue-i18n";
-import {useToast} from "primevue";
+import {useConfirm, useToast} from "primevue";
 import useMonitoringStore from "../../application/monitoring.store.js";
 import {Medication} from "../../domain/model/medication.entity.js";
 import {MedicationAdministration} from "../../domain/model/medication-administration.entity.js";
@@ -9,10 +9,52 @@ import {MedicationAdministration} from "../../domain/model/medication-administra
 const props = defineProps({olderAdultId: {type: Number, default: null}, readOnly: {type: Boolean, default: false}});
 const {t} = useI18n();
 const toast = useToast();
+const confirm = useConfirm();
 const store = useMonitoringStore();
 
 const dialogVisible = ref(false);
-const form = reactive({name: '', dosage: '', frequency: '', scheduleTimes: '', instructions: ''});
+const manageVisible = ref(false);
+/** Identifier of the medication being edited, or null when adding a new one. */
+const editingId = ref(null);
+const emptyForm = () => ({name: '', dosage: '', frequency: '', scheduleTimes: '', instructions: ''});
+const form = reactive(emptyForm());
+
+function openAdd() {
+  editingId.value = null;
+  Object.assign(form, emptyForm());
+  dialogVisible.value = true;
+}
+
+function openEdit(medication) {
+  editingId.value = medication.id;
+  Object.assign(form, {
+    name: medication.name, dosage: medication.dosage, frequency: medication.frequency,
+    scheduleTimes: medication.scheduleTimes.join(', '), instructions: medication.instructions
+  });
+  manageVisible.value = false;
+  dialogVisible.value = true;
+}
+
+/**
+ * Asks before deactivating. The API has no delete: the medication is saved with active false.
+ * @param {Medication} medication - Medication to deactivate.
+ */
+function confirmDeactivate(medication) {
+  confirm.require({
+    header: t('monitoring.medication.deactivate-header'),
+    message: t('monitoring.medication.deactivate-message', {name: medication.name}),
+    icon: 'pi pi-exclamation-triangle',
+    rejectProps: {label: t('common.cancel'), severity: 'secondary', text: true},
+    acceptProps: {label: t('monitoring.medication.deactivate'), severity: 'danger'},
+    accept: async () => {
+      if (await store.deactivateMedication(medication)) {
+        toast.add({severity: 'success', summary: t('monitoring.medication.deactivated', {name: medication.name}), life: 3000});
+      } else {
+        toast.add({severity: 'error', summary: t(store.errors[0] ?? 'monitoring.errors.save'), life: 4000});
+      }
+    }
+  });
+}
 
 async function registerDose(dose) {
   const administration = new MedicationAdministration({
@@ -27,12 +69,15 @@ async function registerDose(dose) {
 }
 
 async function saveMedication() {
+  const original = store.medications.find(medication => medication.id === editingId.value);
   const medication = new Medication({
-    ...form, olderAdultId: props.olderAdultId,
+    ...original, ...form, olderAdultId: props.olderAdultId,
     scheduleTimes: form.scheduleTimes.split(',').map(time => time.trim()).filter(Boolean)
   });
-  if (await store.addMedication(medication)) {
-    Object.assign(form, {name: '', dosage: '', frequency: '', scheduleTimes: '', instructions: ''});
+  const saved = original ? await store.updateMedication(medication) : await store.addMedication(medication);
+  if (saved) {
+    Object.assign(form, emptyForm());
+    editingId.value = null;
     dialogVisible.value = false;
   }
 }
@@ -42,8 +87,13 @@ async function saveMedication() {
   <section class="vt-card" aria-labelledby="medication-title">
     <div class="flex align-items-center justify-content-between mb-3">
       <h3 id="medication-title" class="text-lg">{{ $t('monitoring.medication.today') }}</h3>
-      <pv-button v-if="!readOnly" icon="pi pi-plus" text rounded :aria-label="$t('monitoring.medication.add')"
-                 v-tooltip.left="$t('monitoring.medication.add')" @click="dialogVisible = true"/>
+      <div v-if="!readOnly" class="flex gap-1">
+        <pv-button v-if="store.activeMedications.length" icon="pi pi-list" text rounded
+                   :aria-label="$t('monitoring.medication.manage')" v-tooltip.left="$t('monitoring.medication.manage')"
+                   @click="manageVisible = true"/>
+        <pv-button icon="pi pi-plus" text rounded :aria-label="$t('monitoring.medication.add')"
+                   v-tooltip.left="$t('monitoring.medication.add')" @click="openAdd"/>
+      </div>
     </div>
     <p v-if="!store.todayDoses.length" class="text-sm text-600 m-0">{{ $t('monitoring.medication.empty') }}</p>
     <ul v-else class="list-none p-0 m-0 flex flex-column gap-2">
@@ -61,7 +111,23 @@ async function saveMedication() {
       </li>
     </ul>
 
-    <pv-dialog v-model:visible="dialogVisible" modal :header="$t('monitoring.medication.add')" :style="{width: '30rem'}" :breakpoints="{'640px': '95vw'}">
+    <pv-dialog v-model:visible="manageVisible" modal :header="$t('monitoring.medication.manage')" :style="{width: '32rem'}" :breakpoints="{'640px': '95vw'}">
+      <ul class="list-none p-0 m-0 flex flex-column gap-2">
+        <li v-for="medication in store.activeMedications" :key="medication.id" class="dose-row">
+          <div class="flex-1">
+            <p class="m-0 font-semibold text-sm">{{ medication.name }} {{ medication.dosage }}</p>
+            <p class="m-0 text-xs text-600">{{ medication.scheduleTimes.join(', ') }}</p>
+          </div>
+          <pv-button icon="pi pi-pencil" text rounded size="small" :aria-label="$t('monitoring.medication.edit-for', {name: medication.name})"
+                     @click="openEdit(medication)"/>
+          <pv-button icon="pi pi-ban" text rounded size="small" severity="danger"
+                     :aria-label="$t('monitoring.medication.deactivate-for', {name: medication.name})"
+                     @click="confirmDeactivate(medication)"/>
+        </li>
+      </ul>
+    </pv-dialog>
+
+    <pv-dialog v-model:visible="dialogVisible" modal :header="$t(editingId ? 'monitoring.medication.edit' : 'monitoring.medication.add')" :style="{width: '30rem'}" :breakpoints="{'640px': '95vw'}">
       <form novalidate class="flex flex-column gap-3" @submit.prevent="saveMedication">
         <div class="flex flex-column gap-2">
           <label for="medication-name" class="text-sm font-medium">{{ $t('monitoring.medication.name') }} *</label>
