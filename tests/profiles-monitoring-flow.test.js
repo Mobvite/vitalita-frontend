@@ -167,3 +167,32 @@ test('profiles and monitoring against the Vitalita API', async t => {
         assert.equal(caregiverContext.selectedOlderAdultId, null);
     });
 });
+
+test('profiles requested at the same time share one load', async t => {
+    useMemoryLocalStorage();
+    t.after(() => delete globalThis.localStorage);
+    const backend = fakeBackend();
+    const api = await startFakeVitalitaApi({handle: backend.handle});
+    t.after(() => api.close());
+    process.env.VITE_VITALITA_API_URL = api.url;
+    t.after(() => delete process.env.VITE_VITALITA_API_URL);
+    const vite = await createServer({server: {middlewareMode: true}, appType: 'custom', logLevel: 'silent'});
+    t.after(() => vite.close());
+    await vite.ssrLoadModule('/src/iam/application/iam.store.js');
+    const {default: useProfilesStore} = await vite.ssrLoadModule('/src/profiles/application/profiles.store.js');
+    const token = fakeToken(Date.now() + 10 * 60 * 1000);
+    api.validTokens.add(token);
+    saveSession({id: fakeAccount.id, email: fakeAccount.email, role: 'Caregiver', status: 'Active'}, token);
+    setActivePinia(createPinia());
+    const profiles = useProfilesStore();
+
+    // Like the patient selector, the page and the dashboard store mounting together.
+    await Promise.all([1, 2, 3].map(() => profiles.initialize(fakeAccount.id, true)));
+    const requested = path => api.requests.filter(request => request.path.startsWith(`/api/v1${path}`)).length;
+    assert.equal(requested('/caregiver-profiles'), 1);
+    assert.equal(requested('/older-adults'), 1);
+    assert.deepEqual(profiles.olderAdults.map(item => item.id), [5]);
+
+    await profiles.initialize(fakeAccount.id, true, true);
+    assert.equal(requested('/caregiver-profiles'), 2, 'force still reloads');
+});

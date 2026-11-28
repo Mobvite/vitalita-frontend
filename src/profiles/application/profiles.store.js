@@ -46,6 +46,9 @@ const useProfilesStore = defineStore('profiles', () => {
     /** Family accesses that count for the plan limit (pending or active). */
     const openFamilyAccessesCount = computed(() => familyAccesses.value.filter(access => access.status !== 'Revoked').length);
 
+    /** @type {{key: string, promise: Promise<void>}|null} Profile load that has not finished yet. */
+    let loadInProgress = null;
+
     /**
      * Loads the profile and the older adults of the signed-in user.
      * A caregiver sees the older adults in her charge; a family member sees
@@ -58,6 +61,21 @@ const useProfilesStore = defineStore('profiles', () => {
         // Without a session there is nothing to load, and the API would answer 401.
         if (!userId) return;
         if (!force && loadedForUserId.value === userId && olderAdultsLoaded.value) return;
+        // The layout, the page and other stores ask at the same time: they share one load.
+        const key = `${userId}:${isCaregiver}`;
+        if (!force && loadInProgress?.key === key) return loadInProgress.promise;
+        const promise = loadProfiles(userId, isCaregiver)
+            .finally(() => { if (loadInProgress?.promise === promise) loadInProgress = null; });
+        loadInProgress = {key, promise};
+        return promise;
+    }
+
+    /**
+     * Requests the profile and the older adults of a user.
+     * @param {number} userId - Signed-in user.
+     * @param {boolean} isCaregiver - True for caregivers, false for family members.
+     */
+    async function loadProfiles(userId, isCaregiver) {
         isLoading.value = true;
         errors.value = [];
         try {
